@@ -46,7 +46,49 @@
      col = 262,
      left_par = 263,
      right_par = 264,
-     TAG = 265
+     left_bracket = 265,
+     right_bracket = 266,
+     bar = 267,
+     eq = 268,
+     semi_col = 269,
+     plus = 270,
+     dash = 271,
+     asterisk = 272,
+     comma = 273,
+     t_int = 274,
+     t_float = 275,
+     t_boolean = 276,
+     t_char = 277,
+     t_string = 278,
+     _true = 279,
+     _false = 280,
+     string = 281,
+     docprogram = 282,
+     as = 283,
+     array = 284,
+     sub = 285,
+     body = 286,
+     variable = 287,
+     _const = 288,
+     aff = 289,
+     _input = 290,
+     _output = 291,
+     and = 292,
+     or = 293,
+     not = 294,
+     sup = 295,
+     inf = 296,
+     supe = 297,
+     infe = 298,
+     ega = 299,
+     dif = 300,
+     _if = 301,
+     _then = 302,
+     _else = 303,
+     _do = 304,
+     _while = 305,
+     _for = 306,
+     _until = 307
    };
 #endif
 /* Tokens.  */
@@ -57,7 +99,49 @@
 #define col 262
 #define left_par 263
 #define right_par 264
-#define TAG 265
+#define left_bracket 265
+#define right_bracket 266
+#define bar 267
+#define eq 268
+#define semi_col 269
+#define plus 270
+#define dash 271
+#define asterisk 272
+#define comma 273
+#define t_int 274
+#define t_float 275
+#define t_boolean 276
+#define t_char 277
+#define t_string 278
+#define _true 279
+#define _false 280
+#define string 281
+#define docprogram 282
+#define as 283
+#define array 284
+#define sub 285
+#define body 286
+#define variable 287
+#define _const 288
+#define aff 289
+#define _input 290
+#define _output 291
+#define and 292
+#define or 293
+#define not 294
+#define sup 295
+#define inf 296
+#define supe 297
+#define infe 298
+#define ega 299
+#define dif 300
+#define _if 301
+#define _then 302
+#define _else 303
+#define _do 304
+#define _while 305
+#define _for 306
+#define _until 307
 
 
 

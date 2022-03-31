@@ -536,8 +536,8 @@ char *yytext;
 #line 1 "lexical.l"
 #line 3 "lexical.l"
  #include <stdio.h>
- #include "/syntax/syntax.tab.h"
- extern lignes;
+ #include "../syntax/syntax.tab.h"
+ extern int lignes;
 #line 542 "lex.yy.c"
 
 #define INITIAL 0
@@ -720,7 +720,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 15 "lexical.l"
+#line 16 "lexical.l"
 
 
 #line 727 "lex.yy.c"
@@ -808,273 +808,273 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "lexical.l"
+#line 18 "lexical.l"
 {return left_ar;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "lexical.l"
+#line 19 "lexical.l"
 {return right_ar;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "lexical.l"
+#line 20 "lexical.l"
 {return fw_slash;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "lexical.l"
+#line 21 "lexical.l"
 { return excl;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "lexical.l"
+#line 22 "lexical.l"
 {return col;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "lexical.l"
+#line 23 "lexical.l"
 {return left_par;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "lexical.l"
+#line 24 "lexical.l"
 {return right_par;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "lexical.l"
+#line 25 "lexical.l"
 {return left_bracket;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "lexical.l"
+#line 26 "lexical.l"
 {return right_bracket;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "lexical.l"
+#line 27 "lexical.l"
 {return bar;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "lexical.l"
+#line 28 "lexical.l"
 {return eq;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "lexical.l"
+#line 29 "lexical.l"
 {return semi_col;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "lexical.l"
+#line 30 "lexical.l"
 {return plus;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "lexical.l"
+#line 31 "lexical.l"
 {return dash;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 31 "lexical.l"
+#line 32 "lexical.l"
 {return asterisk;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "lexical.l"
+#line 33 "lexical.l"
 {return comma;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 33 "lexical.l"
+#line 34 "lexical.l"
 {return t_int;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 34 "lexical.l"
+#line 35 "lexical.l"
 { return t_float;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 35 "lexical.l"
+#line 36 "lexical.l"
 {return t_boolean;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 36 "lexical.l"
+#line 37 "lexical.l"
 {return t_char;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "lexical.l"
+#line 38 "lexical.l"
 {return t_string;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "lexical.l"
-{return true;}
+#line 39 "lexical.l"
+{return _true;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 39 "lexical.l"
-{return false;}
+#line 40 "lexical.l"
+{return _false;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 40 "lexical.l"
+#line 41 "lexical.l"
 {return string;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 41 "lexical.l"
+#line 42 "lexical.l"
 {return docprogram;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 42 "lexical.l"
+#line 43 "lexical.l"
 {return as;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 43 "lexical.l"
-{return array}
+#line 44 "lexical.l"
+{return array;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 44 "lexical.l"
+#line 45 "lexical.l"
 {return sub;} 
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 45 "lexical.l"
+#line 46 "lexical.l"
 {return body;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 46 "lexical.l"
+#line 47 "lexical.l"
 {return variable;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 47 "lexical.l"
-{return const;}
+#line 48 "lexical.l"
+{return _const;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 48 "lexical.l"
+#line 49 "lexical.l"
 {return aff;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 49 "lexical.l"
-{return input;}
+#line 50 "lexical.l"
+{return _input;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 50 "lexical.l"
-{return output;}
+#line 51 "lexical.l"
+{return _output;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 51 "lexical.l"
+#line 52 "lexical.l"
 {return and;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 52 "lexical.l"
+#line 53 "lexical.l"
 {return or;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 54 "lexical.l"
 {return not;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 54 "lexical.l"
+#line 55 "lexical.l"
 {return sup;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 55 "lexical.l"
+#line 56 "lexical.l"
 {return inf;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 57 "lexical.l"
 {return supe;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 57 "lexical.l"
+#line 58 "lexical.l"
 {return infe;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 58 "lexical.l"
+#line 59 "lexical.l"
 {return ega;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 59 "lexical.l"
+#line 60 "lexical.l"
 {return dif;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 60 "lexical.l"
-{return if;} 
+#line 61 "lexical.l"
+{return _if;} 
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 61 "lexical.l"
-{return then;}
+#line 62 "lexical.l"
+{return _then;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 62 "lexical.l"
-{return else;}
+#line 63 "lexical.l"
+{return _else;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 63 "lexical.l"
-{return do;}
+#line 64 "lexical.l"
+{return _do;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 64 "lexical.l"
-{return while;}
+#line 65 "lexical.l"
+{return _while;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 65 "lexical.l"
-{return for;}
+#line 66 "lexical.l"
+{return _for;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 66 "lexical.l"
-{return until;}
+#line 67 "lexical.l"
+{return _until;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 69 "lexical.l"
+#line 70 "lexical.l"
 
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
-#line 70 "lexical.l"
+#line 71 "lexical.l"
 lignes++;
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 71 "lexical.l"
-{return doc_id;}
+#line 72 "lexical.l"
+{ printf("Lexical error!");}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 75 "lexical.l"
+#line 76 "lexical.l"
 ECHO;
 	YY_BREAK
 #line 1081 "lex.yy.c"
@@ -2074,7 +2074,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 75 "lexical.l"
+#line 76 "lexical.l"
 
 
 

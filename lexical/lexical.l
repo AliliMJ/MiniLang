@@ -1,14 +1,15 @@
 
 %{
  #include <stdio.h>
- #include "/syntax/syntax.tab.h"
- extern lignes;
+ #include "../syntax/syntax.tab.h"
+ extern int lignes;
 %}
 
 lettre [a-zA-Z]
 chiffre [0-9]
 idf {lettre} ({lettre} | {chiffre})*
 string ["](.)*["]
+
 
 
 
@@ -35,19 +36,19 @@ FLT { return t_float;}
 BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
-TRUE {return true;}
-FALESE {return false;}
+TRUE {return _true;}
+FALESE {return _false;}
 {string} {return string;}
 docprogram {return docprogram;}
 AS {return as;}
-ARRAY {return array}
+ARRAY {return array;}
 SUB {return sub;} 
 body {return body;}
 VARIABLE {return variable;}
-CONSTANTE {return const;}
+CONSTANTE {return _const;}
 AFF {return aff;}
-INPUT {return input;}
-OUTPUT {return output;}
+INPUT {return _input;}
+OUTPUT {return _output;}
 AND {return and;}
 OR {return or;}
 NOT {return not;}
@@ -57,18 +58,18 @@ SUPE {return supe;}
 INFE {return infe;}
 EGA {return ega;}
 DIF {return dif;}
-IF {return if;} 
-THEN {return then;}
-ESLE {return else;}
-DO {return do;}
-WHILE {return while;}
-FOR {return for;}
-UNTIL {return until;}
+IF {return _if;} 
+THEN {return _then;}
+ESLE {return _else;}
+DO {return _do;}
+WHILE {return _while;}
+FOR {return _for;}
+UNTIL {return _until;}
 
 
 [ \t]
 [\n] lignes++;
-. {return doc_id;}
+. { printf("Lexical error!");}
 
 
 
