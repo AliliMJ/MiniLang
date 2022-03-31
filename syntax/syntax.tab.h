@@ -88,7 +88,8 @@
      _do = 304,
      _while = 305,
      _for = 306,
-     _until = 307
+     _until = 307,
+     idf = 308
    };
 #endif
 /* Tokens.  */
@@ -142,6 +143,7 @@
 #define _while 305
 #define _for 306
 #define _until 307
+#define idf 308
 
 
 

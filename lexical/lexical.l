@@ -7,10 +7,8 @@
 
 lettre [a-zA-Z]
 chiffre [0-9]
-idf {lettre} ({lettre} | {chiffre})*
+idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 string ["](.)*["]
-
-
 
 
 %%
@@ -65,13 +63,11 @@ DO {return _do;}
 WHILE {return _while;}
 FOR {return _for;}
 UNTIL {return _until;}
-
+{idf} {return idf;}
 
 [ \t]
 [\n] lignes++;
 . { printf("Lexical error!");}
-
-
 
 %%
 

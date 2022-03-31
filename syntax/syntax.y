@@ -11,7 +11,7 @@ int lignes = 1;
 %token docprogram as array sub body variable _const aff _input _output 
 %token and or not sup inf supe infe ega dif 
 %token _if  _then _else _do _while _for _until
-
+%token idf
 
 %%
 DOCPROGRAM: left_ar excl docprogram idf right_ar  left_ar fw_slash docprogram right_ar;
