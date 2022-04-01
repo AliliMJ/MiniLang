@@ -39,10 +39,10 @@ BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
 TRUE {
-  yylval.entier = 1;
+  yylval._int = 1;
   return _true;}
 FALSE {
-  yylval.entier = 0;
+  yylval._int = 0;
   return _false;}
 {entier} { 
   yylval._int = atoi(yytext);
