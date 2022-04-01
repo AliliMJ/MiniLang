@@ -953,194 +953,198 @@ YY_RULE_SETUP
 case 22:
 YY_RULE_SETUP
 #line 41 "lexical.l"
-{return _true;}
+{
+  yylval._int = 1;
+  return _true;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 42 "lexical.l"
-{return _false;}
+#line 44 "lexical.l"
+{
+  yylval._int = 0;
+  return _false;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 43 "lexical.l"
+#line 47 "lexical.l"
 { 
   yylval._int = atoi(yytext);
   return integer;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "lexical.l"
+#line 50 "lexical.l"
 {
   yylval._float = atof(yytext);
   return real;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 49 "lexical.l"
+#line 53 "lexical.l"
 {
   yylval.str = strdup(yytext);
   return string;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 57 "lexical.l"
 {return docprogram;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 54 "lexical.l"
+#line 58 "lexical.l"
 {return as;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 55 "lexical.l"
+#line 59 "lexical.l"
 {return array;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 60 "lexical.l"
 {return sub;} 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 57 "lexical.l"
+#line 61 "lexical.l"
 {return body;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 58 "lexical.l"
+#line 62 "lexical.l"
 {return variable;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 59 "lexical.l"
+#line 63 "lexical.l"
 {return _const;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 60 "lexical.l"
+#line 64 "lexical.l"
 {return aff;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 65 "lexical.l"
 {return _input;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 62 "lexical.l"
+#line 66 "lexical.l"
 {return _output;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 63 "lexical.l"
+#line 67 "lexical.l"
 {return and;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 64 "lexical.l"
+#line 68 "lexical.l"
 {return or;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 65 "lexical.l"
+#line 69 "lexical.l"
 {return not;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 66 "lexical.l"
+#line 70 "lexical.l"
 {return sup;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 67 "lexical.l"
+#line 71 "lexical.l"
 {return inf;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 68 "lexical.l"
+#line 72 "lexical.l"
 {return supe;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 69 "lexical.l"
+#line 73 "lexical.l"
 {return infe;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 70 "lexical.l"
+#line 74 "lexical.l"
 {return ega;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 71 "lexical.l"
+#line 75 "lexical.l"
 {return dif;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 72 "lexical.l"
+#line 76 "lexical.l"
 {return _if;} 
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 77 "lexical.l"
 {return _then;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 74 "lexical.l"
+#line 78 "lexical.l"
 {return _else;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 75 "lexical.l"
+#line 79 "lexical.l"
 {return _do;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 76 "lexical.l"
+#line 80 "lexical.l"
 {return _while;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 81 "lexical.l"
 {return _for;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 78 "lexical.l"
+#line 82 "lexical.l"
 {return _until;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 79 "lexical.l"
+#line 83 "lexical.l"
 {
   yylval.str = strdup(yytext);
   return idf;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 83 "lexical.l"
+#line 87 "lexical.l"
 
 	YY_BREAK
 case 55:
 /* rule 55 can match eol */
 YY_RULE_SETUP
-#line 84 "lexical.l"
+#line 88 "lexical.l"
 lignes++;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 85 "lexical.l"
+#line 89 "lexical.l"
 {
-  printf("code:%d: error: token \" %s \" unrecognized.\n",lignes,yytext); return err;}
+  printf("code:%d: error: token \" %s \" unrecognized\n",lignes,yytext); return err;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 88 "lexical.l"
+#line 92 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1144 "lex.yy.c"
+#line 1148 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2137,7 +2141,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 88 "lexical.l"
+#line 92 "lexical.l"
 
 
 
