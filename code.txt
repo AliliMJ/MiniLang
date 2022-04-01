@@ -1,2 +1,9 @@
 
-<!docprogram xxx>TRUE</docprogram>
+<!docprogram xxx>
+<SUB VARIABLE>
+
+</SUB>
+
+<body>
+</body>
+</docprogram>

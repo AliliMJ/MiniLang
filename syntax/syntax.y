@@ -19,15 +19,28 @@ int lignes = 1;
 %token and or not sup inf supe infe ega dif 
 %token k_if  k_then k_else k_do k_while k_for k_until
 %token <string> idf err
-
+%start S
 
 %%
-DOCPROGRAM: left_ar excl k_docprogram idf right_ar  left_ar fw_slash k_docprogram right_ar
+S: DOCPROGRAM {printf("Program compiled successfuly.");
+      YYACCEPT;}
 
 | err
 ;
+DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS BODY  left_ar fw_slash k_docprogram right_ar;
+DECLARATIONS: DECLARATIONS DEC |  ;
+DEC: DEC_VARIABLE | DEC_CONSTANTE| DEC_ARRAY;
 
+DEC_VARIABLE: left_ar k_sub k_variable right_ar LIST_DEC_VARIABLE left_ar fw_slash k_sub right_ar;
+LIST_DEC_VARIABLE:;
 
+DEC_CONSTANTE: left_ar k_sub k_const right_ar LIST_DEC_CONSTANTE left_ar fw_slash k_sub right_ar;
+LIST_DEC_CONSTANTE:;
+
+DEC_ARRAY: left_ar k_array k_as TYPE right_ar LIST_DEC_ARRAY left_ar fw_slash k_array;
+LIST_DEC_ARRAY:;
+TYPE: t_boolean | t_char | t_int|t_float|t_string;
+BODY: left_ar k_body right_ar left_ar fw_slash k_body right_ar ;
 
 
 %%
