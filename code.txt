@@ -4,6 +4,14 @@
 
 </SUB>
 
+<SUB CONSTANTE>
+
+</SUB>
+
+<ARRAY AS INT>
+</ARRAY>
+
 <body>
 </body>
+
 </docprogram>

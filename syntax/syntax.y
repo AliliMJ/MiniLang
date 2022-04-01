@@ -37,7 +37,7 @@ LIST_DEC_VARIABLE:;
 DEC_CONSTANTE: left_ar k_sub k_const right_ar LIST_DEC_CONSTANTE left_ar fw_slash k_sub right_ar;
 LIST_DEC_CONSTANTE:;
 
-DEC_ARRAY: left_ar k_array k_as TYPE right_ar LIST_DEC_ARRAY left_ar fw_slash k_array;
+DEC_ARRAY: left_ar k_array k_as TYPE right_ar LIST_DEC_ARRAY left_ar fw_slash k_array right_ar;
 LIST_DEC_ARRAY:;
 TYPE: t_boolean | t_char | t_int|t_float|t_string;
 BODY: left_ar k_body right_ar left_ar fw_slash k_body right_ar ;
