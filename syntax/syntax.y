@@ -22,7 +22,7 @@ int lignes = 1;
 %start S
 
 %%
-S: DOCPROGRAM {printf("Program compiled successfuly.");
+S: DOCPROGRAM {printf("\nProgram compiled successfuly.");
       YYACCEPT;}
 
 | err
