@@ -2,13 +2,17 @@
 %{
  #include <stdio.h>
  #include "../syntax/syntax.tab.h"
- extern int lignes;
+ extern lignes;
+ extern YYSTYPE yylval;
 %}
 
 lettre [a-zA-Z]
 chiffre [0-9]
 idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
+
 string ["](.)*["]
+entier (0|[-]?[1-9]{chiffre}*)
+reel ([-]?{chiffre}+[.]{chiffre}*[1-9])
 
 
 %%
@@ -35,8 +39,17 @@ BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
 TRUE {return _true;}
-FALESE {return _false;}
-{string} {return string;}
+FALSE {return _false;}
+{entier} { 
+  yylval._int = atoi(yytext);
+  return integer;}
+{reel} {
+  yylval._float = atof(yytext);
+  return real;}
+{string} {
+  yylval.str = strdup(yytext);
+  return string;}
+
 docprogram {return docprogram;}
 AS {return as;}
 ARRAY {return array;}
@@ -63,11 +76,14 @@ DO {return _do;}
 WHILE {return _while;}
 FOR {return _for;}
 UNTIL {return _until;}
-{idf} {return idf;}
+{idf} {
+  yylval.str = strdup(yytext);
+  return idf;}
 
 [ \t]
 [\n] lignes++;
-. { printf("Lexical error!");}
+. {
+  printf("code:%d: error: token \" %s \" unrecognized\n",lignes,yytext); return err;}
 
 %%
 

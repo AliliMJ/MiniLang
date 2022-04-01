@@ -1,7 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.1.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
-/* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+/* Skeleton interface for Bison's Yacc-like parsers in C
+
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,10 +20,18 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 
-/* As a special exception, when this file is copied by Bison into a
-   Bison output file, you may use that output file without restriction.
-   This special exception was added by the Free Software Foundation
-   in version 1.24 of Bison.  */
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -53,33 +63,36 @@
      _true = 279,
      _false = 280,
      string = 281,
-     docprogram = 282,
-     as = 283,
-     array = 284,
-     sub = 285,
-     body = 286,
-     variable = 287,
-     _const = 288,
-     aff = 289,
-     _input = 290,
-     _output = 291,
-     and = 292,
-     or = 293,
-     not = 294,
-     sup = 295,
-     inf = 296,
-     supe = 297,
-     infe = 298,
-     ega = 299,
-     dif = 300,
-     _if = 301,
-     _then = 302,
-     _else = 303,
-     _do = 304,
-     _while = 305,
-     _for = 306,
-     _until = 307,
-     idf = 308
+     real = 282,
+     integer = 283,
+     docprogram = 284,
+     as = 285,
+     array = 286,
+     sub = 287,
+     body = 288,
+     variable = 289,
+     _const = 290,
+     aff = 291,
+     _input = 292,
+     _output = 293,
+     and = 294,
+     or = 295,
+     not = 296,
+     sup = 297,
+     inf = 298,
+     supe = 299,
+     infe = 300,
+     ega = 301,
+     dif = 302,
+     _if = 303,
+     _then = 304,
+     _else = 305,
+     _do = 306,
+     _while = 307,
+     _for = 308,
+     _until = 309,
+     idf = 310,
+     err = 311
    };
 #endif
 /* Tokens.  */
@@ -107,45 +120,55 @@
 #define _true 279
 #define _false 280
 #define string 281
-#define docprogram 282
-#define as 283
-#define array 284
-#define sub 285
-#define body 286
-#define variable 287
-#define _const 288
-#define aff 289
-#define _input 290
-#define _output 291
-#define and 292
-#define or 293
-#define not 294
-#define sup 295
-#define inf 296
-#define supe 297
-#define infe 298
-#define ega 299
-#define dif 300
-#define _if 301
-#define _then 302
-#define _else 303
-#define _do 304
-#define _while 305
-#define _for 306
-#define _until 307
-#define idf 308
+#define real 282
+#define integer 283
+#define docprogram 284
+#define as 285
+#define array 286
+#define sub 287
+#define body 288
+#define variable 289
+#define _const 290
+#define aff 291
+#define _input 292
+#define _output 293
+#define and 294
+#define or 295
+#define not 296
+#define sup 297
+#define inf 298
+#define supe 299
+#define infe 300
+#define ega 301
+#define dif 302
+#define _if 303
+#define _then 304
+#define _else 305
+#define _do 306
+#define _while 307
+#define _for 308
+#define _until 309
+#define idf 310
+#define err 311
 
 
 
 
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-typedef int YYSTYPE;
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE
+#line 7 "syntax.y"
+{
+  int _int;
+  char* str;
+  float _float;
+}
+/* Line 1529 of yacc.c.  */
+#line 167 "syntax.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 extern YYSTYPE yylval;
-
-
 
