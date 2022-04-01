@@ -38,8 +38,12 @@ FLT { return t_float;}
 BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
-TRUE {return _true;}
-FALSE {return _false;}
+TRUE {
+  yylval.entier = 1;
+  return _true;}
+FALSE {
+  yylval.entier = 0;
+  return _false;}
 {entier} { 
   yylval._int = atoi(yytext);
   return integer;}
