@@ -1,0 +1,7 @@
+syntax.tab.h
+syntax.tab.c
+lex.yy.c
+*.exe
+unix.sh
+windows.bat
+code.txt
