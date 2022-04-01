@@ -1,7 +1,7 @@
 syntax.tab.h
 syntax.tab.c
 lex.yy.c
-*.exe
+compiler.exe
 unix.sh
 windows.bat
 code.txt
