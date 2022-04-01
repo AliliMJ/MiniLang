@@ -954,86 +954,86 @@ case 22:
 YY_RULE_SETUP
 #line 41 "lexical.l"
 {
-  yylval._int = 1;
-  return _true;}
+  yylval.integer = 1;
+  return v_true;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 44 "lexical.l"
 {
-  yylval._int = 0;
-  return _false;}
+  yylval.integer = 0;
+  return v_false;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 47 "lexical.l"
 { 
-  yylval._int = atoi(yytext);
-  return integer;}
+  yylval.integer = atoi(yytext);
+  return v_integer;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 50 "lexical.l"
 {
-  yylval._float = atof(yytext);
-  return real;}
+  yylval.real = atof(yytext);
+  return v_real;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 53 "lexical.l"
 {
-  yylval.str = strdup(yytext);
-  return string;}
+  yylval.string = strdup(yytext);
+  return v_string;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 57 "lexical.l"
-{return docprogram;}
+{return k_docprogram;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 58 "lexical.l"
-{return as;}
+{return k_as;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 59 "lexical.l"
-{return array;}
+{return k_array;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 60 "lexical.l"
-{return sub;} 
+{return k_sub;} 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 61 "lexical.l"
-{return body;}
+{return k_body;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 62 "lexical.l"
-{return variable;}
+{return k_variable;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 63 "lexical.l"
-{return _const;}
+{return k_const;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 64 "lexical.l"
-{return aff;}
+{return k_aff;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 65 "lexical.l"
-{return _input;}
+{return k_input;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 66 "lexical.l"
-{return _output;}
+{return k_output;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
@@ -1083,43 +1083,43 @@ YY_RULE_SETUP
 case 46:
 YY_RULE_SETUP
 #line 76 "lexical.l"
-{return _if;} 
+{return k_if;} 
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 77 "lexical.l"
-{return _then;}
+{return k_then;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 78 "lexical.l"
-{return _else;}
+{return k_else;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 79 "lexical.l"
-{return _do;}
+{return k_do;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 80 "lexical.l"
-{return _while;}
+{return k_while;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 81 "lexical.l"
-{return _for;}
+{return k_for;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 82 "lexical.l"
-{return _until;}
+{return k_until;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 83 "lexical.l"
 {
-  yylval.str = strdup(yytext);
+  yylval.string = strdup(yytext);
   return idf;}
 	YY_BREAK
 case 54:

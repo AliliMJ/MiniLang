@@ -39,31 +39,31 @@ BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
 TRUE {
-  yylval._int = 1;
-  return _true;}
+  yylval.integer = 1;
+  return v_true;}
 FALSE {
-  yylval._int = 0;
-  return _false;}
+  yylval.integer = 0;
+  return v_false;}
 {entier} { 
-  yylval._int = atoi(yytext);
-  return integer;}
+  yylval.integer = atoi(yytext);
+  return v_integer;}
 {reel} {
-  yylval._float = atof(yytext);
-  return real;}
+  yylval.real = atof(yytext);
+  return v_real;}
 {string} {
-  yylval.str = strdup(yytext);
-  return string;}
+  yylval.string = strdup(yytext);
+  return v_string;}
 
-docprogram {return docprogram;}
-AS {return as;}
-ARRAY {return array;}
-SUB {return sub;} 
-body {return body;}
-VARIABLE {return variable;}
-CONSTANTE {return _const;}
-AFF {return aff;}
-INPUT {return _input;}
-OUTPUT {return _output;}
+docprogram {return k_docprogram;}
+AS {return k_as;}
+ARRAY {return k_array;}
+SUB {return k_sub;} 
+body {return k_body;}
+VARIABLE {return k_variable;}
+CONSTANTE {return k_const;}
+AFF {return k_aff;}
+INPUT {return k_input;}
+OUTPUT {return k_output;}
 AND {return and;}
 OR {return or;}
 NOT {return not;}
@@ -73,15 +73,15 @@ SUPE {return supe;}
 INFE {return infe;}
 EGA {return ega;}
 DIF {return dif;}
-IF {return _if;} 
-THEN {return _then;}
-ESLE {return _else;}
-DO {return _do;}
-WHILE {return _while;}
-FOR {return _for;}
-UNTIL {return _until;}
+IF {return k_if;} 
+THEN {return k_then;}
+ESLE {return k_else;}
+DO {return k_do;}
+WHILE {return k_while;}
+FOR {return k_for;}
+UNTIL {return k_until;}
 {idf} {
-  yylval.str = strdup(yytext);
+  yylval.string = strdup(yytext);
   return idf;}
 
 [ \t]

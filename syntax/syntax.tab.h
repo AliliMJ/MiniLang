@@ -60,21 +60,21 @@
      t_boolean = 276,
      t_char = 277,
      t_string = 278,
-     _true = 279,
-     _false = 280,
-     string = 281,
-     real = 282,
-     integer = 283,
-     docprogram = 284,
-     as = 285,
-     array = 286,
-     sub = 287,
-     body = 288,
-     variable = 289,
-     _const = 290,
-     aff = 291,
-     _input = 292,
-     _output = 293,
+     v_true = 279,
+     v_false = 280,
+     v_string = 281,
+     v_real = 282,
+     v_integer = 283,
+     k_docprogram = 284,
+     k_as = 285,
+     k_array = 286,
+     k_sub = 287,
+     k_body = 288,
+     k_variable = 289,
+     k_const = 290,
+     k_aff = 291,
+     k_input = 292,
+     k_output = 293,
      and = 294,
      or = 295,
      not = 296,
@@ -84,13 +84,13 @@
      infe = 300,
      ega = 301,
      dif = 302,
-     _if = 303,
-     _then = 304,
-     _else = 305,
-     _do = 306,
-     _while = 307,
-     _for = 308,
-     _until = 309,
+     k_if = 303,
+     k_then = 304,
+     k_else = 305,
+     k_do = 306,
+     k_while = 307,
+     k_for = 308,
+     k_until = 309,
      idf = 310,
      err = 311
    };
@@ -117,21 +117,21 @@
 #define t_boolean 276
 #define t_char 277
 #define t_string 278
-#define _true 279
-#define _false 280
-#define string 281
-#define real 282
-#define integer 283
-#define docprogram 284
-#define as 285
-#define array 286
-#define sub 287
-#define body 288
-#define variable 289
-#define _const 290
-#define aff 291
-#define _input 292
-#define _output 293
+#define v_true 279
+#define v_false 280
+#define v_string 281
+#define v_real 282
+#define v_integer 283
+#define k_docprogram 284
+#define k_as 285
+#define k_array 286
+#define k_sub 287
+#define k_body 288
+#define k_variable 289
+#define k_const 290
+#define k_aff 291
+#define k_input 292
+#define k_output 293
 #define and 294
 #define or 295
 #define not 296
@@ -141,13 +141,13 @@
 #define infe 300
 #define ega 301
 #define dif 302
-#define _if 303
-#define _then 304
-#define _else 305
-#define _do 306
-#define _while 307
-#define _for 308
-#define _until 309
+#define k_if 303
+#define k_then 304
+#define k_else 305
+#define k_do 306
+#define k_while 307
+#define k_for 308
+#define k_until 309
 #define idf 310
 #define err 311
 
@@ -158,9 +158,9 @@
 typedef union YYSTYPE
 #line 7 "syntax.y"
 {
-  int _int;
-  char* str;
-  float _float;
+  int integer;
+  char* string;
+  float real;
 }
 /* Line 1529 of yacc.c.  */
 #line 167 "syntax.tab.h"

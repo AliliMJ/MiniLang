@@ -87,21 +87,21 @@
      t_boolean = 276,
      t_char = 277,
      t_string = 278,
-     _true = 279,
-     _false = 280,
-     string = 281,
-     real = 282,
-     integer = 283,
-     docprogram = 284,
-     as = 285,
-     array = 286,
-     sub = 287,
-     body = 288,
-     variable = 289,
-     _const = 290,
-     aff = 291,
-     _input = 292,
-     _output = 293,
+     v_true = 279,
+     v_false = 280,
+     v_string = 281,
+     v_real = 282,
+     v_integer = 283,
+     k_docprogram = 284,
+     k_as = 285,
+     k_array = 286,
+     k_sub = 287,
+     k_body = 288,
+     k_variable = 289,
+     k_const = 290,
+     k_aff = 291,
+     k_input = 292,
+     k_output = 293,
      and = 294,
      or = 295,
      not = 296,
@@ -111,13 +111,13 @@
      infe = 300,
      ega = 301,
      dif = 302,
-     _if = 303,
-     _then = 304,
-     _else = 305,
-     _do = 306,
-     _while = 307,
-     _for = 308,
-     _until = 309,
+     k_if = 303,
+     k_then = 304,
+     k_else = 305,
+     k_do = 306,
+     k_while = 307,
+     k_for = 308,
+     k_until = 309,
      idf = 310,
      err = 311
    };
@@ -144,21 +144,21 @@
 #define t_boolean 276
 #define t_char 277
 #define t_string 278
-#define _true 279
-#define _false 280
-#define string 281
-#define real 282
-#define integer 283
-#define docprogram 284
-#define as 285
-#define array 286
-#define sub 287
-#define body 288
-#define variable 289
-#define _const 290
-#define aff 291
-#define _input 292
-#define _output 293
+#define v_true 279
+#define v_false 280
+#define v_string 281
+#define v_real 282
+#define v_integer 283
+#define k_docprogram 284
+#define k_as 285
+#define k_array 286
+#define k_sub 287
+#define k_body 288
+#define k_variable 289
+#define k_const 290
+#define k_aff 291
+#define k_input 292
+#define k_output 293
 #define and 294
 #define or 295
 #define not 296
@@ -168,13 +168,13 @@
 #define infe 300
 #define ega 301
 #define dif 302
-#define _if 303
-#define _then 304
-#define _else 305
-#define _do 306
-#define _while 307
-#define _for 308
-#define _until 309
+#define k_if 303
+#define k_then 304
+#define k_else 305
+#define k_do 306
+#define k_while 307
+#define k_for 308
+#define k_until 309
 #define idf 310
 #define err 311
 
@@ -211,9 +211,9 @@ int lignes = 1;
 typedef union YYSTYPE
 #line 7 "syntax.y"
 {
-  int _int;
-  char* str;
-  float _float;
+  int integer;
+  char* string;
+  float real;
 }
 /* Line 193 of yacc.c.  */
 #line 220 "syntax.tab.c"
@@ -453,7 +453,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  3
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  14
+#define YYNSTATES  13
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -504,14 +504,14 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,    14
+       0,     0,     3,    13
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      58,     0,    -1,     3,     6,    29,    55,     4,    24,     3,
-       5,    29,     4,    -1,    56,    -1
+      58,     0,    -1,     3,     6,    29,    55,     4,     3,     5,
+      29,     4,    -1,    56,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -529,11 +529,12 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "left_ar", "right_ar", "fw_slash",
   "excl", "col", "left_par", "right_par", "left_bracket", "right_bracket",
   "bar", "eq", "semi_col", "plus", "dash", "asterisk", "comma", "t_int",
-  "t_float", "t_boolean", "t_char", "t_string", "_true", "_false",
-  "string", "real", "integer", "docprogram", "as", "array", "sub", "body",
-  "variable", "_const", "aff", "_input", "_output", "and", "or", "not",
-  "sup", "inf", "supe", "infe", "ega", "dif", "_if", "_then", "_else",
-  "_do", "_while", "_for", "_until", "idf", "err", "$accept", "DOCPROGRAM", 0
+  "t_float", "t_boolean", "t_char", "t_string", "v_true", "v_false",
+  "v_string", "v_real", "v_integer", "k_docprogram", "k_as", "k_array",
+  "k_sub", "k_body", "k_variable", "k_const", "k_aff", "k_input",
+  "k_output", "and", "or", "not", "sup", "inf", "supe", "infe", "ega",
+  "dif", "k_if", "k_then", "k_else", "k_do", "k_while", "k_for", "k_until",
+  "idf", "err", "$accept", "DOCPROGRAM", 0
 };
 #endif
 
@@ -560,7 +561,7 @@ static const yytype_uint8 yyr1[] =
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,    10,     1
+       0,     2,     9,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -569,7 +570,7 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     3,     0,     0,     1,     0,     0,     0,     0,
-       0,     0,     0,     2
+       0,     0,     2
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -583,8 +584,8 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -52
 static const yytype_int8 yypact[] =
 {
-      -3,    -5,   -52,     2,   -26,   -52,   -51,     1,   -18,     4,
-       3,   -20,     6,   -52
+      -3,    -5,   -52,     2,   -26,   -52,   -51,     1,     3,     4,
+     -22,     6,   -52
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -600,8 +601,8 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       1,     4,     5,     6,     7,     8,     9,    10,    11,    12,
-      13,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       1,     4,     5,     6,     7,     8,     9,    11,     0,    10,
+      12,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
@@ -610,7 +611,7 @@ static const yytype_uint8 yytable[] =
 
 static const yytype_int8 yycheck[] =
 {
-       3,     6,     0,    29,    55,     4,    24,     3,     5,    29,
+       3,     6,     0,    29,    55,     4,     3,    29,    -1,     5,
        4,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
@@ -622,8 +623,8 @@ static const yytype_int8 yycheck[] =
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    56,    58,     6,     0,    29,    55,     4,    24,
-       3,     5,    29,     4
+       0,     3,    56,    58,     6,     0,    29,    55,     4,     3,
+       5,    29,     4
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1437,14 +1438,9 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-#line 26 "syntax.y"
-    {printf("Boolean : %d\n", (yyvsp[(6) - (10)]._int));;}
-    break;
-
-
+      
 /* Line 1267 of yacc.c.  */
-#line 1448 "syntax.tab.c"
+#line 1444 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
