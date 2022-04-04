@@ -50,7 +50,7 @@ INLINE_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar;
 DEC_ARRAY: left_ar k_array k_as TYPE right_ar LIST_DEC_ARRAY left_ar fw_slash k_array right_ar;
 LIST_DEC_ARRAY: LIST_DEC_ARRAY INLINE_DEC_ARRAY | INLINE_DEC_ARRAY;
 TYPE: t_boolean | t_char | t_int|t_float|t_string;
-BODY: left_ar k_body right_ar AFF left_ar fw_slash k_body right_ar ;
+BODY: left_ar k_body right_ar left_ar fw_slash k_body right_ar ;
 
 VALUE: VALUE_BOOL |VALUE_NUMERIC | v_string;
 VALUE_BOOL: v_false| v_true;
@@ -77,8 +77,6 @@ SUPE:supe left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_p
 INFE:infe left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
 EGA:ega left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
 DIF:dif left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
-
-AFF: right_ar k_aff col idf comma EXPRESSION_ARITHMETIQUE fw_slash right_ar;
 INPUT:;
 OUTPUT:;
 IF:;

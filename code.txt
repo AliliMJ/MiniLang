@@ -13,7 +13,6 @@
 </ARRAY>
 
 <body>
-  <AFF: x, 1+1 />
 </body>
 
 </docprogram>
