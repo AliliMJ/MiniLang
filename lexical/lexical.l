@@ -20,7 +20,7 @@ reel ([-]?{chiffre}+[.]{chiffre}*[1-9])
 "<" {return left_ar;}
 ">" {return right_ar;}
 "/" {return fw_slash;}
-"!" { return excl;}
+"!" {return excl;}
 ":" {return col;}
 "(" {return left_par;}
 ")" {return right_par;}
@@ -34,7 +34,7 @@ reel ([-]?{chiffre}+[.]{chiffre}*[1-9])
 "*" {return asterisk;}
 "," {return comma;}
 INT {return t_int;}
-FLT { return t_float;}
+FLT {return t_float;}
 BOL {return t_boolean;}
 CHR {return t_char;}
 STR {return t_string;}
