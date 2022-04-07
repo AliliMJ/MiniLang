@@ -202,7 +202,5 @@ void inserer(char *entite, char *code)
 
     printf("\n\n");
 
-     affiche(ts, 20);
-
-    return 0;
-}
+     return 0;
+ }

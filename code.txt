@@ -1,18 +1,19 @@
 <!docprogram xxx>
 <SUB VARIABLE>
-  <x | y| z AS INT/>
-  <y=22/>
-</SUB>
-
+  <x AS INT/>;
+</SUB> 
 <SUB CONSTANTE>
-  <a = 22/>
-</SUB>
+  <x AS INT/>;
+  <x AS INT/>;
+  <x AS INT/>;
+</SUB> 
 
 <ARRAY AS INT>
- <arr:30/>
+  <x:2/>;
 </ARRAY>
 
 <body>
+
 </body>
 
 </docprogram>
