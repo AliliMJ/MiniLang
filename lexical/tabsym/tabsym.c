@@ -22,18 +22,17 @@ typedef struct tab
 
 tab ts[100];
 
-unsigned long hash_func(char* M)
+char *allouerstr()
 {
-    unsigned long code = 3;
-    int c;
+    char *ch;
+    ch = (char *)malloc(20 * sizeof(char)); 
 
-    strtohigher(M);
-
-    while ((c = *M++))
+    if (ch == NULL)
     {
-        code = ((code << 5) + code) + tolower(c);
+        printf("erreur de allocaion!!");
+        exit(-1);
     }
-    return (code % 100) ;
+    return (ch);
 }
 
 void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle converte un chaine
@@ -51,6 +50,22 @@ void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle con
     strcat(s, p);
     free(p);
 }
+
+unsigned long hash_func(char* M)
+{
+    unsigned long code = 3;
+    int c;
+
+    strtohigher(M);
+
+    while ((c = *M++))
+    {
+        code = ((code << 5) + code) + tolower(c);
+    }
+    return (code % 100) ;
+}
+
+
 
 ptrTAB initialiter(long n) // fonction pour allouer et initialiser le tableau de hachage
 {
@@ -112,18 +127,7 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
     return (L);
 }
 
-char *allouerstr()
-{
-    char *ch;
-    ch = (char *)malloc(20 * sizeof(char)); 
 
-    if (ch == NULL)
-    {
-        printf("erreur de allocaion!!");
-        exit(-1);
-    }
-    return (ch);
-}
 
  int main() {
      int i,k;
@@ -132,7 +136,7 @@ char *allouerstr()
     // ch=allouerstr;
 
      printf("saisir idf:");
-     scanf("%s", &ch);
+     scanf("%s", ch);
      k = hash_func(ch);
 
      printf("\n\nhash code is : %d",k);
