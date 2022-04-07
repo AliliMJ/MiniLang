@@ -39,7 +39,6 @@ void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle con
 {
     int i;
     char *p;
-
     p = allouerstr();
     for (i = 0; i < strlen(s); i++)
     {
@@ -51,9 +50,9 @@ void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle con
     free(p);
 }
 
-unsigned long hash_func(char* M)
+int hash_func(char* M)
 {
-    unsigned long code = 3;
+    int code = 3;
     int c;
 
     strtohigher(M);
@@ -62,7 +61,7 @@ unsigned long hash_func(char* M)
     {
         code = ((code << 5) + code) + tolower(c);
     }
-    return (code % 100) ;
+    return (code % 20) ;
 }
 
 
@@ -100,11 +99,11 @@ void affiche(ptrTAB T, long n) // fonction pour afficher le contenu de table
             {
                 
                         printf("\t| %15s | %15s | %7s |  %8s  | %10d |\n", p1->entity_name, p1->entity_code, p1->entity_type,p1->constante, p1->tablenght);
-                printf("\t|_______________________________________________________________________|\n");
                 p1 = p1->svt1;
             }
         }
     }
+    printf("\t|_______________________________________________________________________|\n");
 }
 
 ptr allouerptr() // cette fonction pour allouer un espace memoire pour un element de la liste chaine
@@ -117,7 +116,7 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
     L->entity_type = allouerstr();
     L->constante = allouerstr();
 
-    L->entity_code[0] ='\0';
+    L->entity_name[0] ='\0';
     L->entity_code[0] ='\0';
     L->entity_type[0] = '\0';
     L->constante[0] = '\0';
@@ -126,58 +125,84 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
     return (L);
 }
 
+int Rechercher(char *entite)
+{
+    int i;
+    i = hash_func(entite);
+    ptr p;
+    p=ts[i].svt2;
+    while (p != NULL)
+    {
+        if (strcmp(entite,p->entity_name) == 0)
+            return i;
+        p=p->svt1;
+    }
+    return -1; // en cas ne trouve pas le var dans la tables des symboles
+}
 
+void inserer(char *entite, char *code)
+{
+    ptr p;
+    int s;
+    s=hash_func(entite);
+    printf("\n%d\n",Rechercher(entite));
+
+    if (Rechercher(entite) == -1)
+    {
+        if (ts[s].svt2 == NULL)
+        {
+            ts[s].svt2 = allouerptr();
+            strcpy(ts[s].svt2->entity_name, entite);
+            strcpy(ts[s].svt2->entity_code, code);
+            strcpy(ts[s].svt2->constante, "non");
+            ts[s].svt2->tablenght = -1;
+            ts[s].svt2->svt1 = NULL;
+        }
+    else{
+        printf("je suis la");
+        p = allouerptr();
+        strcpy(p->entity_name, entite);
+        strcpy(p->entity_code, code);
+        strcpy(p->constante, "non");
+        p->tablenght = -1;
+
+        p->svt1 = ts[s].svt2;
+        ts[s].svt2 = p;
+    }
+    }
+}
 
  int main() {
      int i,k;
      char *ch;
-     ptr L;
+     ptr L,p;
 
      ch = allouerstr();
 
-     printf("saisir idf:");
-     scanf("%s", ch);
-     k = hash_func(ch);
-
-     printf("\n\nhash code is : %d",k);
-
-      for(i=0;i<100;i++){
+      for(i=0;i<20;i++){
           ts[i].svt2=NULL;
       }
 
-    //   for(i=0;i<3;i++){
-    //       printf("saisir %d:",i+1);
-    //       printf("\n");
-    //       printf("saisir idf:");
-    //       scanf("%s",&ch);
-    //       k = hash_func(ch);
-          
-    //   }
+      scanf("%s",ch);
+      k = hash_func(ch);
+      printf("\n%s:%d", ch,k);
 
-    ts[1].svt2=allouerptr();
-    L = ts[1].svt2;
-    L->entity_name="idf1";
-    L->entity_type="int";
-    L->constante="non";
-    L->entity_code="idf";
+    //   for (i = 0; i < 20; i++)
+    //   {
+    //       ts[i].svt2 = allouerptr();
+    //       L = ts[i].svt2;
+    //       L->entity_name = "idf";
+    //       L->entity_type = "int";
+    //       L->constante = "non";
+    //       L->entity_code = "idf";
+    //       L->svt1 = NULL;
+    // }
 
-    ts[2].svt2 = allouerptr();
-    L = ts[2].svt2;
-    L->entity_name = "idf2";
-    L->entity_type = "FLT";
-    L->constante = "non";
-    L->entity_code = "idf";
+    inserer(ch,ch);
 
-    for(i=0;i<100;i++){
-        ts[i].svt2 = allouerptr();
-        L = ts[i].svt2;
-        L->entity_name = "idf";
-        L->entity_type = "int";
-        L->constante = "non";
-        L->entity_code = "idf";
-    }
+    printf("\n\n");
 
-    affiche(ts,100);
+     affiche(ts, 20);
 
     return 0;
 }
