@@ -28,11 +28,27 @@ S: DOCPROGRAM {printf("\nProgram compiled successfuly.");
 
 | err
 ;
-DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS left_ar fw_slash k_docprogram right_ar;
-DECLARATIONS: 
-  DEC DECLARATIONS | BODY ;
 
-DEC: DEC_VARIABLE | DEC_CONSTANTE | DEC_ARRAY;
+DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS left_ar fw_slash k_docprogram right_ar
+;
+
+DECLARATIONS:DEC DECLARATIONS 
+             |BODY
+             ;
+
+DEC:DEC_VARIABLE
+    |DEC_CONSTANTE
+    |DEC_ARRAY
+    ;
+
+CLOSE_SUB: left_ar fw_slash k_sub right_ar
+;
+
+CLOSE_ARRAY: left_ar fw_slash k_array right_ar
+;
+
+OPEN_SUB_CONST: left_ar k_sub k_const right_ar
+;
 
 CLOSE_SUB: left_ar fw_slash k_sub right_ar;
 CLOSE_ARRAY: left_ar fw_slash k_array right_ar;

@@ -103,7 +103,7 @@ void affiche(ptrTAB T, long n) // fonction pour afficher le contenu de table
             }
         }
     }
-    printf("\t|_______________________________________________________________________|\n");
+    printf("\t|_________________|_________________|_________|____________|____________|\n");
 }
 
 ptr allouerptr() // cette fonction pour allouer un espace memoire pour un element de la liste chaine
