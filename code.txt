@@ -2,18 +2,16 @@
 <SUB VARIABLE>
   <x AS INT/>;
 </SUB> 
+
 <SUB CONSTANTE>
   <x AS INT/>;
-  <x AS INT/>;
-  <x AS INT/>;
 </SUB> 
-
-<ARRAY AS INT>
-  <x:2/>;
-</ARRAY>
-
 <body>
-
+ <OUTPUT: "dqd$"+z+ "hello"/>
+ <OUTPUT: "dqd$"+z+ "hello"/>
+ <OUTPUT: "dqd$"+z+ "hello"/>
+<INPUT: a "HHS"/>
+  <FOR: NOT(AND(a, b))/>
 </body>
 
 </docprogram>
