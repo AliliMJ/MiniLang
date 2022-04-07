@@ -75,7 +75,7 @@ EGA {return ega;}
 DIF {return dif;}
 IF {return k_if;} 
 THEN {return k_then;}
-ESLE {return k_else;}
+ELSE {return k_else;}
 DO {return k_do;}
 WHILE {return k_while;}
 FOR {return k_for;}
