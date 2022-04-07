@@ -133,7 +133,7 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
      int i,k;
      char *ch;
 
-    // ch=allouerstr;
+    ch=allouerstr();
 
      printf("saisir idf:");
      scanf("%s", ch);

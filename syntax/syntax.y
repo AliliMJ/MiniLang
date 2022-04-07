@@ -28,8 +28,7 @@ S: DOCPROGRAM {printf("\nProgram compiled successfuly.");
 | err
 ;
 DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS BODY  left_ar fw_slash k_docprogram right_ar;
-DECLARATIONS: DEC A;
-A: DEC A | ;
+DECLARATIONS: DEC '\n' DECLARATIONS  | DEC;
 DEC: DEC_VARIABLE | DEC_CONSTANTE| DEC_ARRAY;
 
 
