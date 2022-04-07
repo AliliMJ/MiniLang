@@ -21,34 +21,37 @@ int lignes = 1;
 %token <string> idf err
 %start S
 
+
 %%
 S: DOCPROGRAM {printf("\nProgram compiled successfuly.");
       YYACCEPT;}
 
 | err
 ;
-DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS BODY  left_ar fw_slash k_docprogram right_ar;
-DECLARATIONS: DEC '\n' DECLARATIONS  | DEC;
-DEC: DEC_VARIABLE | DEC_CONSTANTE| DEC_ARRAY;
+DOCPROGRAM: left_ar excl k_docprogram idf right_ar DECLARATIONS left_ar fw_slash k_docprogram right_ar;
+DECLARATIONS: 
+  DEC DECLARATIONS | BODY ;
 
+DEC: DEC_VARIABLE | DEC_CONSTANTE | DEC_ARRAY;
 
+CLOSE_SUB: left_ar fw_slash k_sub right_ar;
+CLOSE_ARRAY: left_ar fw_slash k_array right_ar;
+OPEN_SUB_CONST: left_ar k_sub k_const right_ar;
+OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
+OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar; 
 
-DEC_VARIABLE: left_ar k_sub k_variable right_ar LIST_DEC left_ar fw_slash k_sub right_ar;
-DEC_CONSTANTE: left_ar k_sub k_const right_ar LIST_DEC left_ar fw_slash k_sub right_ar;
+DEC_VARIABLE: OPEN_SUB_VAR INLINE_DEC_VAR;
+DEC_CONSTANTE: OPEN_SUB_CONST INIT_DEC_CONST | OPEN_SUB_CONST INLINE_DEC_VAR;
+DEC_ARRAY: OPEN_SUB_ARRAY INLINE_DEC_ARRAY;
 
 LIST: idf | idf bar LIST;
 
-LIST_DEC:  LIST_DEC INLINE_DEC_VAR|LIST_DEC INIT_DEC_CONST  |INLINE_DEC_VAR | INIT_DEC_CONST;
 
 
+INLINE_DEC_VAR: left_ar LIST k_as TYPE fw_slash right_ar semi_col INLINE_DEC_VAR | CLOSE_SUB;
+INIT_DEC_CONST: left_ar idf eq VALUE fw_slash right_ar semi_col INIT_DEC_CONST | CLOSE_SUB;
+INLINE_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar semi_col INLINE_DEC_ARRAY | CLOSE_ARRAY;
 
-INLINE_DEC_VAR: left_ar LIST k_as TYPE fw_slash right_ar;
-INIT_DEC_CONST: left_ar idf eq VALUE fw_slash right_ar;
-INLINE_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar;
-
-
-DEC_ARRAY: left_ar k_array k_as TYPE right_ar LIST_DEC_ARRAY left_ar fw_slash k_array right_ar;
-LIST_DEC_ARRAY: LIST_DEC_ARRAY INLINE_DEC_ARRAY | INLINE_DEC_ARRAY;
 TYPE: t_boolean | t_char | t_int|t_float|t_string;
 BODY: left_ar k_body right_ar left_ar fw_slash k_body right_ar ;
 
