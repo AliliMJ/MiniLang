@@ -112,16 +112,15 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
     ptr L;
 
     L = (ptr)malloc(sizeof(liste)); // allocation dynamique de pointeur vers un element de chaine de type liste
-    // L->entity_name = allouerstr();         // allouer la chaine de caractere dynamique
-    // L->entity_code = allouerstr();
-    // L->entity_type = allouerstr();
-    // L->constante = allouerstr();
+    L->entity_name = allouerstr();         // allouer la chaine de caractere dynamique
+    L->entity_code = allouerstr();
+    L->entity_type = allouerstr();
+    L->constante = allouerstr();
 
     L->entity_code[0] ='\0';
     L->entity_code[0] ='\0';
     L->entity_type[0] = '\0';
     L->constante[0] = '\0';
-
     L->tablenght=0 ;
     L->svt1=NULL;
     return (L);
@@ -132,8 +131,9 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
  int main() {
      int i,k;
      char *ch;
+     ptr L;
 
-    ch=allouerstr();
+     ch = allouerstr();
 
      printf("saisir idf:");
      scanf("%s", ch);
@@ -141,17 +141,43 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
 
      printf("\n\nhash code is : %d",k);
 
-     //  for(i=0;i<100;i++){
-     //      ts[i].svt2=NULL;
-     //  }
+      for(i=0;i<100;i++){
+          ts[i].svt2=NULL;
+      }
 
-     //  for(i=0;i<3;i++){
-     //      printf("saisir %d:",i+1);
-     //      printf("\n");
-     //      printf("saisir idf:");
-     //      scanf("%s",&ch);
-     //      k = hash_func(ch);
-     //  }
+    //   for(i=0;i<3;i++){
+    //       printf("saisir %d:",i+1);
+    //       printf("\n");
+    //       printf("saisir idf:");
+    //       scanf("%s",&ch);
+    //       k = hash_func(ch);
+          
+    //   }
 
-     return 0;
- }
+    ts[1].svt2=allouerptr();
+    L = ts[1].svt2;
+    L->entity_name="idf1";
+    L->entity_type="int";
+    L->constante="non";
+    L->entity_code="idf";
+
+    ts[2].svt2 = allouerptr();
+    L = ts[2].svt2;
+    L->entity_name = "idf2";
+    L->entity_type = "FLT";
+    L->constante = "non";
+    L->entity_code = "idf";
+
+    for(i=0;i<100;i++){
+        ts[i].svt2 = allouerptr();
+        L = ts[i].svt2;
+        L->entity_name = "idf";
+        L->entity_type = "int";
+        L->constante = "non";
+        L->entity_code = "idf";
+    }
+
+    affiche(ts,100);
+
+    return 0;
+}
