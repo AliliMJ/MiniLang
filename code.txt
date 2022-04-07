@@ -7,11 +7,9 @@
   <x AS INT/>;
 </SUB> 
 <body>
- <OUTPUT: "dqd$"+z+ "hello"/>
- <OUTPUT: "dqd$"+z+ "hello"/>
- <OUTPUT: "dqd$"+z+ "hello"/>
-<INPUT: a "HHS"/>
-  <FOR: NOT(AND(a, b))/>
-</body>
+ <FOR i=1 UNTIL x>
 
+ </FOR>
+
+</body>
 </docprogram>

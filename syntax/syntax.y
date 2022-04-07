@@ -19,6 +19,9 @@ int lignes = 1;
 %token and or not sup inf supe infe ega dif 
 %token k_if  k_then k_else k_do k_while k_for k_until
 %token <string> idf err
+%left plus dash
+%left asterisk fw_slash
+
 %start S
 
 
@@ -76,24 +79,63 @@ VALUE_BOOL: v_false| v_true;
 VALUE_NUMERIC: v_integer | v_real;
 CLOSE_BODY: left_ar fw_slash k_body right_ar;
 BODY: left_ar k_body right_ar BLOCK_INST  ;
-INSTRUCTION: INPUT | OUTPUT | FOR | EXPRESSION_ARITHMETIQUE ;
-BLOCK_INST: INSTRUCTION BLOCK_INST | CLOSE_BODY;
+INSTRUCTION: INPUT | OUTPUT | CONDITIONAL | DO_WHILE | FOR;
 
+BLOCK_INST: INSTRUCTION BLOCK_INST | CLOSE_BODY;
+BLOCK_INST_THEN: INSTRUCTION BLOCK_INST_THEN | CLOSE_THEN;
+BLOCK_INST_ELSE: INSTRUCTION BLOCK_INST_ELSE | CLOSE_ELSE;
+BLOCK_INST_FOR: INSTRUCTION BLOCK_INST_FOR | CLOSE_FOR;
+
+CLOSE_FOR: left_ar fw_slash k_for right_ar;
+
+CLOSE_IF: left_ar fw_slash k_if right_ar;
+CLOSE_THEN: left_ar fw_slash k_then right_ar;
+CLOSE_ELSE: left_ar fw_slash k_else right_ar;
 
 INPUT: left_ar k_input col idf v_string fw_slash right_ar;
 OUTPUT: left_ar k_output col OUTPUT_ARG fw_slash right_ar;
 OUTPUT_ARG:idf|v_string | v_string plus OUTPUT_ARG;
-FOR: left_ar k_for col EXPRESSION_LOGIQUE fw_slash right_ar;
 
-EXPRESSION_LOGIQUE: VALUE_BOOL | idf| AND | OR | NOT;
+COND_IF: left_ar k_if col EXPRESSION_LOGIQUE right_ar left_ar k_then right_ar BLOCK_INST_THEN;
+COND_IF_ELSE: COND_IF left_ar k_else right_ar BLOCK_INST_ELSE;
+
+CONDITIONAL: COND_IF CLOSE_IF | COND_IF_ELSE CLOSE_IF;
+
+BLOCK_INST_DO: INSTRUCTION BLOCK_INST_DO | CLOSE_DO;
+CLOSE_DO: WHILE left_ar fw_slash k_do right_ar;
+WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar;
+
+DO_WHILE: left_ar k_do right_ar BLOCK_INST_DO;
+
+FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
+FOR_INIT: idf eq v_integer;
+UNTIL: k_until v_integer | k_until idf;
+
+
+
+
+EXPRESSION_LOGIQUE: VALUE_BOOL | idf| AND | OR | NOT|SUP|INF|SUPE|INFE|EGA|DIF;
 LOGICAL_ARG: EXPRESSION_LOGIQUE comma LOGICAL_ARG | EXPRESSION_LOGIQUE;
 AND: and left_par LOGICAL_ARG right_par;
 OR: or left_par LOGICAL_ARG right_par;
 NOT: not left_par EXPRESSION_LOGIQUE right_par;
 
 
-EXPRESSION_ARITHMETIQUE: VALUE_NUMERIC | idf | PLUS | left_par EXPRESSION_ARITHMETIQUE right_par;
-PLUS: EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE;
+EXPRESSION_ARITHMETIQUE:
+  idf | v_integer | v_real
+| EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE 
+| EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
+| EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
+| EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
+| left_par EXPRESSION_ARITHMETIQUE right_par 
+;
+
+SUP: sup left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
+INF: inf left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
+SUPE:supe left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
+INFE:infe left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
+EGA:ega left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
+DIF:dif left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par;
 
 
 
