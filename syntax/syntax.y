@@ -50,9 +50,6 @@ CLOSE_ARRAY: left_ar fw_slash k_array right_ar
 OPEN_SUB_CONST: left_ar k_sub k_const right_ar
 ;
 
-CLOSE_SUB: left_ar fw_slash k_sub right_ar;
-CLOSE_ARRAY: left_ar fw_slash k_array right_ar;
-OPEN_SUB_CONST: left_ar k_sub k_const right_ar;
 OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
 OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar;
 
