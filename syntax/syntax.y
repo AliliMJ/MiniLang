@@ -146,12 +146,13 @@ DIF:dif left_par EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE right_par
 
 
 
-int yywrap() {}
-int main() {
+main() {
    yyparse();
-   return 0;
-  
+   initialiter();
+   affiche();
 }
+
+int yywrap() {}
 
 int yyerror(char * message) {
   printf("code:%d: %s\n", lignes, message);
