@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-int taille=100;
+int taille=200;
 
 typedef struct liste *ptr;
 typedef struct liste
@@ -19,7 +19,6 @@ typedef struct liste
 typedef struct tab *ptrTAB;
 typedef struct tab
 {
-    int existe;
     ptr svt2;
 } tab;
 
@@ -130,13 +129,13 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
 
 int Rechercher(char *entite)
 {
-    ptr p;
+    ptr p=NULL;
     int i;
-    printf("fff");
     i = hash_func(entite);
-    printf("%d ---> %d -----> %d - %d",ts[i].existe,i,&p,&ts[i].svt2);
+    printf("%d ----->%s",i,entite);
 
     p=ts[i].svt2;
+    printf("ffffff");
     while (p != NULL)
     {
         if (strcmp(entite,p->entity_name) == 0)
@@ -164,7 +163,7 @@ ptr RechercherPtr(char *entite)
 
 void inserer(char *entite, char *code)
 {
-    ptr p;
+    ptr q=NULL;
     int s;
 
     s=hash_func(entite);
@@ -172,12 +171,10 @@ void inserer(char *entite, char *code)
     printf("%s\n",entite);
 
     if (Rechercher(entite) == -1)
-    {
+ {
         if (ts[s].svt2 == NULL)
         {
-            printf("fffffffffff\n");
             ts[s].svt2 = allouerptr();
-            ts[s].existe=1;
             strcpy(ts[s].svt2->entity_name, entite);
             strcpy(ts[s].svt2->entity_code, code);
             strcpy(ts[s].svt2->constante, "non");
@@ -185,17 +182,16 @@ void inserer(char *entite, char *code)
             ts[s].svt2->svt1 = NULL;
         }
     else{
-        printf("je suis la");
-        p = allouerptr();
-        strcpy(p->entity_name, entite);
-        strcpy(p->entity_code, code);
-        strcpy(p->constante, "non");
-        p->tablenght = -1;
+        q = allouerptr();
+        strcpy(q->entity_name, entite);
+        strcpy(q->entity_code, code);
+        strcpy(q->constante, "non");
+        q->tablenght = -1;
 
-        p->svt1 = ts[s].svt2;
-        ts[s].svt2 = p;
+        q->svt1 = ts[s].svt2;
+        ts[s].svt2 = q;
     }
-    }
+  }
 }
 
 ////////////// erreurs //////////////////
@@ -203,15 +199,9 @@ void inserer(char *entite, char *code)
 int ExistDeclaration(char *entite)
 {
     int pos = Rechercher(entite);
-    printf("\n--------------------");
     ptr q = RechercherPtr(entite);
-    printf("\n--------------------");
-    printf("\n**%s***\n",q->entity_name);
-    char ch1[]="aa" , ch2[]="aa";
-    printf("\n%d",strcmp(ch1,ch2));
-    printf("after strcmp");
 
-        if ((int)strcmp(q->entity_type, "") == 0 && (int)strcmp(q->constante, "non") == 0) return 0;
+        if (strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0) return 0;
     return -1;
 }
 
