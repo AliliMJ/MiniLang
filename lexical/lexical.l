@@ -1,7 +1,7 @@
 
 %{
- #include <stdio.h>
  #include "../syntax/syntax.tab.h"
+ #include "tabsym/tabsym.h"
  extern lignes;
  extern YYSTYPE yylval;
 %}
@@ -81,6 +81,7 @@ WHILE {return k_while;}
 FOR {return k_for;}
 UNTIL {return k_until;}
 {idf} {
+  inserer(yytext,"idf");
   yylval.string = strdup(yytext);
   return idf;}
 

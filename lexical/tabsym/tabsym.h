@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
+int taille=100;
+
 typedef struct liste *ptr;
 typedef struct liste
 {
@@ -17,15 +19,16 @@ typedef struct liste
 typedef struct tab *ptrTAB;
 typedef struct tab
 {
+    int existe;
     ptr svt2;
 } tab;
 
-tab ts[100];
+ptrTAB ts;
 
 char *allouerstr()
 {
     char *ch;
-    ch = (char *)malloc(20 * sizeof(char)); 
+    ch = (char *)malloc(15 * sizeof(char)); 
 
     if (ch == NULL)
     {
@@ -54,33 +57,34 @@ int hash_func(char* M)
 {
     int code = 3;
     int c;
+    
+    char *ch;
+    ch=allouerstr();
+    strcpy(ch,M);
 
-    strtohigher(M);
+    strtohigher(ch);
 
-    while ((c = *M++))
+    while ((c = *ch++))
     {
         code = ((code << 5) + code) + tolower(c);
     }
-    return (code % 20) ;
+    return (code % taille) ;
 }
 
 
-
-ptrTAB initialiter(long n) // fonction pour allouer et initialiser le tableau de hachage
+ initialiter() // fonction pour allouer et initialiser le tableau de hachage
 {
-    long i;
-    ptrTAB T;
+    int i;
 
-    T = (ptrTAB)malloc(n * sizeof(tab));
+    ts = (ptrTAB)malloc(taille * sizeof(tab));
 
-    for (i = 0; i < n; i++)
+    for (i = 0; i < taille; i++)
     {
-        T[i].svt2 = NULL;
+        ts[i].svt2 = NULL;
     }
-    return (T);
 }
 
-void affiche(ptrTAB T, long n) // fonction pour afficher le contenu de table
+void affiche() // fonction pour afficher le contenu de table
 {
     int i;
     ptr p1;
@@ -90,15 +94,14 @@ void affiche(ptrTAB T, long n) // fonction pour afficher le contenu de table
     printf("\t|   Nom Entite    |   Code Entite   |   Type  |  constante | Taille Tab |\n");
     printf("\t|_________________|_________________|_________|____________|____________|\n");
 
-    for (i = 0; i < n; i++)
+    for (i = 0; i < taille ; i++)
     {
-        if (T[i].svt2 != NULL)
+        if (ts[i].svt2 != NULL)
         {
-            p1 = T[i].svt2;
+            p1 = ts[i].svt2;
             while (p1 != NULL)
             {
-                
-                        printf("\t| %15s | %15s | %7s |  %8s  | %10d |\n", p1->entity_name, p1->entity_code, p1->entity_type,p1->constante, p1->tablenght);
+                        printf("\t| %15s | %15s | %7s |  %8s  | %10d |\n",p1->entity_name, p1->entity_code, p1->entity_type,p1->constante, p1->tablenght);
                 p1 = p1->svt1;
             }
         }
@@ -127,9 +130,12 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
 
 int Rechercher(char *entite)
 {
-    int i;
-    i = hash_func(entite);
     ptr p;
+    int i;
+    printf("fff");
+    i = hash_func(entite);
+    printf("%d ---> %d -----> %d - %d",ts[i].existe,i,&p,&ts[i].svt2);
+
     p=ts[i].svt2;
     while (p != NULL)
     {
@@ -140,18 +146,38 @@ int Rechercher(char *entite)
     return -1; // en cas ne trouve pas le var dans la tables des symboles
 }
 
+ptr RechercherPtr(char *entite)
+{
+    int i;
+    i = hash_func(entite);
+    ptr p;
+    p = ts[i].svt2;
+    printf("je suis pointeur de rechercher ptr est : -%s-\n",p->entity_name);
+    while (p != NULL)
+    {
+        if (strcmp(entite,p->entity_name) == 0)
+            return p;
+        p = p->svt1;
+    }
+    return NULL; // en cas ne trouve pas le var dans la tables des symboles
+}
+
 void inserer(char *entite, char *code)
 {
     ptr p;
     int s;
+
     s=hash_func(entite);
-    printf("\n%d\n",Rechercher(entite));
+
+    printf("%s\n",entite);
 
     if (Rechercher(entite) == -1)
     {
         if (ts[s].svt2 == NULL)
         {
+            printf("fffffffffff\n");
             ts[s].svt2 = allouerptr();
+            ts[s].existe=1;
             strcpy(ts[s].svt2->entity_name, entite);
             strcpy(ts[s].svt2->entity_code, code);
             strcpy(ts[s].svt2->constante, "non");
@@ -172,35 +198,78 @@ void inserer(char *entite, char *code)
     }
 }
 
- int main() {
-     int i,k;
-     char *ch;
-     ptr L,p;
+////////////// erreurs //////////////////
+// double declaration
+int ExistDeclaration(char *entite)
+{
+    int pos = Rechercher(entite);
+    printf("\n--------------------");
+    ptr q = RechercherPtr(entite);
+    printf("\n--------------------");
+    printf("\n**%s***\n",q->entity_name);
+    char ch1[]="aa" , ch2[]="aa";
+    printf("\n%d",strcmp(ch1,ch2));
+    printf("after strcmp");
 
-     ch = allouerstr();
+        if ((int)strcmp(q->entity_type, "") == 0 && (int)strcmp(q->constante, "non") == 0) return 0;
+    return -1;
+}
 
-      for(i=0;i<20;i++){
-          ts[i].svt2=NULL;
-      }
+//  int main() {
+//      int i,k;
+//      char *name,*code,*constante,*type;
+//      int length;
+//      ptr L,p;
 
-      scanf("%s",ch);
-      k = hash_func(ch);
-      printf("\n%s:%d", ch,k);
+//      name = allouerstr();
+//      code = allouerstr();
+//      constante = allouerstr();
+//      type = allouerstr();
 
-    //   for (i = 0; i < 20; i++)
-    //   {
-    //       ts[i].svt2 = allouerptr();
-    //       L = ts[i].svt2;
-    //       L->entity_name = "idf";
-    //       L->entity_type = "int";
-    //       L->constante = "non";
-    //       L->entity_code = "idf";
-    //       L->svt1 = NULL;
-    // }
+//      ts=initialiter(20);
 
-    inserer(ch,ch);
+//      ts[1].svt2 = allouerptr();
+//      L = ts[1].svt2;
+//      L->entity_name = "a1";
+//      L->entity_type = "int";
+//      L->constante = "non";
+//      L->entity_code = "idf";
+//      L->svt1 = NULL;
 
-    printf("\n\n");
+//      ts[2].svt2 = allouerptr();
+//      L = ts[2].svt2;
+//      L->entity_name = "a2";
+//      L->entity_type = "flt";
+//      L->constante = "non";
+//      L->entity_code = "idf";
+//      L->svt1 = NULL;
 
-     return 0;
- }
+//      strcpy(name,"aa5");
+//      k=hash_func(name);
+
+//      ts[k].svt2 = allouerptr();
+//      L = ts[k].svt2;
+//      L->entity_name = "aa5";
+//      L->entity_type = "";
+//      L->constante = "non";
+//      L->entity_code = "idf";
+//      L->svt1 = NULL;
+
+//      ts[4].svt2 = allouerptr();
+//      L = ts[4].svt2;
+//      L->entity_name = "aa";
+//      L->entity_type = "int";
+//      L->constante = "non";
+//      L->entity_code = "idf";
+//      L->svt1 = NULL;
+
+//      affiche(ts,20);
+
+//      printf("\n\n");
+
+//      k=ExistDeclaration(name);
+
+//      printf("%d",k);
+
+//      return 0;
+//  }

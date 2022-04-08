@@ -4,9 +4,7 @@
 </SUB> 
 
 <SUB CONSTANTE>
-  <x = 4/>;
-  <i AS INT/>;
- 
+  <y AS INT/>;
 </SUB> 
 <body>
 
