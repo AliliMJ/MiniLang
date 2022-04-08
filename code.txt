@@ -13,7 +13,7 @@
   <AFF: d, x*2/>
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
-2*x
+
 
 </body>
 </docprogram>
