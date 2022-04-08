@@ -4,12 +4,18 @@
 </SUB> 
 
 <SUB CONSTANTE>
-  <x AS INT/>;
+  <x = 4/>;
+  <i AS INT/>;
+ 
 </SUB> 
 <body>
- <FOR i=1 UNTIL x>
 
- </FOR>
+<FOR i=1 UNTIL 5>
+  <INPUT: x "Entrez la valeur de x $"/>
+  <AFF: d, x*2/>
+  <OUTPUT: "Le double de x est $"+ d/> 
+</FOR>
+2*x
 
 </body>
 </docprogram>
