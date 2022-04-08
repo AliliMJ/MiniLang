@@ -132,10 +132,8 @@ int Rechercher(char *entite)
     ptr p=NULL;
     int i;
     i = hash_func(entite);
-    printf("%d ----->%s",i,entite);
 
     p=ts[i].svt2;
-    printf("ffffff");
     while (p != NULL)
     {
         if (strcmp(entite,p->entity_name) == 0)
@@ -167,8 +165,6 @@ void inserer(char *entite, char *code)
     int s;
 
     s=hash_func(entite);
-
-    printf("%s\n",entite);
 
     if (Rechercher(entite) == -1)
  {
@@ -204,62 +200,3 @@ int ExistDeclaration(char *entite)
         if (strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0) return 0;
     return -1;
 }
-
-//  int main() {
-//      int i,k;
-//      char *name,*code,*constante,*type;
-//      int length;
-//      ptr L,p;
-
-//      name = allouerstr();
-//      code = allouerstr();
-//      constante = allouerstr();
-//      type = allouerstr();
-
-//      ts=initialiter(20);
-
-//      ts[1].svt2 = allouerptr();
-//      L = ts[1].svt2;
-//      L->entity_name = "a1";
-//      L->entity_type = "int";
-//      L->constante = "non";
-//      L->entity_code = "idf";
-//      L->svt1 = NULL;
-
-//      ts[2].svt2 = allouerptr();
-//      L = ts[2].svt2;
-//      L->entity_name = "a2";
-//      L->entity_type = "flt";
-//      L->constante = "non";
-//      L->entity_code = "idf";
-//      L->svt1 = NULL;
-
-//      strcpy(name,"aa5");
-//      k=hash_func(name);
-
-//      ts[k].svt2 = allouerptr();
-//      L = ts[k].svt2;
-//      L->entity_name = "aa5";
-//      L->entity_type = "";
-//      L->constante = "non";
-//      L->entity_code = "idf";
-//      L->svt1 = NULL;
-
-//      ts[4].svt2 = allouerptr();
-//      L = ts[4].svt2;
-//      L->entity_name = "aa";
-//      L->entity_type = "int";
-//      L->constante = "non";
-//      L->entity_code = "idf";
-//      L->svt1 = NULL;
-
-//      affiche(ts,20);
-
-//      printf("\n\n");
-
-//      k=ExistDeclaration(name);
-
-//      printf("%d",k);
-
-//      return 0;
-//  }

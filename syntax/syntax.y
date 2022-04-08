@@ -56,7 +56,12 @@ OPEN_SUB_CONST: left_ar k_sub k_const right_ar
 OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
 OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar;
 
-TYPE: t_boolean | t_char | t_int|t_float|t_string;
+TYPE:t_boolean 
+     |t_char 
+     |t_int
+     |t_float
+     |t_string
+     ;
 
 DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR;
 DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST;
@@ -64,19 +69,41 @@ DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY;
 
 LIST: idf | idf bar LIST;
 
-IDF_DEC_TYPE: left_ar LIST k_as TYPE fw_slash right_ar;
-IDF_DEC_INIT: left_ar idf eq VALUE fw_slash right_ar;
-IDF_DEC_CONST: IDF_DEC_TYPE | IDF_DEC_INIT;
-IDF_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar;
+IDF_DEC_TYPE:left_ar LIST k_as TYPE fw_slash right_ar
+            ;
+IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar
+             ;
+IDF_DEC_CONST:IDF_DEC_TYPE 
+              |IDF_DEC_INIT
+              ;
 
-BLOCK_DEC_VAR: IDF_DEC_TYPE semi_col BLOCK_DEC_VAR | CLOSE_SUB;
-BLOCK_DEC_CONST: IDF_DEC_CONST semi_col BLOCK_DEC_CONST| CLOSE_SUB;
-BLOCK_DEC_ARRAY: IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY | CLOSE_ARRAY;
+IDF_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar
+;
+
+BLOCK_DEC_VAR:IDF_DEC_TYPE semi_col BLOCK_DEC_VAR
+              |CLOSE_SUB
+              ;
+
+BLOCK_DEC_CONST:IDF_DEC_CONST semi_col BLOCK_DEC_CONST
+               |CLOSE_SUB
+               ;
+
+BLOCK_DEC_ARRAY:IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY 
+               |CLOSE_ARRAY
+;
 
 
-VALUE: VALUE_BOOL |VALUE_NUMERIC | v_string;
-VALUE_BOOL: v_false| v_true;
-VALUE_NUMERIC: v_integer | v_real;
+VALUE:VALUE_BOOL 
+     |VALUE_NUMERIC 
+     |v_string
+     ;
+
+VALUE_BOOL:v_false
+          |v_true
+          ;
+VALUE_NUMERIC:v_integer
+             |v_real
+             ;
 CLOSE_BODY: left_ar fw_slash k_body right_ar;
 BODY: left_ar k_body right_ar BLOCK_INST  ;
 INSTRUCTION: INPUT | OUTPUT | CONDITIONAL | DO_WHILE | FOR | AFF ;
@@ -121,24 +148,25 @@ OR: or left_par LOGICAL_ARG right_par;
 NOT: not left_par EXPRESSION_LOGIQUE right_par | not left_par IDF right_par;
 
 
-EXPRESSION_ARITHMETIQUE:
-  v_integer | v_real
-| EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE 
-| EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
-| EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
-| EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
-| left_par EXPRESSION_ARITHMETIQUE right_par
-| IDF plus EXPRESSION_ARITHMETIQUE
-| IDF dash EXPRESSION_ARITHMETIQUE 
-| IDF asterisk EXPRESSION_ARITHMETIQUE 
-| IDF fw_slash EXPRESSION_ARITHMETIQUE
-| EXPRESSION_ARITHMETIQUE plus IDF
-| EXPRESSION_ARITHMETIQUE dash IDF 
-| EXPRESSION_ARITHMETIQUE asterisk IDF 
-| EXPRESSION_ARITHMETIQUE fw_slash IDF    
-;
+EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE 
+                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
+                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
+                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
+                        |left_par EXPRESSION_ARITHMETIQUE right_par
+                        |IDF plus EXPRESSION_ARITHMETIQUE
+                        |IDF dash EXPRESSION_ARITHMETIQUE 
+                        |IDF asterisk EXPRESSION_ARITHMETIQUE 
+                        |IDF fw_slash EXPRESSION_ARITHMETIQUE
+                        |EXPRESSION_ARITHMETIQUE plus IDF
+                        |EXPRESSION_ARITHMETIQUE dash IDF 
+                        |EXPRESSION_ARITHMETIQUE asterisk IDF 
+                        |EXPRESSION_ARITHMETIQUE fw_slash IDF  
+                        |v_integer 
+                        |v_real  
+                        ;
 
-IDF: idf | IDF_TAB;
+IDF:idf {inserer($1,"idf")}
+    |IDF_TAB;
 IDF_TAB: idf left_bracket TAB_ARG right_bracket;
 TAB_ARG: IDF | v_integer;
 
@@ -165,14 +193,12 @@ COMP_ARG: EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
 %%
 
 
-
+int yywrap() {}
 main() {
-   yyparse();
    initialiter();
+   yyparse();
    affiche();
 }
-
-int yywrap() {}
 
 int yyerror(char * message) {
   printf("code:%d: %s\n", lignes, message);
