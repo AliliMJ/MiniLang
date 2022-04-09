@@ -150,7 +150,6 @@ ptr RechercherPtr(char *entite)
     i = hash_func(entite);
     ptr p;
     p = ts[i].svt2;
-    printf("je suis pointeur de rechercher ptr est : -%s-\n",p->entity_name);
     while (p != NULL)
     {
         if (strcmp(entite,p->entity_name) == 0)
@@ -224,4 +223,9 @@ int ExistDeclaration(char *entite)
 
         if (strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0) return 0;
     return -1;
+}
+
+int toInt(int val)
+{
+    return val;
 }

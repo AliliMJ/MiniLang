@@ -16,7 +16,7 @@
 
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
-  <AFF: d, x*2/>
+  <AFF: d, 1000/>
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
