@@ -1,6 +1,6 @@
 <!docprogram xxx>
 <SUB VARIABLE>
-  <x AS INT/>;
+  <x | z AS INT/>;
 </SUB> 
 
 <SUB CONSTANTE>
