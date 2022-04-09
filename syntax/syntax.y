@@ -55,7 +55,7 @@ OPEN_SUB_CONST: left_ar k_sub k_const right_ar
 ;
 
 OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
-OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar;
+OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar {strcpy(saveType, $4)};
 
 TYPE:t_boolean {$$= "bool";}
      |t_char {$$ = "char";}
