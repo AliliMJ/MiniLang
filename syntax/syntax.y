@@ -167,8 +167,9 @@ COMP_ARG: EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
 
 
 main() {
+  initialiter();
    yyparse();
-   initialiter();
+   
    affiche();
 }
 
