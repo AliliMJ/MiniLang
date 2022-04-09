@@ -81,6 +81,7 @@ WHILE {return k_while;}
 FOR {return k_for;}
 UNTIL {return k_until;}
 {idf} {
+  inserer(yytext,"idf");
   yylval.string = strdup(yytext);
   return idf;}
 

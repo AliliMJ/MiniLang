@@ -190,6 +190,30 @@ void inserer(char *entite, char *code)
   }
 }
 
+void InsererType(char *entite, char *type){
+  ptr p = RechercherPtr(entite);
+  if(p != NULL)
+    strcpy(p->entity_type,type);
+}
+
+void InsererC(char *entite, char *val)
+{
+    ptr p;
+    if (Rechercher(entite) != -1)
+    {
+        p = RechercherPtr(entite);
+        strcpy(p->constante, val);
+    }
+}
+
+void InsererTailleTab(char *entite, int taille)
+{
+    ptr p = RechercherPtr(entite);
+    if (p != NULL)
+        p->tablenght = taille;
+        strcpy(p->entity_code,"idf tab");
+}
+
 ////////////// erreurs //////////////////
 // double declaration
 int ExistDeclaration(char *entite)

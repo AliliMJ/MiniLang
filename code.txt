@@ -4,8 +4,14 @@
 </SUB> 
 
 <SUB CONSTANTE>
-  <y AS INT/>;
+  <y AS BOL/>;
 </SUB> 
+
+<ARRAY AS INT>
+<T:15/>
+<S:25/>
+</ARRAY>
+
 <body>
 
 <FOR i=1 UNTIL 5>
