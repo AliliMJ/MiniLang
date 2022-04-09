@@ -131,6 +131,7 @@ int Rechercher(char *entite)
 {
     ptr p=NULL;
     int i;
+    entite= "dddd";
     i = hash_func(entite);
 
     p=ts[i].svt2;

@@ -22,7 +22,7 @@ char saveIdf[30];
 %token <string> idf err
 %left plus dash
 %left asterisk fw_slash
-
+%type <string> TYPE
 %start S
 
 
@@ -57,11 +57,11 @@ OPEN_SUB_CONST: left_ar k_sub k_const right_ar
 OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
 OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar;
 
-TYPE:t_boolean {strcpy(saveType,"bool");}
-     |t_char {strcpy(saveType,"char");}
-     |t_int {strcpy(saveType,"int");}
-     |t_float {strcpy(saveType,"FLT");}
-     |t_string {strcpy(saveType,"str");}
+TYPE:t_boolean {$$= "bool";}
+     |t_char {$$ = "char";}
+     |t_int {$$="int";}
+     |t_float {$$="FLT";}
+     |t_string {$$="str";}
      ;
 
 DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR
@@ -71,21 +71,29 @@ DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST
 DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY
 ;
 
-LIST:idf {strcpy(saveIdf,$1);}
-    |idf bar LIST {strcpy(saveIdf,$1);};
+LIST_VAR:idf {strcpy(saveIdf,$1); printf("%s est variable\n", $1);}
+    |idf bar LIST_VAR {strcpy(saveIdf,$1);printf("%s est variable\n", $1);};
 
-IDF_DEC_TYPE:left_ar LIST k_as TYPE fw_slash right_ar {InsererType(saveIdf,saveType);}
-            ;
+LIST_CONST: idf {strcpy(saveIdf,$1);printf("%s est constante\n", $1);} 
+    |idf bar LIST_CONST {strcpy(saveIdf,$1);printf("%s est constante\n", $1);}; 
+
+
+
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar
              ;
-IDF_DEC_CONST:IDF_DEC_TYPE 
+IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererType(saveIdf,$4);};
+
+
+IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {InsererType(saveIdf,$4);}
+            ;
+
+IDF_DEC_CONST:IDF_DEC_CONST_TYPE 
               |IDF_DEC_INIT
               ;
-
 IDF_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar {InsererTailleTab($2,$4);strcpy(saveIdf,$2);InsererType(saveIdf,saveType);}
 ;
 
-BLOCK_DEC_VAR:IDF_DEC_TYPE semi_col BLOCK_DEC_VAR
+BLOCK_DEC_VAR:IDF_DEC_VAR semi_col BLOCK_DEC_VAR
               |CLOSE_SUB
               ;
 
