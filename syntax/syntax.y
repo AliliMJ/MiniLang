@@ -64,9 +64,12 @@ TYPE:t_boolean {strcpy(saveType,"bool");}
      |t_string {strcpy(saveType,"str");}
      ;
 
-DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR;
-DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST;
-DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY;
+DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR
+;
+DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST
+;
+DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY
+;
 
 LIST:idf {strcpy(saveIdf,$1);}
     |idf bar LIST {strcpy(saveIdf,$1);};
@@ -212,7 +215,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF 
                         |EXPRESSION_ARITHMETIQUE asterisk IDF 
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF  
-                        |v_integer 
+                        |v_integer {if(toInt($1)>50) {printf("erreur val sup!!!");}}
                         |v_real  
                         ;
 
