@@ -69,7 +69,7 @@ DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST;
 DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY;
 
 LIST:idf {strcpy(saveIdf,$1);}
-    |idf bar LIST;
+    |idf bar LIST {strcpy(saveIdf,$1);};
 
 IDF_DEC_TYPE:left_ar LIST k_as TYPE fw_slash right_ar {InsererType(saveIdf,saveType);}
             ;

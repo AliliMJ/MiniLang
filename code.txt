@@ -8,8 +8,8 @@
 </SUB> 
 
 <ARRAY AS INT>
-<T:15/>
-<S:25/>
+  <T:15/>;
+  <S:25/>;
 </ARRAY>
 
 <body>
