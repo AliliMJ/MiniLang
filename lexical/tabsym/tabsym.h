@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 int taille = 200;
+int MAX_LIST_DEC = 10;
 
 typedef struct liste *ptr;
 typedef struct liste
@@ -29,8 +30,10 @@ typedef struct listeIdf
     char motc[20];
 } listeIdf;
 
-listeIdf T[10];
+listeIdf *T;
 int nbIdf;
+
+
 
 char *allouerstr()
 {
@@ -228,9 +231,12 @@ void InsererTailleTab(char *entite, int taille)
 int ExistDeclaration(char *entite)
 {
     ptr q = RechercherPtr(entite);
-    if (strcmp(q->entity_type,"") == 0 && strcmp(q->constante, "non") == 0)
-        return 0;
-    return -1;
+    if (strcmp(q->entity_type,"") == 0 && strcmp(q->constante, "non") == 0) {
+
+        return 0; // non declare
+    }
+
+    return -1; // deja declare
 }
 
 int ExistDeclarationT(char *entite)
@@ -247,16 +253,24 @@ int toInt(int val)
 }
 
 // ************** liste idf ************************
+void newT() {
+  if(T)
+    free(T);
+  T = malloc(MAX_LIST_DEC * sizeof(listeIdf));
+}
 
 initialiterListeIdf() // fonction pour allouer et initialiser le tableau de hachage
 {
+    newT();
     int i;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < MAX_LIST_DEC; i++)
     {
         strcpy(T[i].motc,"");
     }
     nbIdf=0;
 }
+
+
 
 void InsererTypeC(char *type)
 {
@@ -267,12 +281,25 @@ void InsererTypeC(char *type)
         p=RechercherPtr(T[i].motc);
         strcpy(p->entity_type, type);
     }
+
+    initialiterListeIdf();
+
+
+    
+    
 }
 
-void insererT(char *c)
+int insererT(char *c)
 {
+    for(int i=0; i< nbIdf; i++) {
+      if(strcmp(c, T[i].motc)== 0) {
+        return -1;
+      }
+      
+    }
     strcpy(T[nbIdf].motc,c);
     nbIdf++;
+    return 0;
 }
 
 afficherT(){

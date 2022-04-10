@@ -75,23 +75,28 @@ LIST_VAR:IDF_CONTROLLER
     |IDF_CONTROLLER bar LIST_VAR 
     ;
 
-IDF_CONTROLLER: idf {if(ExistDeclarationT($1)==0)
-                       insererT($1);
-                     else
+IDF_CONTROLLER: idf {if(ExistDeclaration($1)==0) {
+                       if(insererT($1)==-1)
                         printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
-                     }
 
-LIST_CONST: idf {strcpy(saveIdf,$1);} 
-    |idf bar LIST_CONST {strcpy(saveIdf,$1);}; 
+          }
+                     else 
+                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                     };
+
+
+
+LIST_CONST: IDF_CONTROLLER
+    | IDF_CONTROLLER bar LIST_CONST ;
 
 
 
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar
              ;
-IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererType(saveIdf,$4);};
+IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeC(saveIdf,$4);};
 
 
-IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {strcpy(saveType,$4);}
+IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {InsererTypeC($4);}
             ;
 
 IDF_DEC_CONST:IDF_DEC_CONST_TYPE 
@@ -100,7 +105,7 @@ IDF_DEC_CONST:IDF_DEC_CONST_TYPE
 IDF_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar {InsererTailleTab($2,$4);strcpy(saveIdf,$2);InsererType(saveIdf,saveType);}
 ;
 
-BLOCK_DEC_VAR:IDF_DEC_VAR semi_col BLOCK_DEC_VAR {InsererTypeC(saveType);}
+BLOCK_DEC_VAR:IDF_DEC_VAR semi_col BLOCK_DEC_VAR
               |CLOSE_SUB
               ;
 
@@ -232,7 +237,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF 
                         |EXPRESSION_ARITHMETIQUE asterisk IDF 
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF  
-                        |v_integer {if(toInt($1)>50) {printf("\nerreur val sup!!!");}}
+                        |v_integer {if($1>50) {printf("\nerreur val sup!!!");}}
                         |v_real  
                         ;
 
@@ -280,6 +285,7 @@ COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
 int yywrap() {}
 main() {
    initialiter();
+   initialiterListeIdf();
    yyparse();
    affiche();
 }
