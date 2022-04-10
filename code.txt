@@ -23,5 +23,9 @@
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
+<FOR i=1 UNTIL b>
+  <OUTPUT: "Le double de x est $"+ d/> 
+</FOR>
+
 </body>
 </docprogram>

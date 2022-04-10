@@ -135,7 +135,7 @@ BODY: left_ar k_body right_ar BLOCK_INST  ;
 INSTRUCTION:INPUT
            |OUTPUT
            |CONDITIONAL
-           | DO_WHILE
+           |DO_WHILE
            |FOR
            |AFF 
            ;
@@ -194,7 +194,8 @@ FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){
   printf("%s valeur n'est pas declarer\n",$1);}}
 ;
 UNTIL:k_until v_integer
-     |k_until idf
+     |k_until idf {if(ExistDeclaration($2)==0){
+  printf("%s valeur n'est pas declarer\n",$2);}}
      ;
 
 
@@ -241,10 +242,12 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |v_real  
                         ;
 
-IDF:idf
+IDF:idf {if(ExistDeclaration($1)==0){
+  printf("%s valeur n'est pas declarer\n",$1);}}
     |IDF_TAB
     ;
-IDF_TAB:idf left_bracket TAB_ARG right_bracket;
+IDF_TAB:idf left_bracket TAB_ARG right_bracket {if(ExistDeclaration($1)==0){
+  printf("%s valeur n'est pas declarer\n",$1);}};
 TAB_ARG:IDF
        |v_integer
        ;

@@ -291,7 +291,8 @@ void InsererTypeC(char *type)
 
 int insererT(char *c)
 {
-    for(int i=0; i< nbIdf; i++) {
+    int i;
+    for(i=0; i< nbIdf; i++) {
       if(strcmp(c, T[i].motc)== 0) {
         return -1;
       }
