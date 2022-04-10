@@ -1,6 +1,8 @@
 <!docprogram xxx>
 <SUB VARIABLE>
-  <x | z AS INT/>;
+  <x | z | kimo AS INT/>;
+  <amine | meps AS FLT/>;
+  <x AS INT/>;
 </SUB> 
 
 <SUB CONSTANTE>

@@ -64,18 +64,25 @@ TYPE:t_boolean {$$= "bool";}
      |t_string {$$="str";}
      ;
 
-DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR
+DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR 
 ;
 DEC_CONSTANTE: OPEN_SUB_CONST BLOCK_DEC_CONST
 ;
 DEC_ARRAY: OPEN_SUB_ARRAY BLOCK_DEC_ARRAY
 ;
 
-LIST_VAR:idf {strcpy(saveIdf,$1); printf("%s est variable\n", $1);}
-    |idf bar LIST_VAR {strcpy(saveIdf,$1);printf("%s est variable\n", $1);};
+LIST_VAR:IDF_CONTROLLER 
+    |IDF_CONTROLLER bar LIST_VAR 
+    ;
 
-LIST_CONST: idf {strcpy(saveIdf,$1);printf("%s est constante\n", $1);} 
-    |idf bar LIST_CONST {strcpy(saveIdf,$1);printf("%s est constante\n", $1);}; 
+IDF_CONTROLLER: idf {if(ExistDeclarationT($1)==0)
+                       insererT($1);
+                     else
+                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                     }
+
+LIST_CONST: idf {strcpy(saveIdf,$1);} 
+    |idf bar LIST_CONST {strcpy(saveIdf,$1);}; 
 
 
 
@@ -84,7 +91,7 @@ IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar
 IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererType(saveIdf,$4);};
 
 
-IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {InsererType(saveIdf,$4);}
+IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {strcpy(saveType,$4);}
             ;
 
 IDF_DEC_CONST:IDF_DEC_CONST_TYPE 
@@ -93,7 +100,7 @@ IDF_DEC_CONST:IDF_DEC_CONST_TYPE
 IDF_DEC_ARRAY: left_ar idf col v_integer fw_slash right_ar {InsererTailleTab($2,$4);strcpy(saveIdf,$2);InsererType(saveIdf,saveType);}
 ;
 
-BLOCK_DEC_VAR:IDF_DEC_VAR semi_col BLOCK_DEC_VAR
+BLOCK_DEC_VAR:IDF_DEC_VAR semi_col BLOCK_DEC_VAR {InsererTypeC(saveType);}
               |CLOSE_SUB
               ;
 
@@ -178,7 +185,9 @@ DO_WHILE: left_ar k_do right_ar BLOCK_INST_DO
 ;
 
 FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
-FOR_INIT: idf eq v_integer;
+FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){
+  printf("%s valeur n'est pas declarer\n",$1);}}
+;
 UNTIL:k_until v_integer
      |k_until idf
      ;
@@ -223,7 +232,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF 
                         |EXPRESSION_ARITHMETIQUE asterisk IDF 
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF  
-                        |v_integer {if(toInt($1)>50) {printf("erreur val sup!!!");}}
+                        |v_integer {if(toInt($1)>50) {printf("\nerreur val sup!!!");}}
                         |v_real  
                         ;
 
