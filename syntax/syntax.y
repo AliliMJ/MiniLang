@@ -1,8 +1,17 @@
 %{
 #include <stdio.h>
+#define BOOL "BLT"
+#define INT "INT"
+#define FLOAT "FLT"
+#define STRING "STR"
+#define CHAR "CHR"
 int lignes = 1;
 char saveType[25];
 char saveIdf[30];
+
+void setType(char* s) {
+  strcpy(saveType, s);
+}
 %}
 
 %union{
@@ -55,13 +64,13 @@ OPEN_SUB_CONST: left_ar k_sub k_const right_ar
 ;
 
 OPEN_SUB_VAR: left_ar k_sub k_variable right_ar;
-OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar {strcpy(saveType, $4)};
+OPEN_SUB_ARRAY: left_ar k_array k_as TYPE right_ar {setType($4)};
 
-TYPE:t_boolean {$$= "bool";}
-     |t_char {$$ = "char";}
-     |t_int {$$="int";}
-     |t_float {$$="FLT";}
-     |t_string {$$="str";}
+TYPE:t_boolean {$$= BOOL;}
+     |t_char {$$ = CHAR;}
+     |t_int {$$=INT;}
+     |t_float {$$=FLOAT;}
+     |t_string {$$=STRING;}
      ;
 
 DEC_VARIABLE: OPEN_SUB_VAR BLOCK_DEC_VAR 
@@ -91,7 +100,7 @@ LIST_CONST: IDF_CONTROLLER
 
 
 
-IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar
+IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {InsererType($2, saveType);}
              ;
 IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeC(saveIdf,$4);};
 
@@ -120,14 +129,14 @@ BLOCK_DEC_ARRAY:IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY
 
 VALUE:VALUE_BOOL 
      |VALUE_NUMERIC 
-     |v_string
+     |v_string {setType(STRING);}
      ;
 
-VALUE_BOOL:v_false
-          |v_true
+VALUE_BOOL:v_false {setType(BOOL);}
+          |v_true {setType(BOOL);}
           ;
-VALUE_NUMERIC:v_integer
-             |v_real
+VALUE_NUMERIC:v_integer {setType(INT);}
+             |v_real {setType(FLOAT);}
              ;
 CLOSE_BODY: left_ar fw_slash k_body right_ar;
 BODY: left_ar k_body right_ar BLOCK_INST  ;

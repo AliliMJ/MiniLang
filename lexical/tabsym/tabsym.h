@@ -3,6 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 
+
+
 int taille = 200;
 int MAX_LIST_DEC = 10;
 
@@ -261,7 +263,7 @@ void newT() {
 
 initialiterListeIdf() // fonction pour allouer et initialiser le tableau de hachage
 {
-    newT();
+   newT();
     int i;
     for (i = 0; i < MAX_LIST_DEC; i++)
     {

@@ -8,6 +8,8 @@
 
 <SUB CONSTANTE>
   <y AS BOL/>;
+  <w = 22/>;
+  <t = "Hello world"/>;
 </SUB> 
 
 <ARRAY AS INT>
