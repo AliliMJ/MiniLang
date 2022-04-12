@@ -146,7 +146,8 @@ INSTRUCTION:INPUT
            |CONDITIONAL
            |DO_WHILE
            |FOR
-           |AFF 
+           |AFF
+           |v_integer | v_real 
            ;
 
 BLOCK_INST:INSTRUCTION BLOCK_INST

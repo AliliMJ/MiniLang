@@ -29,5 +29,7 @@
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
+(-44.3)
+
 </body>
 </docprogram>

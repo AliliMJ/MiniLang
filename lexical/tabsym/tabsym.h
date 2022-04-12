@@ -307,3 +307,29 @@ afficherT(){
     for(i=0;i<nbIdf;i++){
     }
 }
+
+int verifierReelNonSigne(char* token, int size) {
+  
+  int avantVergule=0, apresVergule=0, i=0;
+  while(token[i] != '.' && i < size) {avantVergule ++; i++;}
+  apresVergule = size - i -1;
+  if (apresVergule <= 3 && avantVergule <=7) return 0; // accepter
+  return -1;
+}
+
+char* sansParentheses(char* s) {
+  int reelSize = strlen(s)-2;
+  char* sansPar = malloc(reelSize*sizeof(char));
+  memcpy(sansPar, &s[1], reelSize);
+  sansPar[reelSize] ='\0';
+  return sansPar;
+}
+
+int verifierReelSigne(char* token, int size) {
+  
+  int avantVergule=0, apresVergule=0, i=0;
+  while(token[i] != '.' && i < size) {avantVergule ++; i++;}
+  apresVergule = size - i -1;
+  if (apresVergule - 1 <= 3 && avantVergule - 2 <=7) return 0; // accepter
+  return -1;
+}
