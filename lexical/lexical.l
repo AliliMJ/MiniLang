@@ -4,6 +4,7 @@
  #include "tabsym/tabsym.h"
  extern lignes;
  extern YYSTYPE yylval;
+
 %}
 
 lettre [a-zA-Z]
@@ -11,10 +12,10 @@ chiffre [0-9]
 idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 
 string ["](.)*["]
-entier_ns (0|[1-9]{chiffre}*|[(][-][1-9]{chiffre}*[)])
+entier_ns (0|[1-9]{chiffre}*)
 reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}+[.]{chiffre}+)
 
-entier ([(][-]{entier_ns}[)]|{entier_ns})
+entier_s ([(][-]{entier_ns}[)])
 reel_s [(][-]{reel_ns}[)]
 
 
@@ -47,14 +48,32 @@ TRUE {
 FALSE {
   yylval.integer = 0;
   return v_false;}
-{entier} { 
-  yylval.integer = atoi(yytext);
+
+{entier_ns} { 
+  if(atoi(yytext) <= 32767) {
+    
+    yylval.integer= atoi(yytext);
+    printf("valeur entiere %d\n", yylval.integer);
+    return v_integer;
+  }
+  yyerror("Interger exceeded the specified maximum interger value.\n");
   
-  return v_integer;}
+  }
+{entier_s} {
+  if(atoi(sansParentheses(yytext)) >= -32767) {
+   
+    yylval.integer= atoi(sansParentheses(yytext));
+    printf("valeur entiere %d\n", yylval.integer);
+    return v_integer;
+  }
+  yyerror("Interger exceeded the specified maximum interger value.\n");
+  
+  }
+
 {reel_ns} {
    if(verifierReelNonSigne(yytext, strlen(yytext))==0) {
       yylval.real = atof(yytext);
-       
+      printf("valeur reel %d\n", yylval.real);
       return v_real;
    }
    yyerror("Max number of digits of float exceeded\n");
@@ -63,7 +82,8 @@ FALSE {
   }
 {reel_s} {
   if(verifierReelSigne(yytext, strlen(yytext))==0) {
-      yylval.real = atof(yytext);
+      yylval.real = atof(sansParentheses(yytext));
+      printf("valeur reel %f\n", yylval.real);
       return v_real;
    }
    yyerror("Max number of digits of float exceeded\n");
