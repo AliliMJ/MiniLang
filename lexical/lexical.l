@@ -11,8 +11,11 @@ chiffre [0-9]
 idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 
 string ["](.)*["]
-entier (0|[-]?[1-9]{chiffre}*)
-reel ([-]?{chiffre}+[.]{chiffre}*[1-9])
+entier_ns (0|[1-9]{chiffre}*|[(][-][1-9]{chiffre}*[)])
+reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}+[.]{chiffre}+)
+
+entier ([(][-]{entier_ns}[)]|{entier_ns})
+reel_s [(][-]{reel_ns}[)]
 
 
 %%
@@ -46,10 +49,27 @@ FALSE {
   return v_false;}
 {entier} { 
   yylval.integer = atoi(yytext);
+  
   return v_integer;}
-{reel} {
-  yylval.real = atof(yytext);
-  return v_real;}
+{reel_ns} {
+   if(verifierReelNonSigne(yytext, strlen(yytext))==0) {
+      yylval.real = atof(yytext);
+       
+      return v_real;
+   }
+   yyerror("Max number of digits of float exceeded\n");
+    
+
+  }
+{reel_s} {
+  if(verifierReelSigne(yytext, strlen(yytext))==0) {
+      yylval.real = atof(yytext);
+      return v_real;
+   }
+   yyerror("Max number of digits of float exceeded\n");
+    
+
+}
 {string} {
   yylval.string = strdup(yytext);
   return v_string;}
