@@ -50,7 +50,7 @@ DECLARATIONS:DEC DECLARATIONS
              ;
 
 DEC:DEC_VARIABLE
-    |DEC_CONSTANTE
+    |DEC_CONSTANTE {printf("\nliste C :");afficherC();}
     |DEC_ARRAY
     ;
 
@@ -95,14 +95,21 @@ IDF_CONTROLLER: idf {if(ExistDeclaration($1)==0) {
 
 
 
-LIST_CONST: IDF_CONTROLLER
-    | IDF_CONTROLLER bar LIST_CONST ;
+LIST_CONST: IDF_CONTROLLER_CSTE
+    | IDF_CONTROLLER_CSTE bar LIST_CONST ;
 
+IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
+                       if(insererCnst($1)==-1)
+                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
 
+          }
+                     else 
+                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                     };};
 
-IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {InsererType($2, saveType);}
+IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");}
              ;
-IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeC(saveIdf,$4);};
+IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeCnste($4,"null");};
 
 
 IDF_DEC_VAR:left_ar LIST_VAR k_as TYPE fw_slash right_ar {InsererTypeC($4);}
@@ -299,6 +306,7 @@ int yywrap() {}
 main() {
    initialiter();
    initialiterListeIdf();
+   initialiterListeCnst();
    yyparse();
    affiche();
 }

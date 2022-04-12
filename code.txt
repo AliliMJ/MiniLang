@@ -7,7 +7,7 @@
 </SUB> 
 
 <SUB CONSTANTE>
-  <y AS BOL/>;
+  <y1 | y2 | y3 AS BOL/>;
   <w = 22/>;
   <t = "Hello world"/>;
 </SUB> 

@@ -35,7 +35,13 @@ typedef struct listeIdf
 listeIdf *T;
 int nbIdf;
 
+typedef struct listeCnst
+{
+    char motc[20];
+} listeCnst;
 
+listeIdf *C;
+int nbC;
 
 char *allouerstr()
 {
@@ -273,7 +279,6 @@ initialiterListeIdf() // fonction pour allouer et initialiser le tableau de hach
 }
 
 
-
 void InsererTypeC(char *type)
 {
     int i;
@@ -302,11 +307,75 @@ int insererT(char *c)
     return 0;
 }
 
-afficherT(){
+// **************** liste constantes ***********************
+
+void newC()
+{
+    if (T)
+        free(T);
+    C = malloc(MAX_LIST_DEC * sizeof(listeCnst));
+}
+
+initialiterListeCnst() // fonction pour allouer et initialiser le tableau de hachage
+{
+    newC();
     int i;
-    for(i=0;i<nbIdf;i++){
+    for (i = 0; i < MAX_LIST_DEC; i++)
+    {
+        strcpy(C[i].motc, "");
+    }
+    nbC = 0;
+}
+
+void InsererTypeCnste(char *type , char *init)
+{
+    int i;
+    ptr p;
+    for (i = 0; i < nbC; i++)
+    {
+        p = RechercherPtr(C[i].motc);
+        strcpy(p->entity_type,type);
+        strcpy(p->constante,init);
+    }
+
+    //initialiterListeCnst();
+}
+
+int insererCnst(char *c)
+{
+    int i;
+    for (i = 0; i < nbC; i++)
+    {
+        if (strcmp(c, C[i].motc) == 0)
+        {
+            return -1;
+        }
+    }
+    strcpy(C[nbC].motc, c);
+    nbC++;
+    return 0;
+}
+
+afficherC(){
+    int i;
+
+    for(i=0;i<nbC;i++){
+        printf("[%s]",C[i].motc);
     }
 }
+
+void cnsteInit(char *idf , char *init){
+    ptr p = RechercherPtr(idf);
+    strcpy(p->constante,init);
+}
+
+void insererTypeCnst(char *idf,char *type)
+{
+    ptr p = RechercherPtr(idf);
+    strcpy(p->entity_type,type);
+}
+
+// ******************************************************************
 
 int verifierReelNonSigne(char* token, int size) {
   
