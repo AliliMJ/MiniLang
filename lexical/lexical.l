@@ -73,7 +73,7 @@ FALSE {
 {reel_ns} {
    if(verifierReelNonSigne(yytext, strlen(yytext))==0) {
       yylval.real = atof(yytext);
-      printf("valeur reel %d\n", yylval.real);
+      printf("valeur reel %f\n", yylval.real);
       return v_real;
    }
    yyerror("Max number of digits of float exceeded\n");
