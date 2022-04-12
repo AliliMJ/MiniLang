@@ -50,7 +50,7 @@ DECLARATIONS:DEC DECLARATIONS
              ;
 
 DEC:DEC_VARIABLE
-    |DEC_CONSTANTE {printf("\nliste C :");afficherC();}
+    |DEC_CONSTANTE 
     |DEC_ARRAY
     ;
 
@@ -107,7 +107,7 @@ IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
                         printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
                      };};
 
-IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");}
+IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);}
              ;
 IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeCnste($4,"null");};
 

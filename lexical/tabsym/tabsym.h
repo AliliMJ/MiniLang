@@ -364,14 +364,14 @@ afficherC(){
     }
 }
 
-void cnsteInit(char *idf , char *init){
-    ptr p = RechercherPtr(idf);
+void cnsteInit(char *entite, char *init){
+    ptr p = RechercherPtr(entite);
     strcpy(p->constante,init);
 }
 
-void insererTypeCnst(char *idf,char *type)
+void insererTypeCnst(char *entite,char *type)
 {
-    ptr p = RechercherPtr(idf);
+    ptr p = RechercherPtr(entite);
     strcpy(p->entity_type,type);
 }
 
