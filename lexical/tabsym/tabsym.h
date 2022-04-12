@@ -285,9 +285,6 @@ void InsererTypeC(char *type)
     }
 
     initialiterListeIdf();
-
-
-    
     
 }
 
