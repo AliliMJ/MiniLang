@@ -30,7 +30,7 @@
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
-1.2
+<AFF:x, 'f'/>
 
 </body>
 </docprogram>

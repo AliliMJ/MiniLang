@@ -18,13 +18,14 @@ void setType(char* s) {
   int integer;
   char* string;
   float real;
+  char ch;
 }
 
 
 
 %token left_ar right_ar fw_slash excl col left_par right_par left_bracket right_bracket bar eq semi_col plus dash asterisk comma 
 %token t_int t_float t_boolean t_char t_string 
-%token <integer>v_true <integer> v_false <string> v_string <real> v_real <integer> v_integer
+%token <integer>v_true <integer> v_false <string> v_string <real> v_real <integer> v_integer <ch>v_char
 %token k_docprogram k_as k_array k_sub k_body k_variable k_const k_aff k_input k_output 
 %token and or not sup inf supe infe ega dif 
 %token k_if  k_then k_else k_do k_while k_for k_until
@@ -137,6 +138,7 @@ BLOCK_DEC_ARRAY:IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY
 VALUE:VALUE_BOOL 
      |VALUE_NUMERIC 
      |v_string {setType(STRING);}
+     | v_char
      ;
 
 VALUE_BOOL:v_false {setType(BOOL);}
@@ -274,6 +276,8 @@ AFF:left_ar k_aff col IDF comma AFF_ARG
 AFF_ARG:IDF fw_slash right_ar
        |EXPRESSION_ARITHMETIQUE fw_slash right_ar
        |EXPRESSION_LOGIQUE fw_slash right_ar
+       | v_string fw_slash right_ar
+       | v_char fw_slash right_ar
        ;
 
 SUP: sup left_par COMP_ARG right_par
