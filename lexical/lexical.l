@@ -14,6 +14,7 @@ idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 string ["](.)*["]
 entier_ns (0|[1-9]{chiffre}*)
 reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}*[.]{chiffre}+)
+char ['](.)[']
 
 entier_s ([(][-]{entier_ns}[)])
 reel_s [(][-]{reel_ns}[)]
@@ -70,6 +71,7 @@ FALSE {
   
   }
 
+
 {reel_ns} {
    if(verifierReelNonSigne(yytext, strlen(yytext))==0) {
       yylval.real = atof(yytext);
@@ -93,6 +95,12 @@ FALSE {
 {string} {
   yylval.string = strdup(yytext);
   return v_string;}
+
+{char} {
+    yylval.ch = yytext[1];
+
+    return v_char;
+  }
 
 docprogram {return k_docprogram;}
 AS {return k_as;}
