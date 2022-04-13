@@ -13,7 +13,7 @@ idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 
 string ["](.)*["]
 entier_ns (0|[1-9]{chiffre}*)
-reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}+[.]{chiffre}+)
+reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}*[.]{chiffre}+)
 
 entier_s ([(][-]{entier_ns}[)])
 reel_s [(][-]{reel_ns}[)]
