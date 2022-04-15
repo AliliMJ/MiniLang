@@ -421,3 +421,21 @@ int verifierReelSigne(char* token, int size) {
   if (apresVergule - 1 <= 3 && avantVergule - 2 <=7) return 0; // accepter
   return -1;
 }
+
+void compatible(char* left, char* right) {
+  ptr l = RechercherPtr(left);
+  ptr r = RechercherPtr(right);
+  if(l==NULL || r == NULL) {printf("Variable non declare\n");}
+  else if (strcmp(l->entity_type, r->entity_type)!= 0) {
+    printf("Incompatible variable assignment (%s) %s := (%s) %s .\n", l->entity_type,l->entity_name, r->entity_type, r->entity_name);
+  }
+}
+
+void idfHasType(char* entite, char*valueType) {
+  ptr p = RechercherPtr(entite);
+  if(p==NULL) printf("Variable non declare\n");
+  else if(strcmp(p->entity_type, valueType)!=0) {
+    printf("Incompatible variable assignment (%s) %s := (%s) .\n", p->entity_type,p->entity_name, valueType);
+  }
+}
+
