@@ -37,7 +37,7 @@ void setType(char* s) {
 
 
 %%
-S: DOCPROGRAM {printf("\nProgram compiled successfuly.");
+S: DOCPROGRAM {printf("\n ********* Program compiled successfuly. *********\n");
       YYACCEPT;}
 
 | err
@@ -87,11 +87,11 @@ LIST_VAR:IDF_CONTROLLER
 
 IDF_CONTROLLER: idf {if(ExistDeclaration($1)==0) {
                        if(insererT($1)==-1)
-                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
 
           }
                      else 
-                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
                      };
 
 
@@ -101,11 +101,11 @@ LIST_CONST: IDF_CONTROLLER_CSTE
 
 IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
                        if(insererCnst($1)==-1)
-                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
 
           }
                      else 
-                        printf("erreur semantique: \"%s\" double declaration a la ligne %d\n",$1,lignes);
+                       printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
                      };};
 
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);}
@@ -185,7 +185,9 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar
 ;
 OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar
 ;
-OUTPUT_ARG:idf
+OUTPUT_ARG:idf {if(ExistDeclaration($1)==0){
+  printf("erreur semantique [%d] : variable non declarer dans output \"%s\"\n",lignes,$1);
+}}
           |v_string
           |v_string plus OUTPUT_ARG
           ;
@@ -210,11 +212,11 @@ DO_WHILE: left_ar k_do right_ar BLOCK_INST_DO
 
 FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
 FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){
-  printf("%s valeur n'est pas declarer\n",$1);}}
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
 UNTIL:k_until v_integer
      |k_until idf {if(ExistDeclaration($2)==0){
-  printf("%s valeur n'est pas declarer\n",$2);}}
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
      ;
 
 
@@ -257,21 +259,21 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF 
                         |EXPRESSION_ARITHMETIQUE asterisk IDF 
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF  
-                        |v_integer {if($1>50) {printf("\nerreur val sup!!!");}}
-                        |v_real  
+                        |v_integer {if(($1>32767)||($1<-32767)) {printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n",lignes,saveIdf);}}
+                        |v_real  {if(($1>32767)||($1<-32767)) {printf("erreur semantique [%d] : valeur de reel depasser la limite [-32767,32767] %s \n",lignes,saveIdf);}}
                         ;
 
-IDF:idf {if(ExistDeclaration($1)==0){
-  printf("%s valeur n'est pas declarer\n",$1);}}
+IDF:idf {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
     |IDF_TAB
     ;
-IDF_TAB:idf left_bracket TAB_ARG right_bracket {if(ExistDeclaration($1)==0){
-  printf("%s valeur n'est pas declarer\n",$1);}};
+IDF_TAB:idf left_bracket TAB_ARG right_bracket {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}};
 TAB_ARG:IDF
        |v_integer
        ;
 
-AFF:left_ar k_aff col IDF comma AFF_ARG
+AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff(saveIdf)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,saveIdf);}}
 ;
 AFF_ARG:IDF fw_slash right_ar
        |EXPRESSION_ARITHMETIQUE fw_slash right_ar

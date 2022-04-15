@@ -51,46 +51,28 @@ FALSE {
   return v_false;}
 
 {entier_ns} { 
-  if(atoi(yytext) <= 32767) {
-    
     yylval.integer= atoi(yytext);
-    printf("valeur entiere %d\n", yylval.integer);
     return v_integer;
   }
-  yyerror("Interger exceeded the specified maximum interger value.\n");
-  
-  }
+
 {entier_s} {
-  if(atoi(sansParentheses(yytext)) >= -32767) {
-   
     yylval.integer= atoi(sansParentheses(yytext));
-    printf("valeur entiere %d\n", yylval.integer);
     return v_integer;
-  }
-  yyerror("Interger exceeded the specified maximum interger value.\n");
-  
-  }
+    }
 
 
 {reel_ns} {
    if(verifierReelNonSigne(yytext, strlen(yytext))==0) {
       yylval.real = atof(yytext);
-      printf("valeur reel %f\n", yylval.real);
       return v_real;
    }
-   yyerror("Max number of digits of float exceeded\n");
-    
-
   }
+  
 {reel_s} {
   if(verifierReelSigne(yytext, strlen(yytext))==0) {
       yylval.real = atof(sansParentheses(yytext));
-      printf("valeur reel %f\n", yylval.real);
       return v_real;
    }
-   yyerror("Max number of digits of float exceeded\n");
-    
-
 }
 {string} {
   yylval.string = strdup(yytext);

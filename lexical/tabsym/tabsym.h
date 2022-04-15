@@ -375,6 +375,25 @@ void insererTypeCnst(char *entite,char *type)
     strcpy(p->entity_type,type);
 }
 
+int isCste(char *entity){
+    ptr p = RechercherPtr(entity);
+    if (strcmp(p->constante, "null") == 0 || strcmp(p->constante, "oui") == 0)
+          return 1;
+    return 0;
+}
+
+int csteDejaAff(char *entity){
+    ptr p = RechercherPtr(entity);
+
+    if(strcmp(p->constante,"null")==0){
+        strcpy(p->constante,"oui");
+        return 0;
+    }else if(strcmp(p->constante,"oui")==0){
+        return 1;
+    }
+    return -1;
+}
+
 // ******************************************************************
 
 int verifierReelNonSigne(char* token, int size) {

@@ -23,7 +23,8 @@
 
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
-  <AFF: d, 1000/>
+  <AFF: d, 32780/>
+  <AFF: amine, 32767.5/>
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
@@ -32,6 +33,10 @@
 </FOR>
 
 <AFF:x, 'f'/>
+
+<AFF: x1,"abdelkrim"/>
+<AFF: w,15/>
+<OUTPUT:ad/> 
 
 </body>
 </docprogram>
