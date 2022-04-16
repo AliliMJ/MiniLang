@@ -36,9 +36,9 @@
 
 <AFF: x1,"abdelkrim"/>
 <AFF: w,15/>
-<AFF: x,amine/>
+
 <OUTPUT:ad/> 
-<AFF: x, 1/2/>
+<AFF: S[0], amine/>
 
 </body>
 </docprogram>

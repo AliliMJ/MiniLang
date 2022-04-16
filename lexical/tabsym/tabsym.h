@@ -423,6 +423,7 @@ int verifierReelSigne(char* token, int size) {
 }
 
 void compatible(char* left, char* right) {
+
   ptr l = RechercherPtr(left);
   ptr r = RechercherPtr(right);
   if(l==NULL || r == NULL) {printf("Variable non declare\n");}
@@ -433,9 +434,18 @@ void compatible(char* left, char* right) {
 
 void idfHasType(char* entite, char*valueType) {
   ptr p = RechercherPtr(entite);
-  if(p==NULL) printf("Variable non declare\n");
+  if(p==NULL) printf("Variable %s non declare\n", entite);
   else if(strcmp(p->entity_type, valueType)!=0) {
     printf("Incompatible variable assignment (%s) %s := (%s) .\n", p->entity_type,p->entity_name, valueType);
   }
+}
+
+void isNumeric(char* entite) {
+  ptr p = RechercherPtr(entite);
+  if(p==NULL) printf("Variable %s non declare\n", entite);
+  else if(strcmp(p->entity_type, "INT")!=0 && strcmp(p->entity_type, "FLT")!=0) {
+    printf("Cannot assign expression to variable (%s) %s.\n", p->entity_type,p->entity_name);
+  }
+
 }
 
