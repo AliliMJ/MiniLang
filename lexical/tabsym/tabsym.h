@@ -495,3 +495,129 @@ void isNumeric(char* entite) {
 
 }
 
+// output start
+
+typedef struct listeIdfOut
+{
+    char entity[30];
+} listeIdfOut;
+
+listeIdfOut *TOut1,*TOut2;
+int nbIdfOut1, nbIdfOut2;
+
+void newOut()
+{
+    if (TOut1){
+        free(TOut1);
+    }
+    TOut1 = malloc(10 * sizeof(listeIdfOut));
+
+    if (TOut2)
+    {
+        free(TOut2);
+    }
+    TOut2 = malloc(10 * sizeof(listeIdfOut));
+}
+
+initialiterListeIdfOut() // fonction pour allouer et initialiser le tableau de hachage
+{
+    newOut();
+    int i;
+    for (i = 0; i < 10; i++)
+    {
+        strcpy(TOut1[i].entity, "");
+        strcpy(TOut2[i].entity, "");
+    }
+    nbIdfOut1 = 0;
+    nbIdfOut2 = 0;
+}
+
+void insertIdfOut1(char *entity)
+{
+    strcpy(TOut1[nbIdfOut1].entity,entity);
+    nbIdfOut1++;
+}
+
+void insertIdfOut2(char *entity)
+{
+    strcpy(TOut2[nbIdfOut2].entity, entity);
+    nbIdfOut2++;
+}
+
+
+int cmpcompOut(char chaine[], char *idf)
+{
+    ptr p = RechercherPtr(idf);
+    int i;
+
+    for (i = 0; i < strlen(chaine); i++)
+    {
+        if (chaine[i] == '$')
+        {
+            if (strcmp(p->entity_type, "INT") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '%')
+        {
+            if (strcmp(p->entity_type, "FLT") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '#')
+        {
+            if (strcmp(p->entity_type, "STR") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '&')
+        {
+            if (strcmp(p->entity_type, "CHR") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '@')
+        {
+            if (strcmp(p->entity_type, "BOL") == 0)
+            {
+                return 0;
+            }
+        }
+    }
+    return -1;
+}
+
+/*void verifierOut()
+{
+    int i = 0;
+
+    while ((strcmp(TOut[nbIdfOut].idf, "") != 0) && (strcmp(TOut[nbIdfOut].idf, "")!=0) && (i < nbIdfOut))
+    {
+        if (cmpcompOut(TOut[i].c, TOut[i].idf)!=0){
+            printf("incompatibilite de types");
+        }
+            i++;
+    }
+}*/
+
+void afficherOut(){
+    int i;
+
+    printf("\n\n");
+
+    for(i=0;i<nbIdfOut1;i++){
+        printf("%d --> idf: %s\n", i , TOut1[i].entity);
+    }
+
+    for (i = 0; i < nbIdfOut2; i++)
+    {
+        printf("%d --> chaine: %s", i, TOut2[i].entity);
+    }
+    printf("\n\n");
+}
+
+// output end

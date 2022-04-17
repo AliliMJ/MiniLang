@@ -29,7 +29,7 @@
 </FOR>
 
 <FOR i=1 UNTIL b>
-  <OUTPUT: "Le double de x est $"+ d/> 
+  <OUTPUT: "Le double de z est $"+ x1/> 
 </FOR>
 
 <AFF:x, 'f'/>
@@ -41,6 +41,8 @@
 <AFF: S[0], amine/>
 
 <INPUT: x "Entrez la valeur de x %"/>
+
+<OUTPUT: "Le double de x est $"+ x1 +"aaaaa"/> 
 
 </body>
 </docprogram>
