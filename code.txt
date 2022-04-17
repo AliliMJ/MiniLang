@@ -40,5 +40,7 @@
 <OUTPUT:ad/> 
 <AFF: x, 1/2/>
 
+<INPUT: x "Entrez la valeur de x %"/>
+
 </body>
 </docprogram>

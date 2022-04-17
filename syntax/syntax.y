@@ -185,7 +185,11 @@ CLOSE_THEN:left_ar fw_slash k_then right_ar
 CLOSE_ELSE:left_ar fw_slash k_else right_ar
 ;
 
-INPUT:left_ar k_input col idf v_string fw_slash right_ar {printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n",lignes,$4);}
+INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4)==0){
+  printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n",lignes,$4);
+}else{
+  cmpcomp($5,$4,lignes);
+}}
 ;
 OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar
 ;

@@ -396,6 +396,52 @@ int csteDejaAff(char *entity){
 
 // ******************************************************************
 
+int cmpcomp(char chaine[], char *idf , int nb)
+{
+    ptr p = RechercherPtr(idf);
+    int i;
+
+    for(i=0;i<strlen(chaine);i++){
+    if(chaine[i] == '$')
+    {
+        if (strcmp(p->entity_type, "INT") == 0)
+        {
+            return 0;
+        }
+    }
+    else if (chaine[i] == '%')
+    {
+        if (strcmp(p->entity_type, "FLT") == 0)
+        {
+            return 0;
+        }
+    }
+    else if(chaine[i] == '#')
+    {
+        if (strcmp(p->entity_type, "STR") == 0)
+        {
+            return 0;
+        }
+    }else if (chaine[i] == '&')
+    {
+        if (strcmp(p->entity_type, "CHR") == 0)
+        {
+            return 0;
+        }
+    }else if (chaine[i] == '@')
+    {
+        if (strcmp(p->entity_type, "BOL") == 0)
+        {
+            return 0;
+        }
+    }
+ }
+ printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,idf);
+ return -1;
+}
+
+// ******************************************************************
+
 int verifierReelNonSigne(char* token, int size) {
   
   int avantVergule=0, apresVergule=0, i=0;
