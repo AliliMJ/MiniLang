@@ -1,4 +1,10 @@
 %{
+
+  #include <stdio.h>
+  #include <string.h>
+  #include <stdlib.h>
+  #include "../tabsym/tabsym.h"
+
   int nb_ligne = 1;
   char saveType[25];
   char saveIdf[30];

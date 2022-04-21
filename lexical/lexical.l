@@ -1,11 +1,14 @@
 
 %{
  #include "../syntax/syntax.tab.h"
- #include "tabsym/tabsym.h"
+ #include "../tabsym/tabsym.h"
+ #include <string.h>
  extern lignes;
  extern YYSTYPE yylval;
 
 %}
+
+%option noyywrap
 
 lettre [a-zA-Z]
 chiffre [0-9]
