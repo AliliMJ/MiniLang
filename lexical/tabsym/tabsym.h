@@ -396,9 +396,9 @@ int csteDejaAff(char *entity){
 
 // ******************************************************************
 
-int cmpcomp(char chaine[], char *idf , int nb)
+int cmpcomp(char chaine[], char *entite , int nb)
 {
-    ptr p = RechercherPtr(idf);
+    ptr p = RechercherPtr(entite);
     int i;
 
     for(i=0;i<strlen(chaine);i++){
@@ -436,7 +436,7 @@ int cmpcomp(char chaine[], char *idf , int nb)
         }
     }
  }
- printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,idf);
+ printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
  return -1;
 }
 
@@ -545,9 +545,9 @@ void insertIdfOut2(char *entity)
 }
 
 
-int cmpcompOut(char chaine[], char *idf)
+int cmpcompOut(char chaine[], char *entite)
 {
-    ptr p = RechercherPtr(idf);
+    ptr p = RechercherPtr(entite);
     int i;
 
     for (i = 0; i < strlen(chaine); i++)
