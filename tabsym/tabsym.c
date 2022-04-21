@@ -2,59 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-
-
-int taille = 200;
-int MAX_LIST_DEC = 10;
-
-typedef struct liste *ptr;
-typedef struct liste
-{
-    char *entity_name;
-    char *entity_code;
-    char *entity_type;
-    char *constante;
-    int tablenght;
-    ptr svt1;
-} liste;
-
-typedef struct tab *ptrTAB;
-typedef struct tab
-{
-    ptr svt2;
-} tab;
-
-ptrTAB ts;
-
-typedef struct listeIdf
-{
-    char motc[20];
-} listeIdf;
-
-listeIdf *T;
-int nbIdf;
-
-typedef struct listeCnst
-{
-    char motc[20];
-} listeCnst;
-
-listeIdf *C;
-int nbC;
-
-char *allouerstr()
-{
-    char *ch;
-    ch = (char *)malloc(15 * sizeof(char));
-
-    if (ch == NULL)
-    {
-        printf("erreur de allocaion!!");
-        exit(-1);
-    }
-    return (ch);
-}
+#include "tabsym.h"
 
 void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle converte un chaine
 {
@@ -89,7 +37,7 @@ int hash_func(char *M)
     return (code % taille);
 }
 
-initialiter() // fonction pour allouer et initialiser le tableau de hachage
+void initialiter() // fonction pour allouer et initialiser le tableau de hachage
 {
     int i;
 
@@ -222,7 +170,7 @@ void InsererC(char *entite, char *val)
     if (Rechercher(entite) != -1)
     {
         p = RechercherPtr(entite);
-        strcpy(p->constante,val);
+        strcpy(p->constante, val);
     }
 }
 
@@ -239,7 +187,8 @@ void InsererTailleTab(char *entite, int taille)
 int ExistDeclaration(char *entite)
 {
     ptr q = RechercherPtr(entite);
-    if (strcmp(q->entity_type,"") == 0 && strcmp(q->constante, "non") == 0) {
+    if (strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0)
+    {
 
         return 0; // non declare
     }
@@ -250,7 +199,7 @@ int ExistDeclaration(char *entite)
 int ExistDeclarationT(char *entite)
 {
     ptr q = RechercherPtr(entite);
-    if(q!=NULL)
+    if (q != NULL)
         return 0;
     return -1;
 }
@@ -261,23 +210,23 @@ int toInt(int val)
 }
 
 // ************** liste idf ************************
-void newT() {
-  if(T)
-    free(T);
-  T = malloc(MAX_LIST_DEC * sizeof(listeIdf));
+void newT()
+{
+    if (T)
+        free(T);
+    T = malloc(MAX_LIST_DEC * sizeof(listeIdf));
 }
 
-initialiterListeIdf() // fonction pour allouer et initialiser le tableau de hachage
+void initialiterListeIdf() // fonction pour allouer et initialiser le tableau de hachage
 {
-   newT();
+    newT();
     int i;
     for (i = 0; i < MAX_LIST_DEC; i++)
     {
-        strcpy(T[i].motc,"");
+        strcpy(T[i].motc, "");
     }
-    nbIdf=0;
+    nbIdf = 0;
 }
-
 
 void InsererTypeC(char *type)
 {
@@ -285,24 +234,24 @@ void InsererTypeC(char *type)
     ptr p;
     for (i = 0; i < nbIdf; i++)
     {
-        p=RechercherPtr(T[i].motc);
+        p = RechercherPtr(T[i].motc);
         strcpy(p->entity_type, type);
     }
 
     initialiterListeIdf();
-    
 }
 
 int insererT(char *c)
 {
     int i;
-    for(i=0; i< nbIdf; i++) {
-      if(strcmp(c, T[i].motc)== 0) {
-        return -1;
-      }
-      
+    for (i = 0; i < nbIdf; i++)
+    {
+        if (strcmp(c, T[i].motc) == 0)
+        {
+            return -1;
+        }
     }
-    strcpy(T[nbIdf].motc,c);
+    strcpy(T[nbIdf].motc, c);
     nbIdf++;
     return 0;
 }
@@ -316,7 +265,7 @@ void newC()
     C = malloc(MAX_LIST_DEC * sizeof(listeCnst));
 }
 
-initialiterListeCnst() // fonction pour allouer et initialiser le tableau de hachage
+void initialiterListeCnst() // fonction pour allouer et initialiser le tableau de hachage
 {
     newC();
     int i;
@@ -327,18 +276,18 @@ initialiterListeCnst() // fonction pour allouer et initialiser le tableau de hac
     nbC = 0;
 }
 
-void InsererTypeCnste(char *type , char *init)
+void InsererTypeCnste(char *type, char *init)
 {
     int i;
     ptr p;
     for (i = 0; i < nbC; i++)
     {
         p = RechercherPtr(C[i].motc);
-        strcpy(p->entity_type,type);
-        strcpy(p->constante,init);
+        strcpy(p->entity_type, type);
+        strcpy(p->constante, init);
     }
 
-    //initialiterListeCnst();
+    // initialiterListeCnst();
 }
 
 int insererCnst(char *c)
@@ -356,39 +305,47 @@ int insererCnst(char *c)
     return 0;
 }
 
-afficherC(){
+void afficherC()
+{
     int i;
 
-    for(i=0;i<nbC;i++){
-        printf("[%s]",C[i].motc);
+    for (i = 0; i < nbC; i++)
+    {
+        printf("[%s]", C[i].motc);
     }
 }
 
-void cnsteInit(char *entite, char *init){
-    ptr p = RechercherPtr(entite);
-    strcpy(p->constante,init);
-}
-
-void insererTypeCnst(char *entite,char *type)
+void cnsteInit(char *entite, char *init)
 {
     ptr p = RechercherPtr(entite);
-    strcpy(p->entity_type,type);
+    strcpy(p->constante, init);
 }
 
-int isCste(char *entity){
+void insererTypeCnst(char *entite, char *type)
+{
+    ptr p = RechercherPtr(entite);
+    strcpy(p->entity_type, type);
+}
+
+int isCste(char *entity)
+{
     ptr p = RechercherPtr(entity);
     if (strcmp(p->constante, "null") == 0 || strcmp(p->constante, "oui") == 0)
-          return 1;
+        return 1;
     return 0;
 }
 
-int csteDejaAff(char *entity){
+int csteDejaAff(char *entity)
+{
     ptr p = RechercherPtr(entity);
 
-    if(strcmp(p->constante,"null")==0){
-        strcpy(p->constante,"oui");
+    if (strcmp(p->constante, "null") == 0)
+    {
+        strcpy(p->constante, "oui");
         return 0;
-    }else if(strcmp(p->constante,"oui")==0){
+    }
+    else if (strcmp(p->constante, "oui") == 0)
+    {
         return 1;
     }
     return -1;
@@ -396,118 +353,147 @@ int csteDejaAff(char *entity){
 
 // ******************************************************************
 
+<<<<<<< HEAD:lexical/tabsym/tabsym.h
 int cmpcomp(char chaine[], char *entite , int nb)
+=======
+int cmpcomp(char chaine[], char *idf, int nb)
+>>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
 {
     ptr p = RechercherPtr(entite);
     int i;
 
-    for(i=0;i<strlen(chaine);i++){
-    if(chaine[i] == '$')
+    for (i = 0; i < strlen(chaine); i++)
     {
-        if (strcmp(p->entity_type, "INT") == 0)
+        if (chaine[i] == '$')
         {
-            return 0;
+            if (strcmp(p->entity_type, "INT") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '%')
+        {
+            if (strcmp(p->entity_type, "FLT") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '#')
+        {
+            if (strcmp(p->entity_type, "STR") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '&')
+        {
+            if (strcmp(p->entity_type, "CHR") == 0)
+            {
+                return 0;
+            }
+        }
+        else if (chaine[i] == '@')
+        {
+            if (strcmp(p->entity_type, "BOL") == 0)
+            {
+                return 0;
+            }
         }
     }
-    else if (chaine[i] == '%')
-    {
-        if (strcmp(p->entity_type, "FLT") == 0)
-        {
-            return 0;
-        }
-    }
-    else if(chaine[i] == '#')
-    {
-        if (strcmp(p->entity_type, "STR") == 0)
-        {
-            return 0;
-        }
-    }else if (chaine[i] == '&')
-    {
-        if (strcmp(p->entity_type, "CHR") == 0)
-        {
-            return 0;
-        }
-    }else if (chaine[i] == '@')
-    {
-        if (strcmp(p->entity_type, "BOL") == 0)
-        {
-            return 0;
-        }
-    }
+<<<<<<< HEAD:lexical/tabsym/tabsym.h
  }
  printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
  return -1;
+=======
+    printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n", nb, idf);
+    return -1;
+>>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
 }
 
 // ******************************************************************
 
-int verifierReelNonSigne(char* token, int size) {
-  
-  int avantVergule=0, apresVergule=0, i=0;
-  while(token[i] != '.' && i < size) {avantVergule ++; i++;}
-  apresVergule = size - i -1;
-  if (apresVergule <= 3 && avantVergule <=7) return 0; // accepter
-  return -1;
+int verifierReelNonSigne(char *token, int size)
+{
+
+    int avantVergule = 0, apresVergule = 0, i = 0;
+    while (token[i] != '.' && i < size)
+    {
+        avantVergule++;
+        i++;
+    }
+    apresVergule = size - i - 1;
+    if (apresVergule <= 3 && avantVergule <= 7)
+        return 0; // accepter
+    return -1;
 }
 
-char* sansParentheses(char* s) {
-  int reelSize = strlen(s)-2;
-  char* sansPar = malloc(reelSize*sizeof(char));
-  memcpy(sansPar, &s[1], reelSize);
-  sansPar[reelSize] ='\0';
-  return sansPar;
+char *sansParentheses(char *s)
+{
+    int reelSize = strlen(s) - 2;
+    char *sansPar = malloc(reelSize * sizeof(char));
+    memcpy(sansPar, &s[1], reelSize);
+    sansPar[reelSize] = '\0';
+    return sansPar;
 }
 
-int verifierReelSigne(char* token, int size) {
-  
-  int avantVergule=0, apresVergule=0, i=0;
-  while(token[i] != '.' && i < size) {avantVergule ++; i++;}
-  apresVergule = size - i -1;
-  if (apresVergule - 1 <= 3 && avantVergule - 2 <=7) return 0; // accepter
-  return -1;
+int verifierReelSigne(char *token, int size)
+{
+
+    int avantVergule = 0, apresVergule = 0, i = 0;
+    while (token[i] != '.' && i < size)
+    {
+        avantVergule++;
+        i++;
+    }
+    apresVergule = size - i - 1;
+    if (apresVergule - 1 <= 3 && avantVergule - 2 <= 7)
+        return 0; // accepter
+    return -1;
 }
 
-void compatible(char* left, char* right) {
+void compatible(char *left, char *right)
+{
 
-  ptr l = RechercherPtr(left);
-  ptr r = RechercherPtr(right);
-  if(l==NULL || r == NULL) {printf("Variable non declare\n");}
-  else if (strcmp(l->entity_type, r->entity_type)!= 0) {
-    printf("Incompatible variable assignment (%s) %s := (%s) %s .\n", l->entity_type,l->entity_name, r->entity_type, r->entity_name);
-  }
+    ptr l = RechercherPtr(left);
+    ptr r = RechercherPtr(right);
+    if (l == NULL || r == NULL)
+    {
+        printf("Variable non declare\n");
+    }
+    else if (strcmp(l->entity_type, r->entity_type) != 0)
+    {
+        printf("Incompatible variable assignment (%s) %s := (%s) %s .\n", l->entity_type, l->entity_name, r->entity_type, r->entity_name);
+    }
 }
 
-void idfHasType(char* entite, char*valueType) {
-  ptr p = RechercherPtr(entite);
-  if(p==NULL) printf("Variable %s non declare\n", entite);
-  else if(strcmp(p->entity_type, valueType)!=0) {
-    printf("Incompatible variable assignment (%s) %s := (%s) .\n", p->entity_type,p->entity_name, valueType);
-  }
+void idfHasType(char *entite, char *valueType)
+{
+    ptr p = RechercherPtr(entite);
+    if (p == NULL)
+        printf("Variable %s non declare\n", entite);
+    else if (strcmp(p->entity_type, valueType) != 0)
+    {
+        printf("Incompatible variable assignment (%s) %s := (%s) .\n", p->entity_type, p->entity_name, valueType);
+    }
 }
 
-void isNumeric(char* entite) {
-  ptr p = RechercherPtr(entite);
-  if(p==NULL) printf("Variable %s non declare\n", entite);
-  else if(strcmp(p->entity_type, "INT")!=0 && strcmp(p->entity_type, "FLT")!=0) {
-    printf("Cannot assign expression to variable (%s) %s.\n", p->entity_type,p->entity_name);
-  }
-
+void isNumeric(char *entite)
+{
+    ptr p = RechercherPtr(entite);
+    if (p == NULL)
+        printf("Variable %s non declare\n", entite);
+    else if (strcmp(p->entity_type, "INT") != 0 && strcmp(p->entity_type, "FLT") != 0)
+    {
+        printf("Cannot assign expression to variable (%s) %s.\n", p->entity_type, p->entity_name);
+    }
 }
 
 // output start
 
-typedef struct listeIdfOut
-{
-    char entity[30];
-} listeIdfOut;
-
-listeIdfOut *TOut1,*TOut2;
-int nbIdfOut1, nbIdfOut2;
-
 void newOut()
 {
-    if (TOut1){
+    if (TOut1)
+    {
         free(TOut1);
     }
     TOut1 = malloc(10 * sizeof(listeIdfOut));
@@ -519,7 +505,7 @@ void newOut()
     TOut2 = malloc(10 * sizeof(listeIdfOut));
 }
 
-initialiterListeIdfOut() // fonction pour allouer et initialiser le tableau de hachage
+void initialiterListeIdfOut() // fonction pour allouer et initialiser le tableau de hachage
 {
     newOut();
     int i;
@@ -534,7 +520,7 @@ initialiterListeIdfOut() // fonction pour allouer et initialiser le tableau de h
 
 void insertIdfOut1(char *entity)
 {
-    strcpy(TOut1[nbIdfOut1].entity,entity);
+    strcpy(TOut1[nbIdfOut1].entity, entity);
     nbIdfOut1++;
 }
 
@@ -544,8 +530,12 @@ void insertIdfOut2(char *entity)
     nbIdfOut2++;
 }
 
+<<<<<<< HEAD:lexical/tabsym/tabsym.h
 
 int cmpcompOut(char chaine[], char *entite)
+=======
+int cmpcompOut(char chaine[], char *idf)
+>>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
 {
     ptr p = RechercherPtr(entite);
     int i;
@@ -604,13 +594,15 @@ int cmpcompOut(char chaine[], char *entite)
     }
 }*/
 
-void afficherOut(){
+void afficherOut()
+{
     int i;
 
     printf("\n\n");
 
-    for(i=0;i<nbIdfOut1;i++){
-        printf("%d --> idf: %s\n", i , TOut1[i].entity);
+    for (i = 0; i < nbIdfOut1; i++)
+    {
+        printf("%d --> idf: %s\n", i, TOut1[i].entity);
     }
 
     for (i = 0; i < nbIdfOut2; i++)
