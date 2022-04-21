@@ -4,6 +4,22 @@
 #include <ctype.h>
 #include "tabsym.h"
 
+int taille = 200;
+int MAX_LIST_DEC = 10;
+
+char *allouerstr()
+{
+    char *ch;
+    ch = (char *)malloc(15 * sizeof(char));
+
+    if (ch == NULL)
+    {
+        printf("erreur de allocaion!!");
+        exit(-1);
+    }
+    return (ch);
+}
+
 void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle converte un chaine
 {
     int i;
@@ -353,11 +369,7 @@ int csteDejaAff(char *entity)
 
 // ******************************************************************
 
-<<<<<<< HEAD:lexical/tabsym/tabsym.h
 int cmpcomp(char chaine[], char *entite , int nb)
-=======
-int cmpcomp(char chaine[], char *idf, int nb)
->>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
 {
     ptr p = RechercherPtr(entite);
     int i;
@@ -400,15 +412,11 @@ int cmpcomp(char chaine[], char *idf, int nb)
             }
         }
     }
-<<<<<<< HEAD:lexical/tabsym/tabsym.h
- }
- printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
- return -1;
-=======
-    printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n", nb, idf);
+    printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
     return -1;
->>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
-}
+ }
+ 
+
 
 // ******************************************************************
 
@@ -530,12 +538,8 @@ void insertIdfOut2(char *entity)
     nbIdfOut2++;
 }
 
-<<<<<<< HEAD:lexical/tabsym/tabsym.h
 
 int cmpcompOut(char chaine[], char *entite)
-=======
-int cmpcompOut(char chaine[], char *idf)
->>>>>>> fcc1e9a6602e953465e7b943a732f8de369cb587:tabsym/tabsym.c
 {
     ptr p = RechercherPtr(entite);
     int i;

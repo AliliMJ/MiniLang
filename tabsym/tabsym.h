@@ -1,8 +1,7 @@
-#ifndef tabsym
-#define tabsym
+#ifndef TABSYM
+#define TABSYM
 
-int taille = 200;
-int MAX_LIST_DEC = 10;
+
 
 typedef struct liste *ptr;
 typedef struct liste
@@ -46,7 +45,7 @@ typedef struct listeIdfOut
 
 listeIdfOut *TOut1, *TOut2;
 int nbIdfOut1, nbIdfOut2;
-
+char *allouerstr();
 void strtohigher(char *s);
 int hash_func(char *M);
 void initialiter();
@@ -74,7 +73,7 @@ void cnsteInit(char *entite, char *init);
 void insererTypeCnst(char *entite,char *type);
 int isCste(char *entity);
 int csteDejaAff(char *entity);
-int cmpcomp(char chaine[], char *idf , int nb);
+int cmpcomp(char chaine[], char *entite , int nb);
 int verifierReelNonSigne(char* token, int size);
 char* sansParentheses(char* s);
 int verifierReelSigne(char* token, int size);
@@ -85,7 +84,7 @@ void newOut();
 void initialiterListeIdfOut();
 void insertIdfOut1(char *entity);
 void insertIdfOut2(char *entity);
-int cmpcompOut(char chaine[], char *idf);
+int cmpcompOut(char chaine[], char *entite);
 void afficherOut();
 
 #endif 
