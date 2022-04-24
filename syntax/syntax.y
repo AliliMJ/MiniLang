@@ -195,7 +195,7 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
   cmpcomp($5,$4,lignes);
 }}
 ;
-OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {afficherOut();initialiterListeIdfOut();}
+OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar 
 ;
 OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG 
           |OUTPUT_IDF plus OUTPUT_ARG 
@@ -203,9 +203,8 @@ OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG
           |OUTPUT_STR 
           ;
 
-OUTPUT_STR:v_string {printf("\n%s\n",$1)};
-OUTPUT_IDF:idf {if(ExistDeclaration($1)==0){printf("erreur semantique [%d] : variable non declarer dans output \"%s\"\n",lignes,$1);}};
-
+OUTPUT_STR:v_string ;
+OUTPUT_IDF:idf ;
 COND_IF:left_ar k_if col EXPRESSION_LOGIQUE right_ar left_ar k_then right_ar BLOCK_INST_THEN
 ;
 COND_IF_ELSE:COND_IF left_ar k_else right_ar BLOCK_INST_ELSE
