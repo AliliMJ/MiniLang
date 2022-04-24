@@ -617,3 +617,17 @@ void afficherOut()
 }
 
 // output end
+
+void testRangInt(int val , int lignes , char* saveIdf){
+    if((val > 32767) || (val < -32767)){
+        printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n", lignes, saveIdf);
+    }
+}
+
+void testRangFlt(float val, int lignes, char *saveIdf)
+{
+    if ((val > 32767) || (val < -32767))
+    {
+        printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n", lignes, saveIdf);
+    }
+}

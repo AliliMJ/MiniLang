@@ -272,9 +272,8 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
-                        |v_integer {if(($1>32767)||($1<-32767)) {printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n",lignes,saveIdf);}}
-                        |v_real  {if(($1>32767)||($1<-32767)) {
-                        printf("erreur semantique [%d] : valeur de reel depasser la limite [-32767,32767] %s \n",lignes,saveIdf);}}
+                        |v_integer {testRangInt($1,lignes,saveIdf);}
+                        |v_real {{testRangFlt($1,lignes,saveIdf);}}
                         ;
 
 IDF:idf {$$=$1;strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
