@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <string.h>
 #define BOOL "BLT"
 #define INT "INT"
 #define FLOAT "FLT"
@@ -263,7 +264,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
                         |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
                         |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
-                        |left_par EXPRESSION_ARITHMETIQUE right_par
+                        |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
                         |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);}
                         |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
                         |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1);}

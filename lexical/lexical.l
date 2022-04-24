@@ -3,7 +3,7 @@
  #include "../syntax/syntax.tab.h"
  #include "../tabsym/tabsym.h"
  #include <string.h>
- extern lignes;
+ extern int lignes;
  extern YYSTYPE yylval;
 
 %}
