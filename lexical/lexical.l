@@ -2,6 +2,7 @@
 %{
  #include "../syntax/syntax.tab.h"
  #include "../tabsym/tabsym.h"
+ #include "../quad/quad.h"
  #include <string.h>
  extern int lignes;
  extern YYSTYPE yylval;
