@@ -15,12 +15,13 @@ void setType(char* s) {
 }
 %}
 
-%union{
-  int integer;
+
+%union {int integer;
   char* string;
   float real;
-  char ch;
-}
+  char ch;  
+  struct {int type;char* res;}NT;
+  }
 
 
 
@@ -33,10 +34,12 @@ void setType(char* s) {
 %token <string> idf err
 %left plus dash
 %left asterisk fw_slash
+%left left_par right_par 
 %type <string> TYPE
 %type <string> IDF
 %type <string> IDF_TAB
 %type <string> AFF_ARG
+%type<NT> EXPRESSION_ARITHMETIQUE
 %start S
 
 

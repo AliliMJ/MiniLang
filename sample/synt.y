@@ -28,6 +28,8 @@
   float reel;
 }
 
+%union {char* nom;  struct {int type;char* res;}NT;}
+
 %token mc_import bib_io bib_lang err
 %token mc_public mc_private mc_protected mc_class mc_main
 %token <str>idf <str>idf_tab signe

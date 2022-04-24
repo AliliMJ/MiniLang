@@ -1,8 +1,6 @@
 #ifndef TABSYM
 #define TABSYM
 
-
-
 typedef struct liste *ptr;
 typedef struct liste
 {
