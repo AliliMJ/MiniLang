@@ -46,6 +46,10 @@ void setType(char* s) {
 
 %%
 S: DOCPROGRAM {printf("\n ********* Program compiled successfuly. *********\n");
+  quad("a", "b", "c", "d");
+  quad("a", "b", "c", "d");
+  quad("a", "b", "c", "d");
+  quad("a", "b", "c", "d");
       YYACCEPT;}
 
 | err
@@ -330,6 +334,7 @@ main() {
    initialiterListeIdfOut();
    yyparse();
    affiche();
+   afficherQuad();
 }
 
 int yyerror(char * message) {

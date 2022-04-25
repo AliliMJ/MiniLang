@@ -3,7 +3,7 @@
 
 // t la taille de la table contenant les quadruplets
 #define t 100
-int indq = 0;
+
 // la structure d'un element de la table
 typedef struct
 {
