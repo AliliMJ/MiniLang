@@ -11,6 +11,8 @@ char saveType[25];
 char saveIdf[30];
 char currentExpType[25];
 
+int nTemp=1; char tempC[12]=""; 
+
 void setType(char* s) {
   strcpy(saveType, s);
 }
@@ -46,10 +48,6 @@ void setType(char* s) {
 
 %%
 S: DOCPROGRAM {printf("\n ********* Program compiled successfuly. *********\n");
-  quad("a", "b", "c", "d");
-  quad("a", "b", "c", "d");
-  quad("a", "b", "c", "d");
-  quad("a", "b", "c", "d");
       YYACCEPT;}
 
 | err
@@ -263,7 +261,7 @@ NOT:not left_par EXPRESSION_LOGIQUE right_par
 ;
 
 
-EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE 
+EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("+",$1.res,$3.res,$$.res);}
                         |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
                         |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
                         |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
@@ -276,11 +274,11 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
-                        |v_integer {testRangInt($1,lignes,saveIdf);}
-                        |v_real {{testRangFlt($1,lignes,saveIdf);}}
+                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
+                        |v_real {testRangFlt($1,lignes,saveIdf);}
                         ;
 
-IDF:idf {$$=$1;strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+IDF:idf {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
     |IDF_TAB
     ;

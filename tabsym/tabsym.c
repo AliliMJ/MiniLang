@@ -631,3 +631,10 @@ void testRangFlt(float val, int lignes, char *saveIdf)
         printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n", lignes, saveIdf);
     }
 }
+
+char* IntToChar(int x){
+    char* c;
+    c=allouerstr();
+     sprintf(c,"%d",x);
+     return c;
+}
