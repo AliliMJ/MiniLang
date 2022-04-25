@@ -146,7 +146,7 @@ BLOCK_DEC_ARRAY:IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY
 VALUE:VALUE_BOOL 
      |VALUE_NUMERIC 
      |v_string {setType(STRING);}
-     | v_char {setType(CHAR);}
+     |v_char {setType(CHAR);}
      ;
 
 VALUE_BOOL:v_false {setType(BOOL);}
