@@ -274,7 +274,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sp
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
-                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
+                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res="hello";}
                         |v_real {testRangFlt($1,lignes,saveIdf);}
                         ;
 
