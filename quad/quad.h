@@ -18,5 +18,8 @@ quadruplet q[t];
 // signature des fonctions de quad.c
 void quad(char *, char *, char *, char *);
 void afficherQuad();
+char* temporaire();
+char *allouertemp();
+char *BoolToString(int b); 
 
 #endif // QUAD_H

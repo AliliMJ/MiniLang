@@ -1,8 +1,10 @@
 %{
 #include <stdio.h>
 #include <string.h>
+
 #include "../tabsym/tabsym.h"
- #include "../quad/quad.h"
+#include "../quad/quad.h"
+
 #define BOOL "BLT"
 #define INT "INT"
 #define FLOAT "FLT"
@@ -12,8 +14,9 @@ int lignes = 1;
 char saveType[25];
 char saveIdf[30];
 char currentExpType[25];
+char saveOp[6];
 
-int nTemp=1; char tempC[12]=""; 
+
 
 void setType(char* s) {
   strcpy(saveType, s);
@@ -43,8 +46,24 @@ void setType(char* s) {
 %type <string> TYPE
 %type <string> IDF
 %type <string> IDF_TAB
+%type <string> TAB_ARG
 %type<NT> EXPRESSION_ARITHMETIQUE
+%type<NT> EXPRESSION_LOGIQUE
 %type<NT> AFF_ARG
+%type <integer>VALUE_BOOL
+%type <NT> AND_ARG
+%type <NT> OR_ARG
+%type <string> AND
+%type <string> OR
+%type <string> NOT
+%type <string> DIF
+%type <string> EGA
+%type <string> INF
+%type <string> INFE
+%type <string> SUP
+%type <string> SUPE
+%type <string> COMP_ARG
+
 %start S
 
 
@@ -153,8 +172,8 @@ VALUE:VALUE_BOOL
      |v_char {setType(CHAR);}
      ;
 
-VALUE_BOOL:v_false {setType(BOOL);}
-          |v_true {setType(BOOL);}
+VALUE_BOOL:v_false {setType(BOOL);$$=0;}
+          |v_true {setType(BOOL);$$=1;}
           ;
 VALUE_NUMERIC:v_integer {setType(INT);}
              |v_real {setType(FLOAT);}
@@ -237,36 +256,71 @@ UNTIL:k_until v_integer
      ;
 
 
-EXPRESSION_LOGIQUE:VALUE_BOOL
-                  |AND
-                  |OR
-                  |NOT
-                  |SUP
-                  |INF
-                  |SUPE
-                  |INFE
-                  |EGA
-                  |DIF
+EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
+                  |AND {$$.res=$1}
+                  |OR {$$.res=$1}
+                  |NOT {$$.res=$1}
+                  |SUP {$$.res=$1}
+                  |INF {$$.res=$1}
+                  |SUPE{$$.res=$1}
+                  |INFE{$$.res=$1}
+                  |EGA{$$.res=$1}
+                  |DIF{$$.res=$1}
                   ;
 
-LOGICAL_ARG:EXPRESSION_LOGIQUE comma LOGICAL_ARG
-           |EXPRESSION_LOGIQUE 
-           |IDF
-           |IDF comma LOGICAL_ARG
+AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG {if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";else $$.res=$3.res;}
+           |EXPRESSION_LOGIQUE comma EXPRESSION_LOGIQUE {
+             if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
+             else $$.res=$3.res;
+             }
+           |IDF comma IDF {$$.res=temporaire(); quad("AND", $1, $3, $$.res);}
+           |IDF comma AND_ARG {
+             if(strcmp($3.res, "FALSE")==0) $$.res="FALSE";
+             else if(strcmp($3.res, "TRUE")==0) $$.res = $1;
+             else {$$.res=temporaire();quad("AND", $1, $3.res, $$.res);}
+            }
+           | IDF comma EXPRESSION_LOGIQUE {
+            if(strcmp($3.res, "FALSE")==0) $$.res="FALSE";
+            else if(strcmp($3.res, "TRUE")==0) $$.res=$1;
+            else {$$.res=temporaire();quad("AND", $1, $3.res, $$.res);}
+          }
            ;
-AND:and left_par LOGICAL_ARG right_par
+OR_ARG:EXPRESSION_LOGIQUE comma OR_ARG {if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";else $$.res=$3.res;}
+           |EXPRESSION_LOGIQUE comma EXPRESSION_LOGIQUE {
+             if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";
+             else $$.res=$3.res;
+             }
+           |IDF comma IDF {$$.res=temporaire(); quad("OR", $1, $3, $$.res);}
+           |IDF comma OR_ARG {
+             if(strcmp($3.res, "TRUE")==0) $$.res="TRUE";
+             else if(strcmp($3.res, "FALSE")==0) $$.res = $1;
+             else {$$.res=temporaire();quad("OR", $1, $3.res, $$.res);}
+            }
+           | IDF comma EXPRESSION_LOGIQUE {
+            if(strcmp($3.res, "TRUE")==0) $$.res="TRUE";
+            else if(strcmp($3.res, "FALSE")==0) $$.res=$1;
+            else {$$.res=temporaire();quad("OR", $1, $3.res, $$.res);}
+          }
+           ;
+
+
+AND:and left_par AND_ARG right_par {$$=$3.res}
 ;
-OR:or left_par LOGICAL_ARG right_par
+OR:or left_par OR_ARG right_par {$$=$3.res}
 ;
-NOT:not left_par EXPRESSION_LOGIQUE right_par
-   |not left_par IDF right_par
+NOT:not left_par EXPRESSION_LOGIQUE right_par {
+  if(strcmp($3.res, "FALSE")==0) $$="TRUE";
+  else if (strcmp($3.res, "TRUE")==0) $$ ="FALSE";
+  else {$$=temporaire(); quad("NOT", $3.res,"" , $$); printf("test\n");}
+  }
+   |not left_par IDF right_par {$$=temporaire(); quad("NOT", $3,"" , $$);}
 ;
 
 
-EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("+",$1.res,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("-",$1.res,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("*",$1.res,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("/",$1.res,$3.res,$$.res);}
+EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("+",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("-",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("*",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("/",$1.res,$3.res,$$.res);}
                         |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
                         |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);}
                         |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
@@ -286,36 +340,40 @@ IDF:idf {strcpy(saveIdf,$1);$$=$1;if(ExistDeclaration($1)==0){
     ;
 IDF_TAB:idf left_bracket TAB_ARG right_bracket {$$=$1;strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}};
-TAB_ARG:IDF
-       |v_integer
+TAB_ARG:IDF 
+       |v_integer {$$=IntToChar($1);}
        ;
 
 AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}quad ("=",$6.res,"",$4);}
-| left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6);if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
+| left_ar k_aff col IDF comma IDF fw_slash right_ar {
+  compatible($4, $6);
+  if(csteDejaAff($4)==1)printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);
+  quad ("=",$6,"",$4);
+  }
 ;
-AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res}
-       |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);}
+AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res;}
+       |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);$$.res=$1.res;}
        |v_string fw_slash right_ar {idfHasType(saveIdf, STRING);$$.res=transfertString($1);}
-       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);$$.res=CharToString($1)}
+       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);$$.res=CharToString($1);}
        ;
 
-SUP: sup left_par COMP_ARG right_par
+SUP: sup left_par {strcpy(saveOp, "SUP");} COMP_ARG right_par {$$=$4}
 ;
-INF: inf left_par COMP_ARG right_par
+INF: inf left_par {strcpy(saveOp, "INT");} COMP_ARG right_par {$$=$4}
 ;
-SUPE:supe left_par COMP_ARG right_par
+SUPE:supe left_par {strcpy(saveOp, "SUPE");} COMP_ARG right_par{$$=$4}
 ;
-INFE:infe left_par COMP_ARG right_par
+INFE:infe left_par {strcpy(saveOp, "INFE");} COMP_ARG right_par{$$=$4}
 ;
-EGA:ega left_par COMP_ARG right_par
+EGA:ega left_par {strcpy(saveOp, "EGA");} COMP_ARG right_par{$$=$4}
 ;
-DIF:dif left_par COMP_ARG right_par
+DIF:dif left_par {strcpy(saveOp, "DIF");} COMP_ARG right_par{$$=$4}
 ;
 
-COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
-        |IDF comma EXPRESSION_ARITHMETIQUE
-        |IDF comma IDF
-        |EXPRESSION_ARITHMETIQUE comma IDF
+COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(saveOp, $1.res, $3.res, $$);}
+        |IDF comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(saveOp, $1, $3.res, $$);}
+        |IDF comma IDF {$$=temporaire(); quad(saveOp, $1, $3, $$);}
+        |EXPRESSION_ARITHMETIQUE comma IDF {$$=temporaire(); quad(saveOp, $1.res, $3, $$);}
         ;
 
 
@@ -325,8 +383,9 @@ COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
 %%
 
 
-int yywrap() {}
-main() {
+int yywrap();
+
+int main() {
    initialiter();
    initialiterListeIdf();
    initialiterListeCnst();

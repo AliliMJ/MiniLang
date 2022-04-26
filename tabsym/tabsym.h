@@ -85,8 +85,11 @@ void insertIdfOut2(char *entity);
 int cmpcompOut(char chaine[], char *entite);
 void afficherOut();
 char* IntToChar(int x);
+void testRangFlt(float val, int lignes, char *saveIdf);
+void testRangInt(int val , int lignes , char* saveIdf);
 char *FltToChar(float x);
 char *CharToString(char c);
 char *transfertString(char *s);
+char* tabName(char* name, char*arg);
 
 #endif 
