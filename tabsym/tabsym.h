@@ -86,5 +86,7 @@ int cmpcompOut(char chaine[], char *entite);
 void afficherOut();
 char* IntToChar(int x);
 char *FltToChar(float x);
+char *CharToString(char c);
+char *transfertString(char *s);
 
 #endif 
