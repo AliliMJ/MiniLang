@@ -37,7 +37,7 @@
 
 <AFF: x1,"abdelkrim"/>
 <AFF: w,15/>
-<AFF:x,(5+5+10)/>
+<AFF:x,((5+5)*10)/>
 <AFF:x,(15.5+15.6+10)/>
 <OUTPUT:ad/> 
 <AFF: S[0], x/>
