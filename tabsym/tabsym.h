@@ -84,5 +84,6 @@ void insertIdfOut1(char *entity);
 void insertIdfOut2(char *entity);
 int cmpcompOut(char chaine[], char *entite);
 void afficherOut();
+char* IntToChar(int x);
 
 #endif 

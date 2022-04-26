@@ -635,7 +635,7 @@ void testRangFlt(float val, int lignes, char *saveIdf)
 char* IntToChar(int x){
     char* c;
     c=allouerstr();
-    strcpy(c, "hello");
-    //sprintf(c,"%d",x);
+   
+    sprintf(c,"%d",x);
     return c;
 }
