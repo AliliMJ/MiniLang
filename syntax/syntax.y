@@ -330,14 +330,14 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {$$
                         |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("*",$1.res,$3.res,$$.res);}
                         |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("/",$1.res,$3.res,$$.res);}
                         |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
-                        |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);}
-                        |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
-                        |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1);}
-                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
-                        |EXPRESSION_ARITHMETIQUE plus IDF {isNumeric($3);}
-                        |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
-                        |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
-                        |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
+                        |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("+",$1,$3.res,$$.res);}
+                        |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("-",$1,$3.res,$$.res);}
+                        |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("*",$1,$3.res,$$.res);}
+                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("/",$1,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE plus IDF {isNumeric($3);$$.res=temporaire();quad ("+",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);$$.res=temporaire();quad ("-",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);$$.res=temporaire();quad ("*",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);$$.res=temporaire();quad ("/",$1.res,$3,$$.res);}
                         |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
                         |v_real {testRangFlt($1,lignes,saveIdf);$$.res=FltToChar($1);}
                         ;
