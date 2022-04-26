@@ -15,6 +15,9 @@ char saveType[25];
 char saveIdf[30];
 char currentExpType[25];
 char saveOp[6];
+extern int indq;
+int debDoWhile;
+
 
 
 
@@ -29,6 +32,7 @@ void setType(char* s) {
   float real;
   char ch;  
   struct {int type;char* res;}NT;
+  struct {char* ref;} REF;
   }
 
 
@@ -63,6 +67,7 @@ void setType(char* s) {
 %type <string> SUP
 %type <string> SUPE
 %type <string> COMP_ARG
+
 
 %start S
 
@@ -237,14 +242,17 @@ CONDITIONAL:COND_IF CLOSE_IF
            |COND_IF_ELSE CLOSE_IF
            ;
 
+DO_WHILE: OPEN_WHILE BLOCK_INST_DO
+;
+OPEN_WHILE:left_ar k_do right_ar {debDoWhile=indq;}
+;
 BLOCK_INST_DO: INSTRUCTION BLOCK_INST_DO | CLOSE_DO
 ;
-CLOSE_DO: WHILE left_ar fw_slash k_do right_ar
+CLOSE_DO: WHILE left_ar fw_slash k_do right_ar 
 ;
-WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar
+WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar{quad("BNZ",$4.res , IntToChar(debDoWhile), "");} 
 ;
-DO_WHILE: left_ar k_do right_ar BLOCK_INST_DO
-;
+
 
 FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
 FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){

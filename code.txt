@@ -46,6 +46,11 @@
 
 <INPUT: x "Entrez la valeur de x %"/>
 <OUTPUT: "Le double de x est $"+ x1 +"aaaaa"/> 
+<DO>
+<AFF: x, 2/>
+
+<WHILE: AND(y1, y2)/>
+</DO>
 
 </body>
 </docprogram>
