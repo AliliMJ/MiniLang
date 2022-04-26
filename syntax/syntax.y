@@ -295,8 +295,8 @@ AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur s
 ;
 AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res}
        |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);}
-       | v_string fw_slash right_ar {idfHasType(saveIdf, STRING);}
-       | v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);}
+       |v_string fw_slash right_ar {idfHasType(saveIdf, STRING);$$.res=$1;}
+       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);}
        ;
 
 SUP: sup left_par COMP_ARG right_par
