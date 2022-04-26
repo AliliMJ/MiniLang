@@ -639,3 +639,35 @@ char* IntToChar(int x){
     sprintf(c,"%d",x);
     return c;
 }
+
+char *FltToChar(float x)
+{
+    char *c;
+    c = allouerstr();
+
+    sprintf(c, "%.2f", x);
+    return c;
+}
+
+char * CharToString(char c){
+    char* s;
+    s=allouerstr();
+    sprintf(s,"%c",c);
+    return s;
+}
+
+char * transfertString(char *s){
+    int i,l;
+    l=strlen(s);
+
+    for(i=0;i<strlen(s)-1;i++){
+        s[i]=s[i+1];
+    }
+    s[l-2]='\0';
+
+    printf("\n\nla chaine apres transpfrmation :%s\n\n",s);
+
+    
+    return s;
+}
+

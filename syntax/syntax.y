@@ -45,8 +45,8 @@ void setType(char* s) {
 %type <string> TYPE
 %type <string> IDF
 %type <string> IDF_TAB
-%type <string> AFF_ARG
 %type<NT> EXPRESSION_ARITHMETIQUE
+%type<NT> AFF_ARG
 %start S
 
 
@@ -266,9 +266,9 @@ NOT:not left_par EXPRESSION_LOGIQUE right_par
 
 
 EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("+",$1.res,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
-                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
-                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
+                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("-",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("*",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("/",$1.res,$3.res,$$.res);}
                         |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
                         |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);}
                         |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
@@ -279,10 +279,10 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sp
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
                         |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
-                        |v_real {testRangFlt($1,lignes,saveIdf);}
+                        |v_real {testRangFlt($1,lignes,saveIdf);$$.res=FltToChar($1);}
                         ;
 
-IDF:idf {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+IDF:idf {strcpy(saveIdf,$1);$$=$1;if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
     |IDF_TAB
     ;
@@ -292,14 +292,13 @@ TAB_ARG:IDF
        |v_integer
        ;
 
-AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
+AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}quad ("=",$6.res,"",$4);}
 | left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6);if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
 ;
-AFF_ARG:
-       EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);}
+AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res}
        |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);}
-       | v_string fw_slash right_ar {idfHasType(saveIdf, STRING);}
-       | v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);}
+       |v_string fw_slash right_ar {idfHasType(saveIdf, STRING);$$.res=transfertString($1);}
+       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);$$.res=CharToString($1)}
        ;
 
 SUP: sup left_par COMP_ARG right_par
