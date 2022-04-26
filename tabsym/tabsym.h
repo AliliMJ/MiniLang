@@ -85,5 +85,6 @@ void insertIdfOut2(char *entity);
 int cmpcompOut(char chaine[], char *entite);
 void afficherOut();
 char* IntToChar(int x);
+char *FltToChar(float x);
 
 #endif 

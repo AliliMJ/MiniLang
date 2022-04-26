@@ -264,9 +264,9 @@ NOT:not left_par EXPRESSION_LOGIQUE right_par
 
 
 EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("+",$1.res,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE 
-                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE 
-                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE 
+                        |EXPRESSION_ARITHMETIQUE dash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("-",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("*",$1.res,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {sprintf(tempC,"T%d",nTemp);nTemp++;$$.res=strdup(tempC);tempC[0]='\0';quad ("/",$1.res,$3.res,$$.res);}
                         |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
                         |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);}
                         |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);}
@@ -276,8 +276,8 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sp
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
-                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar(22);}
-                        |v_real {testRangFlt($1,lignes,saveIdf);}
+                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
+                        |v_real {testRangFlt($1,lignes,saveIdf);$$.res=FltToChar($1);}
                         ;
 
 IDF:idf {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
@@ -293,8 +293,7 @@ TAB_ARG:IDF
 AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
 | left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6);if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
 ;
-AFF_ARG:
-       EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);}
+AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);quad ("=",$1.res,"",saveIdf);}
        |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);}
        | v_string fw_slash right_ar {idfHasType(saveIdf, STRING);}
        | v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);}

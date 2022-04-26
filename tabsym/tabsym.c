@@ -639,3 +639,13 @@ char* IntToChar(int x){
     sprintf(c,"%d",x);
     return c;
 }
+
+char *FltToChar(float x)
+{
+    char *c;
+    c = allouerstr();
+
+    sprintf(c, "%.2f", x);
+    return c;
+}
+
