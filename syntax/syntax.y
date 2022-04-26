@@ -43,8 +43,8 @@ void setType(char* s) {
 %type <string> TYPE
 %type <string> IDF
 %type <string> IDF_TAB
-%type <string> AFF_ARG
 %type<NT> EXPRESSION_ARITHMETIQUE
+%type<NT> AFF_ARG
 %start S
 
 
@@ -280,7 +280,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sp
                         |v_real {testRangFlt($1,lignes,saveIdf);$$.res=FltToChar($1);}
                         ;
 
-IDF:idf {strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+IDF:idf {strcpy(saveIdf,$1);$$=$1;if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
     |IDF_TAB
     ;
@@ -290,10 +290,10 @@ TAB_ARG:IDF
        |v_integer
        ;
 
-AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
+AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}quad ("=",$6.res,"",$4);}
 | left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6);if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}}
 ;
-AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);quad ("=",$1.res,"",saveIdf);}
+AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res}
        |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);}
        | v_string fw_slash right_ar {idfHasType(saveIdf, STRING);}
        | v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);}
