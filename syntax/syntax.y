@@ -1,8 +1,10 @@
 %{
 #include <stdio.h>
 #include <string.h>
+
 #include "../tabsym/tabsym.h"
- #include "../quad/quad.h"
+#include "../quad/quad.h"
+
 #define BOOL "BLT"
 #define INT "INT"
 #define FLOAT "FLT"
@@ -276,7 +278,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {sp
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);}
                         |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);}
-                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar(22);}
+                        |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
                         |v_real {testRangFlt($1,lignes,saveIdf);}
                         ;
 
@@ -326,8 +328,9 @@ COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE
 %%
 
 
-int yywrap() {}
-main() {
+int yywrap();
+
+int main() {
    initialiter();
    initialiterListeIdf();
    initialiterListeCnst();
