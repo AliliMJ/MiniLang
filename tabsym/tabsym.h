@@ -90,5 +90,6 @@ void testRangInt(int val , int lignes , char* saveIdf);
 char *FltToChar(float x);
 char *CharToString(char c);
 char *transfertString(char *s);
+char* tabName(char* name, char*arg);
 
 #endif 

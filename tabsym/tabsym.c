@@ -671,3 +671,12 @@ char * transfertString(char *s){
     return s;
 }
 
+char* tabName(char* name, char*arg) {
+  char * c;
+  c=allouerstr();
+  
+  sprintf(c, "%s[%s]",name, arg);
+
+  return c;
+}
+

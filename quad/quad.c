@@ -3,6 +3,20 @@
 #include <stdlib.h>
 #include "quad.h"
 int indq = 0;
+int nTemp=1; 
+
+char *allouer()
+{
+    char *ch;
+    ch = (char *)malloc(15 * sizeof(char));
+
+    if (ch == NULL)
+    {
+        printf("erreur de allocaion!!");
+        exit(-1);
+    }
+    return (ch);
+}
 void quad(char *o, char *o1, char *o2, char *r)
 {
     q[indq].opr = o;
@@ -11,7 +25,12 @@ void quad(char *o, char *o1, char *o2, char *r)
     q[indq].res = r;
     indq++;
 }
-
+char* temporaire() {
+  char* temp;
+  temp = allouer();
+  sprintf(temp,"T%d",nTemp);nTemp++;
+  return temp;
+}
 void afficherQuad()
 {
   printf("\n\n");
@@ -24,3 +43,12 @@ void afficherQuad()
     }
     printf("\n\n");
 }
+
+char *BoolToString(int b) {
+  char*c;
+  c = allouer();
+  if(b==1) c= "TRUE";
+  else c="FALSE";
+  return c;
+}
+
