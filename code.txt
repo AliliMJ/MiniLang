@@ -41,26 +41,15 @@
 <AFF:x,(15.5+15.6+10)/>
 <OUTPUT:ad/> 
 <AFF: S[0], x/>
-<AFF:  hh, AND(y1, y2, TRUE, y3, TRUE, FALSE)/>
-<AFF:  hh, OR(SUP(x, y), TRUE)/>
+<AFF:  hh, AND(y1, y2)/>
+<AFF:  hh, OR(x, y)/>
 
 <INPUT: x "Entrez la valeur de x %"/>
 <OUTPUT: "Le double de x est $"+ x1 +"aaaaa"/> 
 
 
-<WHILE: AND(y1, y2)/>
-</DO>
 
-<IF:INF(x,z)>
-<THEN>
-<AFF: x, (1+1)/>
-<IF:SUP(z,kimo)>
-<THEN>
-<AFF: kimo, (2+2)/>
-</THEN>
-</IF>
-</THEN>
-</IF>
+
 
 </body>
 </docprogram>
