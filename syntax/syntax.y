@@ -408,7 +408,8 @@ AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.
 
 SUP: sup left_par {strcpy(saveOp, "SUP");} COMP_ARG right_par {$$=$4}
 ;
-INF: inf left_par {strcpy(saveOp, "INT");} COMP_ARG right_par {$$=$4}
+
+INF: inf left_par {strcpy(saveOp, "INF");} COMP_ARG right_par {$$=$4}
 ;
 SUPE:supe left_par {strcpy(saveOp, "SUPE");} COMP_ARG right_par{$$=$4}
 ;
@@ -419,10 +420,10 @@ EGA:ega left_par {strcpy(saveOp, "EGA");} COMP_ARG right_par{$$=$4}
 DIF:dif left_par {strcpy(saveOp, "DIF");} COMP_ARG right_par{$$=$4}
 ;
 
-COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(saveOp, $1.res, $3.res, $$);}
-        |IDF comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(saveOp, $1, $3.res, $$);}
-        |IDF comma IDF {$$=temporaire(); quad(saveOp, $1, $3, $$);}
-        |EXPRESSION_ARITHMETIQUE comma IDF {$$=temporaire(); quad(saveOp, $1.res, $3, $$);}
+COMP_ARG:EXPRESSION_ARITHMETIQUE comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(strdup(saveOp), $1.res, $3.res, $$);}
+        |IDF comma EXPRESSION_ARITHMETIQUE {$$=temporaire(); quad(strdup(saveOp), $1, $3.res, $$);}
+        |IDF comma IDF {$$=temporaire(); quad(strdup(saveOp), $1, $3, $$);}
+        |EXPRESSION_ARITHMETIQUE comma IDF {$$=temporaire(); quad(strdup(saveOp), $1.res, $3, $$);}
         ;
 
 
