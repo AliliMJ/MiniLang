@@ -17,6 +17,8 @@ char currentExpType[25];
 char saveOp[6];
 extern int indq;
 int debDoWhile;
+int debIf;
+int thenIf;
 
 
 
@@ -192,29 +194,19 @@ INSTRUCTION:INPUT
            |DO_WHILE
            |FOR
            |AFF
-           |v_integer | v_real 
+           |v_integer
+           |v_real 
            ;
 
 BLOCK_INST:INSTRUCTION BLOCK_INST
           |CLOSE_BODY
           ;
-BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
-               |CLOSE_THEN
-               ;
-BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
-               |CLOSE_ELSE
-               ;
+
 BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
               |CLOSE_FOR
               ;
 
 CLOSE_FOR:left_ar fw_slash k_for right_ar
-;
-CLOSE_IF:left_ar fw_slash k_if right_ar
-;
-CLOSE_THEN:left_ar fw_slash k_then right_ar
-;
-CLOSE_ELSE:left_ar fw_slash k_else right_ar
 ;
 
 INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4)==0){
@@ -233,14 +225,39 @@ OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG
 
 OUTPUT_STR:v_string ;
 OUTPUT_IDF:idf ;
-COND_IF:left_ar k_if col EXPRESSION_LOGIQUE right_ar left_ar k_then right_ar BLOCK_INST_THEN
-;
-COND_IF_ELSE:COND_IF left_ar k_else right_ar BLOCK_INST_ELSE
+
+CONDITIONAL:COND_IF CLOSE_IF {q[debIf-1].op1=IntToChar(indq);}
+           |COND_IF_ELSE CLOSE_IF {q[thenIf].op2=IntToChar(indq);}
+           ;
+
+COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN
 ;
 
-CONDITIONAL:COND_IF CLOSE_IF
-           |COND_IF_ELSE CLOSE_IF
-           ;
+IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");debIf=indq;}
+;
+
+BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
+               |CLOSE_THEN {thenIf=indq;q[debIf-1].op1=IntToChar(indq);}
+               ;
+
+CLOSE_IF:left_ar fw_slash k_if right_ar 
+;
+
+CLOSE_THEN:left_ar fw_slash k_then right_ar
+;
+
+COND_IF_ELSE:COND_IF_ELSE_A BLOCK_INST_ELSE
+;
+
+COND_IF_ELSE_A: COND_IF left_ar k_else right_ar {quad("BR","","","");q[debIf-1].op1=IntToChar(indq)}
+;
+
+BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE 
+               |CLOSE_ELSE
+               ;
+
+CLOSE_ELSE:left_ar fw_slash k_else right_ar
+;
 
 DO_WHILE: OPEN_WHILE BLOCK_INST_DO
 ;
