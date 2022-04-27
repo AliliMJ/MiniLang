@@ -42,12 +42,10 @@
 <OUTPUT:ad/> 
 <AFF: S[0], x/>
 <AFF:  hh, AND(y1, y2, TRUE, y3, TRUE, FALSE)/>
-<AFF:  hh, SUP(3, 6)/>
+<AFF:  hh, OR(SUP(x, y), TRUE)/>
 
 <INPUT: x "Entrez la valeur de x %"/>
 <OUTPUT: "Le double de x est $"+ x1 +"aaaaa"/> 
-<DO>
-<AFF: x, (x+1)/>
 
 
 <WHILE: AND(y1, y2)/>

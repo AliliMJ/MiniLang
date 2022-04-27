@@ -6,6 +6,7 @@ int indq = 0;
 int nTemp=1; 
 
 
+
 char *allouer()
 {
     char *ch;

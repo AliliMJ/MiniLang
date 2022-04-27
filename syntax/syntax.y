@@ -69,6 +69,10 @@ void setType(char* s) {
 %type <string> SUP
 %type <string> SUPE
 %type <string> COMP_ARG
+%type <string> OPEN_WHILE
+%type <string> WHILE
+%type <string> CLOSE_DO
+
 
 
 %start S
@@ -259,15 +263,15 @@ BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
 CLOSE_ELSE:left_ar fw_slash k_else right_ar
 ;
 
-DO_WHILE: OPEN_WHILE BLOCK_INST_DO
+DO_WHILE: OPEN_WHILE BLOCK_INST_DO {quad("BNZ",$1, q[indq-1].res, "");} 
 ;
-OPEN_WHILE:left_ar k_do right_ar {debDoWhile=indq;}
+OPEN_WHILE:left_ar k_do right_ar {$$=IntToChar(indq);}
 ;
-BLOCK_INST_DO: INSTRUCTION BLOCK_INST_DO | CLOSE_DO
+BLOCK_INST_DO: INSTRUCTION BLOCK_INST_DO | CLOSE_DO 
 ;
-CLOSE_DO: WHILE left_ar fw_slash k_do right_ar 
+CLOSE_DO: WHILE left_ar fw_slash k_do right_ar {$$=$1}
 ;
-WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar{quad("BNZ",$4.res , IntToChar(debDoWhile), "");} 
+WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar {$$=$4.res}
 ;
 
 
@@ -296,7 +300,12 @@ EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
 AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG {if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";else $$.res=$3.res;}
            |EXPRESSION_LOGIQUE comma EXPRESSION_LOGIQUE {
              if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
-             else $$.res=$3.res;
+             else if(strcmp($1.res, "TRUE")==0) $$.res= $3.res;
+             else {
+               if(strcmp($3.res, "TRUE")==0) $$.res=$1.res;
+               else if(strcmp($3.res, "FALSE")==0) $$.res = "FALSE";
+               else {$$.res=temporaire(); quad("AND", $1.res, $3.res, $$.res);} 
+             }
              }
            |IDF comma IDF {$$.res=temporaire(); quad("AND", $1, $3, $$.res);}
            |IDF comma AND_ARG {
@@ -309,14 +318,24 @@ AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG {if(strcmp($1.res, "FALSE")==0) $$.res=
             else if(strcmp($3.res, "TRUE")==0) $$.res=$1;
             else {$$.res=temporaire();quad("AND", $1, $3.res, $$.res);}
           }
+          | EXPRESSION_LOGIQUE  comma IDF {
+            if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
+            else if(strcmp($1.res, "TRUE")==0) $$.res=$3;
+            else {$$.res=temporaire();quad("AND", $1.res, $3, $$.res);}
+          }
            ;
-OR_ARG:EXPRESSION_LOGIQUE comma OR_ARG {if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";else $$.res=$3.res;}
+OR_ARG:EXPRESSION_LOGIQUE comma AND_ARG {if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";else $$.res=$3.res;}
            |EXPRESSION_LOGIQUE comma EXPRESSION_LOGIQUE {
              if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";
-             else $$.res=$3.res;
+             else if(strcmp($1.res, "FALSE")==0) $$.res= $3.res;
+             else {
+               if(strcmp($3.res, "FALSE")==0) $$.res=$1.res;
+               else if(strcmp($3.res, "TRUE")==0) $$.res = "TRUE";
+               else {$$.res=temporaire(); quad("OR", $1.res, $3.res, $$.res);} 
+             }
              }
            |IDF comma IDF {$$.res=temporaire(); quad("OR", $1, $3, $$.res);}
-           |IDF comma OR_ARG {
+           |IDF comma AND_ARG {
              if(strcmp($3.res, "TRUE")==0) $$.res="TRUE";
              else if(strcmp($3.res, "FALSE")==0) $$.res = $1;
              else {$$.res=temporaire();quad("OR", $1, $3.res, $$.res);}
@@ -325,6 +344,11 @@ OR_ARG:EXPRESSION_LOGIQUE comma OR_ARG {if(strcmp($1.res, "TRUE")==0) $$.res="TR
             if(strcmp($3.res, "TRUE")==0) $$.res="TRUE";
             else if(strcmp($3.res, "FALSE")==0) $$.res=$1;
             else {$$.res=temporaire();quad("OR", $1, $3.res, $$.res);}
+          }
+          | EXPRESSION_LOGIQUE  comma IDF {
+            if(strcmp($1.res, "TRUE")==0) $$.res="TRUE";
+            else if(strcmp($1.res, "FALSE")==0) $$.res=$3;
+            else {$$.res=temporaire();quad("OR", $1.res, $3, $$.res);}
           }
            ;
 
