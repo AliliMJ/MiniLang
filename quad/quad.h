@@ -5,6 +5,7 @@
 
 // t la taille de la table contenant les quadruplets
 #define t 100
+#define imb 5
 
 // la structure d'un element de la table
 typedef struct
@@ -16,6 +17,8 @@ typedef struct
 } quadruplet;
 // declaration de la table
 quadruplet q[t];
+
+
 
 
 
