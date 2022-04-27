@@ -72,6 +72,9 @@ void setType(char* s) {
 %type <string> OPEN_WHILE
 %type <string> WHILE
 %type <string> CLOSE_DO
+%type <string> IF_COND_A
+%type <string> COND_IF
+%type <string> BLOCK_INST_THEN
 
 
 
@@ -230,25 +233,9 @@ OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG
 OUTPUT_STR:v_string ;
 OUTPUT_IDF:idf ;
 
-CONDITIONAL:COND_IF CLOSE_IF {q[debIf-1].op1=IntToChar(indq);}
+CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
            |COND_IF_ELSE CLOSE_IF {q[thenIf].op2=IntToChar(indq);}
            ;
-
-COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN
-;
-
-IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");debIf=indq;}
-;
-
-BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
-               |CLOSE_THEN {thenIf=indq;q[debIf-1].op1=IntToChar(indq);}
-               ;
-
-CLOSE_IF:left_ar fw_slash k_if right_ar 
-;
-
-CLOSE_THEN:left_ar fw_slash k_then right_ar
-;
 
 COND_IF_ELSE:COND_IF_ELSE_A BLOCK_INST_ELSE
 ;
@@ -261,6 +248,22 @@ BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
                ;
 
 CLOSE_ELSE:left_ar fw_slash k_else right_ar
+;
+
+COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN {$$=$4;}
+;
+
+IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");$$=IntToChar(indq);}
+;
+
+BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
+               |CLOSE_THEN {thenIf=indq;q[debIf-1].op1=IntToChar(indq);}
+               ;
+
+CLOSE_IF:left_ar fw_slash k_if right_ar 
+;
+
+CLOSE_THEN:left_ar fw_slash k_then right_ar
 ;
 
 DO_WHILE: OPEN_WHILE BLOCK_INST_DO {quad("BNZ",$1, q[indq-1].res, "");} 

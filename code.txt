@@ -54,9 +54,18 @@
 <THEN>
 <AFF: x, (1+1)/>
 <AFF: hh, SUP(x, y)/>
-<AFF: hh, INF(x, y)/>
+
+<IF:SUPE(x,z)>
+<THEN>
+<AFF: x, (2+2)/>
+<AFF: hh, SUP(kimo, x)/>
 </THEN>
 </IF>
+<AFF: hh, INFE(kimo, x)/>
+</THEN>
+</IF>
+
+
 
 </body>
 </docprogram>
