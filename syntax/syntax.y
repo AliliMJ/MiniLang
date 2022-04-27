@@ -297,7 +297,12 @@ EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |DIF{$$.res=$1}
                   ;
 
-AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG {if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";else $$.res=$3.res;}
+AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG 
+{
+  if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
+  else $$.res=$3.res;
+}
+
            |EXPRESSION_LOGIQUE comma EXPRESSION_LOGIQUE {
              if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
              else if(strcmp($1.res, "TRUE")==0) $$.res= $3.res;
