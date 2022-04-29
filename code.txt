@@ -83,7 +83,27 @@
 </THEN>
 </IF>
 
+<AFF: kimo, 7/>
 
+
+<IF:SUPE(t5,t6)>
+<THEN>
+<AFF: x, (1+1)/>
+
+      <IF:SUPE(t6,t7)>
+      <THEN>
+      <AFF: x, (2+2)/>
+      </THEN>
+      <ELSE>
+      <AFF: x, (2+2)/>
+      </ELSE>
+      </IF>
+            
+</THEN>
+<ELSE>
+<AFF: x, (4+4)/>
+</ELSE>
+</IF>
 
 </body>
 </docprogram>
