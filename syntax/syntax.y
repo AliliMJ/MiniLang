@@ -61,6 +61,8 @@ void setType(char* s) {
 %type<NT> EXPRESSION_LOGIQUE
 %type<NT> AFF_ARG
 %type <integer>VALUE_BOOL
+%type <string> VALUE
+%type <string> VALUE_NUMERIC
 %type <NT> AND_ARG
 %type <NT> OR_ARG
 %type <string> AND
@@ -162,15 +164,8 @@ IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
                      };};
 
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);
-  if(strcmp(saveType, INT)==0) {
+    quad("=", $4, "", $2);
 
-  }else if (strcmp(saveType, BOOL)==0) {
-
-  }else if (strcmp(saveType, FLOAT)==0) {
-
-  }else if (strcmp(saveType, STRING)==0) {
-
-  }else if (strcmp(saveType, CHAR)==0)
 }
              ;
 IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeCnste($4,"null");};
@@ -198,17 +193,17 @@ BLOCK_DEC_ARRAY:IDF_DEC_ARRAY semi_col BLOCK_DEC_ARRAY
 ;
 
 
-VALUE:VALUE_BOOL 
-     |VALUE_NUMERIC 
-     |v_string {setType(STRING);}
-     |v_char {setType(CHAR);}
+VALUE:VALUE_BOOL {$$=BoolToString($1);}
+     |VALUE_NUMERIC {$$=$1}
+     |v_string {setType(STRING);$$=transfertString($1);}
+     |v_char {setType(CHAR);$$=CharToString($1);}
      ;
 
 VALUE_BOOL:v_false {setType(BOOL);$$=0;}
           |v_true {setType(BOOL);$$=1;}
           ;
-VALUE_NUMERIC:v_integer {setType(INT);}
-             |v_real {setType(FLOAT);}
+VALUE_NUMERIC:v_integer {setType(INT); $$=IntToChar($1);}
+             |v_real {setType(FLOAT);$$=FltToChar($1);}
              ;
 CLOSE_BODY: left_ar fw_slash k_body right_ar;
 BODY: left_ar k_body right_ar BLOCK_INST  ;
