@@ -325,7 +325,7 @@ EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |DIF{$$.res=$1}
                   ;
 
-AND (EXP1, EXP2, ....) -> AND(AND_ARG)
+
 
 AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG  
 {
