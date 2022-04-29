@@ -15,6 +15,7 @@ char saveType[25];
 char saveIdf[30];
 char currentExpType[25];
 char saveOp[6];
+char saveidfFor[25];
 extern int indq;
 int debDoWhile;
 int debIf;
@@ -75,6 +76,10 @@ void setType(char* s) {
 %type <string> CLOSE_DO
 %type <string> IF_COND_A
 %type <string> COND_IF
+%type <string> BLOCK_FOR
+%type <string> FOR
+%type <string> UNTIL
+%type <string> FOR_DEB
 
 
 
@@ -271,17 +276,26 @@ WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar {$$=$4.res}
 ;
 
 
-FOR:  left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR ;
+FOR:  FOR_DEB BLOCK_FOR {quad("BR",$2,"","");q[atoi($1)].op1=$2;}
+;
+
+FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {quad("BZ","","","");$$=IntToChar(indq-1);}
+;
+
 FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
-UNTIL:k_until v_integer {saveFor=$2;quad("+","i","1","i");quad("BZ","","","");}
-     |k_until idf {if(ExistDeclaration($2)==0){
+
+UNTIL:k_until v_integer {$$=IntToChar(indq);}
+     |k_until idf {$$=IntToChar(indq);if(ExistDeclaration($2)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
-     ;
+;
+
+BLOCK_FOR: BLOCK_INST_FOR {$$=IntToChar(indq+1);}
+;
 
 BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
-              |CLOSE_FOR {quad("BR","","","");}
+              |CLOSE_FOR
               ;
 
 CLOSE_FOR:left_ar fw_slash k_for right_ar

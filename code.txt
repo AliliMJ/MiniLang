@@ -26,13 +26,23 @@
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
   <AFF: d, 32780/>
-  <AFF: amine, 32767.5/>
+
+  <FOR j=1 UNTIL 10>
+  <OUTPUT: "Le double de z est $"+ x1/> 
+
+     <FOR k=1 UNTIL 15>
+     <OUTPUT: "Le double de z est $"+ x1/> 
+     <AFF: t3, 333/>
+     </FOR>
+
+  <AFF: t1, 111/>
+  </FOR>
+
+  <AFF: t2, 222/>
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
-<FOR i=1 UNTIL b>
-  <OUTPUT: "Le double de z est $"+ x1/> 
-</FOR>
+
 
 <AFF:x, 'f'/>
 
