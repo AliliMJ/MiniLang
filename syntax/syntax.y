@@ -263,6 +263,8 @@ BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
 CLOSE_ELSE:left_ar fw_slash k_else right_ar
 ;
 
+
+
 DO_WHILE: OPEN_WHILE BLOCK_INST_DO {quad("BNZ",$1, q[indq-1].res, "");} 
 ;
 OPEN_WHILE:left_ar k_do right_ar {$$=IntToChar(indq);}
@@ -297,7 +299,9 @@ EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |DIF{$$.res=$1}
                   ;
 
-AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG 
+AND (EXP1, EXP2, ....) -> AND(AND_ARG)
+
+AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG  
 {
   if(strcmp($1.res, "FALSE")==0) $$.res="FALSE";
   else $$.res=$3.res;
