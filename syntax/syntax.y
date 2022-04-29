@@ -19,6 +19,7 @@ extern int indq;
 int debDoWhile;
 int debIf;
 int thenIf;
+int saveFor;
 
 
 
@@ -270,17 +271,17 @@ WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar {$$=$4.res}
 ;
 
 
-FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
-FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){
+FOR:  left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR ;
+FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
-UNTIL:k_until v_integer
+UNTIL:k_until v_integer {saveFor=$2;quad("+","i","1","i");quad("BZ","","","");}
      |k_until idf {if(ExistDeclaration($2)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
      ;
 
 BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
-              |CLOSE_FOR
+              |CLOSE_FOR {quad("BR","","","");}
               ;
 
 CLOSE_FOR:left_ar fw_slash k_for right_ar
