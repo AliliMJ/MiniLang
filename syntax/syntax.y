@@ -158,7 +158,17 @@ IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
                      };};
 
-IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);}
+IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);
+  if(strcmp(saveType, INT)==0) {
+
+  }else if (strcmp(saveType, BOOL)==0) {
+
+  }else if (strcmp(saveType, FLOAT)==0) {
+
+  }else if (strcmp(saveType, STRING)==0) {
+
+  }else if (strcmp(saveType, CHAR)==0)
+}
              ;
 IDF_DEC_CONST_TYPE: left_ar LIST_CONST k_as TYPE fw_slash right_ar {InsererTypeCnste($4,"null");};
 
