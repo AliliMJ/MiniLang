@@ -7,10 +7,10 @@
 int taille = 200;
 int MAX_LIST_DEC = 10;
 
-char *allouerstr()
+char *allouerstr(int size)
 {
     char *ch;
-    ch = (char *)malloc(15 * sizeof(char));
+    ch = (char *)malloc(size * sizeof(char));
 
     if (ch == NULL)
     {
@@ -24,7 +24,7 @@ void strtohigher(char *s) // cette fonction a meme role de tosuper mais elle con
 {
     int i;
     char *p;
-    p = allouerstr();
+    p = allouerstr(15);
     for (i = 0; i < strlen(s); i++)
     {
         p[i] = toupper(s[i]);
@@ -41,7 +41,7 @@ int hash_func(char *M)
     int c;
 
     char *ch;
-    ch = allouerstr();
+    ch = allouerstr(15);
     strcpy(ch, M);
 
     strtohigher(ch);
@@ -95,10 +95,10 @@ ptr allouerptr() // cette fonction pour allouer un espace memoire pour un elemen
     ptr L;
 
     L = (ptr)malloc(sizeof(liste)); // allocation dynamique de pointeur vers un element de chaine de type liste
-    L->entity_name = allouerstr();  // allouer la chaine de caractere dynamique
-    L->entity_code = allouerstr();
-    L->entity_type = allouerstr();
-    L->constante = allouerstr();
+    L->entity_name = allouerstr(15);  // allouer la chaine de caractere dynamique
+    L->entity_code = allouerstr(15);
+    L->entity_type = allouerstr(15);
+    L->constante = allouerstr(15);
 
     L->entity_name[0] = '\0';
     L->entity_code[0] = '\0';
@@ -611,7 +611,7 @@ void afficherOut()
 
     for (i = 0; i < nbIdfOut2; i++)
     {
-        printf("%d --> chaine: %s", i, TOut2[i].entity);
+        printf("%d --> chaine: %s\n", i, TOut2[i].entity);
     }
     printf("\n\n");
 }
@@ -634,7 +634,7 @@ void testRangFlt(float val, int lignes, char *saveIdf)
 
 char* IntToChar(int x){
     char* c;
-    c=allouerstr();
+    c=allouerstr(15);
    
     sprintf(c,"%d",x);
     return c;
@@ -643,7 +643,7 @@ char* IntToChar(int x){
 char *FltToChar(float x)
 {
     char *c;
-    c = allouerstr();
+    c = allouerstr(15);
 
     sprintf(c, "%.2f", x);
     return c;
@@ -651,7 +651,7 @@ char *FltToChar(float x)
 
 char * CharToString(char c){
     char* s;
-    s=allouerstr();
+    s=allouerstr(15);
     sprintf(s,"%c",c);
     return s;
 }
@@ -673,10 +673,25 @@ char * transfertString(char *s){
 
 char* tabName(char* name, char*arg) {
   char * c;
-  c=allouerstr();
+  c=allouerstr(15);
   
   sprintf(c, "%s[%s]",name, arg);
 
   return c;
 }
 
+char* merge(char* format, char* entite) {
+  
+
+  
+  return 0; 
+
+}
+char* concat(char* first, char* second) {
+  int size = strlen(first) + strlen(second);
+  char* result = allouerstr(size);
+  strcpy(result, first);
+  strcat(result, second);
+
+  return result;
+}

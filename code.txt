@@ -24,15 +24,17 @@
 
 <body>
 
+<OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
+
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
   <AFF: d, 32780/>
 
   <FOR j=1 UNTIL 10>
-  <OUTPUT: "Le double de z est $"+ x1/> 
+
 
      <FOR k=1 UNTIL 15>
-     <OUTPUT: "Le double de z est $"+ x1/> 
+
      <AFF: t3, 333/>
      </FOR>
 
@@ -40,7 +42,7 @@
   </FOR>
 
   <AFF: t2, 222/>
-  <OUTPUT: "Le double de x est $"+ d/> 
+  
 </FOR>
 
 
@@ -51,13 +53,13 @@
 <AFF: w,15/>
 <AFF:x,((5+5)*10)/>
 <AFF:x,(15.5+15.6+10)/>
-<OUTPUT:ad/> 
+
 <AFF: S[0], x/>
 <AFF:  hh, AND(y1, y2)/>
 <AFF:  hh, OR(x, y)/>
 
 <INPUT: x "Entrez la valeur de x %"/>
-<OUTPUT: "Le double de x est $"+ x1 +"aaaaa"/> 
+
 
 
 

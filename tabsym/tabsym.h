@@ -43,7 +43,7 @@ typedef struct listeIdfOut
 
 listeIdfOut *TOut1, *TOut2;
 int nbIdfOut1, nbIdfOut2;
-char *allouerstr();
+char *allouerstr(int size);
 void strtohigher(char *s);
 int hash_func(char *M);
 void initialiter();
@@ -91,5 +91,7 @@ char *FltToChar(float x);
 char *CharToString(char c);
 char *transfertString(char *s);
 char* tabName(char* name, char*arg);
+char* concat(char* first, char* second);
+char* merge(char* format, char* entite);
 
 #endif 

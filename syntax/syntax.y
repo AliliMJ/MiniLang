@@ -85,6 +85,9 @@ void setType(char* s) {
 %type <string> UNTIL
 %type <string> FOR_DEB
 %type <string> FOR_INIT
+%type <string> OUTPUT_STR 
+%type <string> OUTPUT_IDF
+
 
 
 
@@ -228,15 +231,15 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
   cmpcomp($5,$4,lignes);
 }}
 ;
-OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar 
+OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {afficherOut();}
 ;
-OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG 
-          |OUTPUT_IDF plus OUTPUT_ARG 
-          |OUTPUT_IDF 
+OUTPUT_ARG:OUTPUT_STR plus OUTPUT_IDF plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
+          |OUTPUT_STR plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1("");}
+          |OUTPUT_STR plus OUTPUT_IDF {insertIdfOut2($1); insertIdfOut1($3);}
           |OUTPUT_STR 
           ;
-
-OUTPUT_STR:v_string ;
+ 
+OUTPUT_STR:v_string;
 OUTPUT_IDF:idf ;
 
 CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
