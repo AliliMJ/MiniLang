@@ -301,8 +301,8 @@ FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$=IntToChar(indq);strc
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
 
-UNTIL:k_until v_integer {quad("BE","","",IntToChar($2));$$=IntToChar(indq);}
-     |k_until idf {quad("BE","","",$2);$$=IntToChar(indq);if(ExistDeclaration($2)==0){
+UNTIL:k_until v_integer {quad("BE","",strdup(saveIdfFor),IntToChar($2));$$=IntToChar(indq);}
+     |k_until idf {quad("BE","",strdup(saveIdfFor),$2);$$=IntToChar(indq);if(ExistDeclaration($2)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
 ;
 
@@ -327,8 +327,6 @@ EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |EGA{$$.res=$1}
                   |DIF{$$.res=$1}
                   ;
-
-AND (EXP1, EXP2, ....) -> AND(AND_ARG)
 
 AND_ARG:EXPRESSION_LOGIQUE comma AND_ARG  
 {
