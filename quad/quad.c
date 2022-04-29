@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include "quad.h"
 int indq = 0;
-int nTemp=1; 
-
-
+int nTemp=1;
 
 char *allouer()
 {
