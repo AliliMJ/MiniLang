@@ -88,6 +88,10 @@ void setType(char* s) {
 %type <string> OUTPUT_STR 
 %type <string> OUTPUT_IDF
 
+%type <string> BLOCK_INST_ELSE_A
+%type <string> COND_IF_ELSE_A
+%type <string> COND_IF_ELSE
+%type <string> CONDITIONAL
 
 
 
@@ -233,30 +237,33 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
 ;
 OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {afficherOut();}
 ;
-OUTPUT_ARG:OUTPUT_STR plus OUTPUT_IDF plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
-          |OUTPUT_STR plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1("");}
-          |OUTPUT_STR plus OUTPUT_IDF {insertIdfOut2($1); insertIdfOut1($3);}
-          |OUTPUT_STR 
+OUTPUT_ARG:v_string plus OUTPUT_IDF plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
+          |v_string plus OUTPUT_IDF {insertIdfOut2($1); insertIdfOut1($3);}
+          |v_string {printf("innn %s\n", $1);}
+
           ;
  
 OUTPUT_STR:v_string;
 OUTPUT_IDF:idf ;
 
 CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
-           |COND_IF_ELSE CLOSE_IF {q[thenIf].op2=IntToChar(indq);}
+           |COND_IF_ELSE CLOSE_IF {q[atoi($1)].op1=IntToChar(indq);}
            ;
 
-COND_IF_ELSE:COND_IF_ELSE_A BLOCK_INST_ELSE
+COND_IF_ELSE: COND_IF COND_IF_ELSE_A BLOCK_INST_ELSE_A {$$=$2;{q[atoi($1)-1].op1=IntToChar(atoi($2)+1);}}
 ;
 
-COND_IF_ELSE_A: COND_IF left_ar k_else right_ar {quad("BR","","","");q[debIf-1].op1=IntToChar(indq)}
+COND_IF_ELSE_A:  left_ar k_else right_ar {$$=IntToChar(indq);quad("BR","","","");}
+;
+
+BLOCK_INST_ELSE_A: BLOCK_INST_ELSE 
 ;
 
 BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE 
                |CLOSE_ELSE
                ;
 
-CLOSE_ELSE:left_ar fw_slash k_else right_ar
+CLOSE_ELSE:left_ar fw_slash k_else right_ar 
 ;
 
 COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN {$$=$4;}
