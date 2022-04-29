@@ -15,10 +15,12 @@ char saveType[25];
 char saveIdf[30];
 char currentExpType[25];
 char saveOp[6];
+char saveidfFor[25];
 extern int indq;
 int debDoWhile;
 int debIf;
 int thenIf;
+int saveFor;
 
 
 
@@ -72,6 +74,12 @@ void setType(char* s) {
 %type <string> OPEN_WHILE
 %type <string> WHILE
 %type <string> CLOSE_DO
+%type <string> IF_COND_A
+%type <string> COND_IF
+%type <string> BLOCK_FOR
+%type <string> FOR
+%type <string> UNTIL
+%type <string> FOR_DEB
 
 
 
@@ -206,13 +214,6 @@ BLOCK_INST:INSTRUCTION BLOCK_INST
           |CLOSE_BODY
           ;
 
-BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
-              |CLOSE_FOR
-              ;
-
-CLOSE_FOR:left_ar fw_slash k_for right_ar
-;
-
 INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4)==0){
   printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n",lignes,$4);
 }else{
@@ -230,25 +231,9 @@ OUTPUT_ARG:OUTPUT_STR plus OUTPUT_ARG
 OUTPUT_STR:v_string ;
 OUTPUT_IDF:idf ;
 
-CONDITIONAL:COND_IF CLOSE_IF {q[debIf-1].op1=IntToChar(indq);}
+CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
            |COND_IF_ELSE CLOSE_IF {q[thenIf].op2=IntToChar(indq);}
            ;
-
-COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN
-;
-
-IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");debIf=indq;}
-;
-
-BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
-               |CLOSE_THEN {thenIf=indq;q[debIf-1].op1=IntToChar(indq);}
-               ;
-
-CLOSE_IF:left_ar fw_slash k_if right_ar 
-;
-
-CLOSE_THEN:left_ar fw_slash k_then right_ar
-;
 
 COND_IF_ELSE:COND_IF_ELSE_A BLOCK_INST_ELSE
 ;
@@ -261,6 +246,22 @@ BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
                ;
 
 CLOSE_ELSE:left_ar fw_slash k_else right_ar
+;
+
+COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN {$$=$4;}
+;
+
+IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");$$=IntToChar(indq);}
+;
+
+BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
+               |CLOSE_THEN 
+               ;
+
+CLOSE_IF:left_ar fw_slash k_if right_ar 
+;
+
+CLOSE_THEN:left_ar fw_slash k_then right_ar
 ;
 
 
@@ -277,15 +278,30 @@ WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar {$$=$4.res}
 ;
 
 
-FOR: left_ar k_for FOR_INIT  UNTIL right_ar BLOCK_INST_FOR;
-FOR_INIT: idf eq v_integer{if(ExistDeclaration($1)==0){
+FOR:  FOR_DEB BLOCK_FOR {quad("BR",$2,"","");q[atoi($1)].op1=$2;}
+;
+
+FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {quad("BZ","","","");$$=IntToChar(indq-1);}
+;
+
+FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
-UNTIL:k_until v_integer
-     |k_until idf {if(ExistDeclaration($2)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
-     ;
 
+UNTIL:k_until v_integer {$$=IntToChar(indq);}
+     |k_until idf {$$=IntToChar(indq);if(ExistDeclaration($2)==0){
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
+;
+
+BLOCK_FOR: BLOCK_INST_FOR {$$=IntToChar(indq+1);}
+;
+
+BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
+              |CLOSE_FOR
+              ;
+
+CLOSE_FOR:left_ar fw_slash k_for right_ar
+;
 
 EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |AND {$$.res=$1}

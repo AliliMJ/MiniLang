@@ -1,6 +1,7 @@
 <!docprogram xxx>
 <SUB VARIABLE>
   <x |z | kimo AS INT/>;
+  <t1 |t2 | t3 | t4 | t5 | t6 AS INT/>;
   <amine | meps AS FLT/>;
   <hh | hhhh AS BOL/>;
 
@@ -25,13 +26,23 @@
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
   <AFF: d, 32780/>
-  <AFF: amine, 32767.5/>
+
+  <FOR j=1 UNTIL 10>
+  <OUTPUT: "Le double de z est $"+ x1/> 
+
+     <FOR k=1 UNTIL 15>
+     <OUTPUT: "Le double de z est $"+ x1/> 
+     <AFF: t3, 333/>
+     </FOR>
+
+  <AFF: t1, 111/>
+  </FOR>
+
+  <AFF: t2, 222/>
   <OUTPUT: "Le double de x est $"+ d/> 
 </FOR>
 
-<FOR i=1 UNTIL b>
-  <OUTPUT: "Le double de z est $"+ x1/> 
-</FOR>
+
 
 <AFF:x, 'f'/>
 
@@ -50,13 +61,28 @@
 
 
 
-<IF:INF(x,z)>
+<IF:INF(t1,t2)>
 <THEN>
 <AFF: x, (1+1)/>
-<AFF: hh, SUP(x, y)/>
-<AFF: hh, INF(x, y)/>
+
+       <IF:SUPE(t3,t4)>
+       <THEN>
+       <AFF: x, (2+2)/>
+
+            <IF:SUPE(t5,t6)>
+            <THEN>
+            <AFF: x, (3+3)/>
+            </THEN>
+            </IF>
+       <AFF: x, (4+4)/>
 </THEN>
 </IF>
+
+<AFF: hh, INFE(kimo, x)/>
+</THEN>
+</IF>
+
+
 
 </body>
 </docprogram>
