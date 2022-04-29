@@ -74,7 +74,6 @@ void setType(char* s) {
 %type <string> CLOSE_DO
 %type <string> IF_COND_A
 %type <string> COND_IF
-%type <string> BLOCK_INST_THEN
 
 
 
@@ -209,13 +208,6 @@ BLOCK_INST:INSTRUCTION BLOCK_INST
           |CLOSE_BODY
           ;
 
-BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
-              |CLOSE_FOR
-              ;
-
-CLOSE_FOR:left_ar fw_slash k_for right_ar
-;
-
 INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4)==0){
   printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n",lignes,$4);
 }else{
@@ -257,7 +249,7 @@ IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");$$=IntToChar(indq);}
 ;
 
 BLOCK_INST_THEN:INSTRUCTION BLOCK_INST_THEN
-               |CLOSE_THEN {thenIf=indq;q[debIf-1].op1=IntToChar(indq);}
+               |CLOSE_THEN 
                ;
 
 CLOSE_IF:left_ar fw_slash k_if right_ar 
@@ -287,6 +279,12 @@ UNTIL:k_until v_integer
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
      ;
 
+BLOCK_INST_FOR:INSTRUCTION BLOCK_INST_FOR
+              |CLOSE_FOR
+              ;
+
+CLOSE_FOR:left_ar fw_slash k_for right_ar
+;
 
 EXPRESSION_LOGIQUE:VALUE_BOOL {$$.res=BoolToString($1);}
                   |AND {$$.res=$1}

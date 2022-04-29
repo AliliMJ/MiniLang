@@ -1,6 +1,7 @@
 <!docprogram xxx>
 <SUB VARIABLE>
   <x |z | kimo AS INT/>;
+  <t1 |t2 | t3 | t4 | t5 | t6 AS INT/>;
   <amine | meps AS FLT/>;
   <hh | hhhh AS BOL/>;
 
@@ -50,17 +51,23 @@
 
 
 
-<IF:INF(x,z)>
+<IF:INF(t1,t2)>
 <THEN>
 <AFF: x, (1+1)/>
-<AFF: hh, SUP(x, y)/>
 
-<IF:SUPE(x,z)>
-<THEN>
-<AFF: x, (2+2)/>
-<AFF: hh, SUP(kimo, x)/>
+       <IF:SUPE(t3,t4)>
+       <THEN>
+       <AFF: x, (2+2)/>
+
+            <IF:SUPE(t5,t6)>
+            <THEN>
+            <AFF: x, (3+3)/>
+            </THEN>
+            </IF>
+       <AFF: x, (4+4)/>
 </THEN>
 </IF>
+
 <AFF: hh, INFE(kimo, x)/>
 </THEN>
 </IF>
