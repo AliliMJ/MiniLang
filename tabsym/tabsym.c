@@ -113,7 +113,7 @@ int Rechercher(char *entite)
 {
     ptr p = NULL;
     int i;
-    entite = "dddd";
+   
     i = hash_func(entite);
 
     p = ts[i].svt2;
@@ -186,7 +186,8 @@ void InsererC(char *entite, char *val)
     if (Rechercher(entite) != -1)
     {
         p = RechercherPtr(entite);
-        strcpy(p->constante, val);
+        if(p!=NULL)
+          strcpy(p->constante, val);
     }
 }
 
@@ -203,7 +204,8 @@ void InsererTailleTab(char *entite, int taille)
 int ExistDeclaration(char *entite)
 {
     ptr q = RechercherPtr(entite);
-    if (strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0)
+
+    if (q!=NULL && strcmp(q->entity_type, "") == 0 && strcmp(q->constante, "non") == 0)
     {
 
         return 0; // non declare
@@ -251,7 +253,8 @@ void InsererTypeC(char *type)
     for (i = 0; i < nbIdf; i++)
     {
         p = RechercherPtr(T[i].motc);
-        strcpy(p->entity_type, type);
+        if(p!=NULL) 
+          strcpy(p->entity_type, type);
     }
 
     initialiterListeIdf();
@@ -299,8 +302,11 @@ void InsererTypeCnste(char *type, char *init)
     for (i = 0; i < nbC; i++)
     {
         p = RechercherPtr(C[i].motc);
-        strcpy(p->entity_type, type);
-        strcpy(p->constante, init);
+        if (p != NULL) {
+          strcpy(p->entity_type, type);
+          strcpy(p->constante, init);
+        }
+        
     }
 
     // initialiterListeCnst();
@@ -334,13 +340,15 @@ void afficherC()
 void cnsteInit(char *entite, char *init)
 {
     ptr p = RechercherPtr(entite);
-    strcpy(p->constante, init);
+    if (p != NULL) 
+      strcpy(p->constante, init);
 }
 
 void insererTypeCnst(char *entite, char *type)
 {
     ptr p = RechercherPtr(entite);
-    strcpy(p->entity_type, type);
+    if (p != NULL) 
+      strcpy(p->entity_type, type);
 }
 
 int isCste(char *entity)
@@ -355,8 +363,8 @@ int csteDejaAff(char *entity)
 {
     ptr p = RechercherPtr(entity);
     
-
-    if (strcmp(p->constante, "null") == 0)
+    if (p!=NULL) {
+      if (strcmp(p->constante, "null") == 0)
     {
         strcpy(p->constante, "oui");
         return 0;
@@ -365,6 +373,8 @@ int csteDejaAff(char *entity)
     {
         return 1;
     }
+    }
+    
     return -1;
 }
 
@@ -373,6 +383,9 @@ int csteDejaAff(char *entity)
 int cmpcomp(char chaine[], char *entite , int nb)
 {
     ptr p = RechercherPtr(entite);
+    if (p!=NULL) {
+
+    
     int i;
 
     for (i = 0; i < strlen(chaine); i++)
@@ -413,7 +426,9 @@ int cmpcomp(char chaine[], char *entite , int nb)
             }
         }
     }
+    }
     printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
+    
     return -1;
  }
  
@@ -543,6 +558,9 @@ void insertIdfOut2(char *entity)
 int cmpcompOut(char chaine[], char *entite)
 {
     ptr p = RechercherPtr(entite);
+    if(p!=NULL) {
+
+    
     int i;
 
     for (i = 0; i < strlen(chaine); i++)
@@ -582,6 +600,7 @@ int cmpcompOut(char chaine[], char *entite)
                 return 0;
             }
         }
+    }
     }
     return -1;
 }
