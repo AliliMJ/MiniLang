@@ -15,7 +15,7 @@ lettre [a-zA-Z]
 chiffre [0-9]
 idf {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre})+)*
 
-string ["](.)*["]
+string ["]([^"])*["]
 entier_ns (0|[1-9]{chiffre}*)
 reel_ns ([0][.]{chiffre}+|[1-9]{chiffre}*[.]{chiffre}+)
 char ['](.)[']

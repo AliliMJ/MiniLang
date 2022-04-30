@@ -76,8 +76,6 @@ void setType(char* s) {
 %type <string> SUPE
 %type <string> COMP_ARG
 %type <string> OPEN_WHILE
-%type <string> WHILE
-%type <string> CLOSE_DO
 %type <string> IF_COND_A
 %type <string> COND_IF
 %type <string> BLOCK_FOR
@@ -85,8 +83,6 @@ void setType(char* s) {
 %type <string> UNTIL
 %type <string> FOR_DEB
 %type <string> FOR_INIT
-%type <string> OUTPUT_STR 
-%type <string> OUTPUT_IDF
 
 %type <string> BLOCK_INST_ELSE_A
 %type <string> COND_IF_ELSE_A
@@ -237,14 +233,12 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
 ;
 OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {afficherOut();}
 ;
-OUTPUT_ARG:v_string plus OUTPUT_IDF plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
-          |v_string plus OUTPUT_IDF {insertIdfOut2($1); insertIdfOut1($3);}
-          |v_string {printf("innn %s\n", $1);}
-
+OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
+          |v_string plus idf {insertIdfOut2($1); insertIdfOut1($3);}
+          |v_string {insertIdfOut2($1); insertIdfOut1("");}
+          |v_string plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1("");}
           ;
  
-OUTPUT_STR:v_string;
-OUTPUT_IDF:idf ;
 
 CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
            |COND_IF_ELSE CLOSE_IF {q[atoi($1)].op1=IntToChar(indq);}
@@ -290,9 +284,9 @@ OPEN_WHILE:left_ar k_do right_ar {$$=IntToChar(indq);}
 ;
 BLOCK_INST_DO: INSTRUCTION BLOCK_INST_DO | CLOSE_DO 
 ;
-CLOSE_DO: WHILE left_ar fw_slash k_do right_ar {$$=$1}
+CLOSE_DO: WHILE left_ar fw_slash k_do right_ar 
 ;
-WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar {$$=$4.res}
+WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar 
 ;
 
 
