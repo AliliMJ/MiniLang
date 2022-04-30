@@ -91,7 +91,6 @@ char *FltToChar(float x);
 char *CharToString(char c);
 char *transfertString(char *s);
 char* tabName(char* name, char*arg);
-char* concat(char* first, char* second);
-char* merge(char* format, char* entite);
+
 
 #endif 

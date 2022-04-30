@@ -83,8 +83,6 @@ void setType(char* s) {
 %type <string> UNTIL
 %type <string> FOR_DEB
 %type <string> FOR_INIT
-
-%type <string> BLOCK_INST_ELSE_A
 %type <string> COND_IF_ELSE_A
 %type <string> COND_IF_ELSE
 %type <string> CONDITIONAL
@@ -244,13 +242,10 @@ CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
            |COND_IF_ELSE CLOSE_IF {q[atoi($1)].op1=IntToChar(indq);}
            ;
 
-COND_IF_ELSE: COND_IF COND_IF_ELSE_A BLOCK_INST_ELSE_A {$$=$2;{q[atoi($1)-1].op1=IntToChar(atoi($2)+1);}}
+COND_IF_ELSE: COND_IF COND_IF_ELSE_A BLOCK_INST_ELSE {$$=$2;{q[atoi($1)-1].op1=IntToChar(atoi($2)+1);}}
 ;
 
 COND_IF_ELSE_A:  left_ar k_else right_ar {$$=IntToChar(indq);quad("BR","","","");}
-;
-
-BLOCK_INST_ELSE_A: BLOCK_INST_ELSE 
 ;
 
 BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE 
@@ -424,9 +419,9 @@ IDF:idf {strcpy(saveIdf,$1);$$=$1;if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
     |IDF_TAB
     ;
-IDF_TAB:idf left_bracket TAB_ARG right_bracket {$$=$1;strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
+IDF_TAB:idf left_bracket TAB_ARG right_bracket {$$=tabName($1, $3);strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}};
-TAB_ARG:IDF 
+TAB_ARG:IDF {$$=$1}
        |v_integer {$$=IntToChar($1);}
        ;
 

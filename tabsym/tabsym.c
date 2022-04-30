@@ -354,6 +354,7 @@ int isCste(char *entity)
 int csteDejaAff(char *entity)
 {
     ptr p = RechercherPtr(entity);
+    
 
     if (strcmp(p->constante, "null") == 0)
     {
@@ -671,7 +672,7 @@ char * transfertString(char *s){
     return s;
 }
 
-char* tabName(char* name, char*arg) {
+char* tabName(char* name, char* arg) {
   char * c;
   c=allouerstr(15);
   
@@ -680,18 +681,4 @@ char* tabName(char* name, char*arg) {
   return c;
 }
 
-char* merge(char* format, char* entite) {
-  
 
-  
-  return 0; 
-
-}
-char* concat(char* first, char* second) {
-  int size = strlen(first) + strlen(second);
-  char* result = allouerstr(size);
-  strcpy(result, first);
-  strcat(result, second);
-
-  return result;
-}

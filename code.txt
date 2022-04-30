@@ -1,7 +1,7 @@
 <!docprogram xxx>
 <SUB VARIABLE>
   <x |z | kimo AS INT/>;
-  <t1 |t2 | t3 | t4 | t5 | t6 AS INT/>;
+  <t1 |t2 | t3 | t4 | t5 | t6 | t7 | t8 | t9 |t10 AS INT/>;
   <amine | meps AS FLT/>;
   <hh | hhhh AS BOL/>;
 
@@ -88,11 +88,11 @@
 <AFF: kimo, 7/>
 
 
-<IF:SUPE(t5,t6)>
+<IF:SUPE(t7,t8)>
 <THEN>
 <AFF: x, (1+1)/>
 
-      <IF:SUPE(t6,t7)>
+      <IF:SUPE(t9,t10)>
       <THEN>
       <AFF: x, (2+2)/>
       </THEN>
@@ -100,6 +100,8 @@
       <AFF: x, (2+2)/>
       </ELSE>
       </IF>
+
+      <AFF: x, (14+14)/>
             
 </THEN>
 <ELSE>
