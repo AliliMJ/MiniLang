@@ -26,6 +26,8 @@
 
 <OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
 
+<AFF: S[S[1]], 32780/>
+
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
   <AFF: d, 32780/>
