@@ -55,6 +55,7 @@
 <AFF:x,(15.5+15.6+10)/>
 
 <AFF: S[0], x/>
+<AFF: S[S[1]], x/>
 <AFF:  hh, AND(y1, y2)/>
 <AFF:  hh, OR(x, y)/>
 

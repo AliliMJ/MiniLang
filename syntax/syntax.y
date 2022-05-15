@@ -475,6 +475,8 @@ int main() {
    yyparse();
    affiche();
    afficherQuad();
+   propCopie();
+   afficherQuad();
 }
 
 int yyerror(char * message) {
