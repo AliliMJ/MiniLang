@@ -472,10 +472,14 @@ int main() {
    initialiterListeIdf();
    initialiterListeCnst();
    initialiterListeIdfOut();
+   initialiterListeQuad();
    yyparse();
    affiche();
    afficherQuad();
    propCopie();
+   eliminer();
+   
+  
    afficherQuad();
 }
 
