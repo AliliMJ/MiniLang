@@ -53,7 +53,7 @@ char *BoolToString(int b) {
   return c;
 }
 
-void remplacer(char* temp1, char* temp2, int index) {
+void remplacer(char* temp1, char* temp2, int index){
   //tant que temp1 ne se réaffecte de nouveau.
  while(index < indq) {
    if(strcmp(q[index].res, temp1)==0) break;
