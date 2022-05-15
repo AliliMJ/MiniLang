@@ -16,7 +16,7 @@ typedef struct
     char *res;
 } quadruplet;
 // declaration de la table
-quadruplet q[t];
+quadruplet* q;
 
 
 
@@ -24,6 +24,7 @@ quadruplet q[t];
 
 
 // signature des fonctions de quad.c
+void initialiterListeQuad();
 void quad(char *, char *, char *, char *);
 void afficherQuad();
 char* temporaire();
@@ -32,5 +33,6 @@ char *BoolToString(int b);
 
 void remplacer(char* temp1, char* temp2, int index);
 void propCopie();
-
+int notUsed(char*temp, int index);
+void eliminer();
 #endif // QUAD_H
