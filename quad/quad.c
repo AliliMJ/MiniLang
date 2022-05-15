@@ -58,7 +58,7 @@ void remplacer(char* temp1, char* temp2, int index) {
  while(index < indq) {
    if(strcmp(q[index].res, temp1)==0) break;
    else {
-     printf("%d - (, %s, %s, %s)", index,q[index].op1,q[index].op2, q[index].res) ;
+     //printf("%d - (, %s, %s, %s)", index,q[index].op1,q[index].op2, q[index].res) ;
    if (strcmp(q[index].op1, "")!=0 && strcmp(q[index].op1, temp1)== 0) {
      
      q[index].op1 = temp2;
@@ -68,7 +68,7 @@ void remplacer(char* temp1, char* temp2, int index) {
       
      q[index].op2 = temp2;
     }
-    printf("-> (, %s, %s, %s)\n",q[index].op1,q[index].op2, q[index].res );
+    //printf("-> (, %s, %s, %s)\n",q[index].op1,q[index].op2, q[index].res );
    }
     
     index ++;
@@ -80,9 +80,9 @@ void propCopie() {
   int analyse = 0;
   while(analyse+1 < indq) {
     if (strcmp(q[analyse].opr, "=")==0) {
-      printf("%d- %s = %s\n", analyse, q[analyse].res, q[analyse].op1);
+      //printf("%d- %s = %s\n", analyse, q[analyse].res, q[analyse].op1);
       remplacer(q[analyse].res, q[analyse].op1, analyse+1);
-      printf("-------------\n");
+      //printf("-------------\n");
       }
     
     analyse ++;
