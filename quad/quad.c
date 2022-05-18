@@ -60,7 +60,7 @@ char *BoolToString(int b) {
 
 void removeQuad(int index) {
   if(index < indq) {
-    q[index].opr = NULL;
+    q[index].opr =NULL;
     q[index].op1=NULL;
     q[index].op2=NULL;
     q[index].res=NULL;
@@ -182,6 +182,53 @@ void corrigerBranch() {
       
     }
     branch++;
+  }
+}
+
+int isNumber(char *s)
+{
+  int i=0;
+
+  while(s[i] != '\0')
+  {
+
+    if (s[i] == '.')
+    {
+      return (2);
+    }
+
+    if (isdigit(s[i]) == 0)
+      return(0);
+
+    
+
+    i++;
+  }
+
+  return(1);
+  
+}
+
+void remplacer1(){
+  int ind=0;
+  while(ind<indq){
+    if(q[ind].opr != NULL) {
+      if ((strcmp(q[ind].opr, "+") == 0) && (isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1))
+      {
+        sprintf(q[ind].op1, "%d", atoi(q[ind].op2) + atoi(q[ind].op1));
+        q[ind].op2="";
+        q[ind].opr = "=";
+      }
+
+          if ((strcmp(q[ind].opr, "+") == 0) && (isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
+      {
+        sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) + atof(q[ind].op1));
+        //q[ind].op1 = FltToChar(atof(q[ind].op1) + atof(q[ind].op2));
+        q[ind].op2 = "";
+        q[ind].opr = "=";
+      }
+    }
+    ind++;
   }
 }
 

@@ -37,4 +37,7 @@ void propCopie();
 int notUsed(char*temp, int index);
 void eliminer();
 void corrigerBranch();
+int isNumber(char s[]);
+void remplacer1();
+
 #endif // QUAD_H
