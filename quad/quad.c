@@ -71,15 +71,15 @@ void removeQuad(int index) {
 void remplacer(char* temp1, char* temp2, int index){
   //tant que temp1 ne se réaffecte de nouveau.
  while(index < indq) {
-   if(strcmp(q[index].res, temp1)==0) break;
+   if(q[index].opr!=NULL && strcmp(q[index].res, temp1)==0) break;
    else {
      //printf("%d - (, %s, %s, %s)", index,q[index].op1,q[index].op2, q[index].res) ;
-   if (strcmp(q[index].op1, "")!=0 && strcmp(q[index].op1, temp1)== 0) {
+   if (q[index].opr!=NULL &&strcmp(q[index].op1, "")!=0 && strcmp(q[index].op1, temp1)== 0) {
      
      q[index].op1 = temp2;
      
     }
-    if (strcmp(q[index].op2, "")!=0 && strcmp(q[index].op2, temp1)== 0) {
+    if (q[index].opr!=NULL &&strcmp(q[index].op2, "")!=0 && strcmp(q[index].op2, temp1)== 0) {
       
      q[index].op2 = temp2;
     }
@@ -94,7 +94,7 @@ void remplacer(char* temp1, char* temp2, int index){
 void propCopie() {
   int analyse = 0;
   while(analyse+1 < indq) {
-    if (strcmp(q[analyse].opr, "=")==0) {
+    if (q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")==0) {
       //printf("%d- %s = %s\n", analyse, q[analyse].res, q[analyse].op1);
       remplacer(q[analyse].res, q[analyse].op1, analyse+1);
       //printf("-------------\n");
@@ -112,8 +112,8 @@ int used(char*temp, int index) {
   if(index >= indq) return 1;
   
   while(index < indq) {
-    if(strcmp(q[index].res, temp)==0) {return 1;}
-    if(strcmp(q[index].op1, temp)==0 || strcmp(q[index].op2, temp)==0){
+    if(q[index].opr!=NULL && strcmp(q[index].res, temp)==0) {return 1;}
+    if(q[index].opr!=NULL && strcmp(q[index].op1, temp)==0 || q[index].opr!=NULL && strcmp(q[index].op2, temp)==0){
       printf("%s is used in %d\n", temp, index);
       return 0;
     }
@@ -129,7 +129,7 @@ void eliminer() {
   //int size = 0;
   //quadruplet* s = malloc(100*sizeof(quadruplet));
   while(analyse + 1< indq) {  
-    if(strcmp(q[analyse].opr, "=")== 0 && used(q[analyse].res, analyse + 1)!=0) {
+    if(q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")== 0 && used(q[analyse].res, analyse + 1)!=0) {
       removeQuad(analyse);
       //printf("%d-( %s , %s , %s , %s )\n", size, s[size].opr, s[size].op1, s[size].op2, s[size].res);
       
@@ -138,7 +138,7 @@ void eliminer() {
     
     
   }
-  if(strcmp(q[analyse].opr, "=")==0) {
+  if(q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")==0) {
     removeQuad(analyse);
     //size++;
   }
@@ -162,9 +162,6 @@ void eliminer() {
 
     //decaler(s, indq);
     
-
-
-  
 }
 
 void corrigerBranch() {
