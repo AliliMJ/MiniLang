@@ -479,6 +479,8 @@ int main() {
    propCopie();
    eliminer();
    afficherQuad();
+   eliminer();
+   afficherQuad();
    
   
    //afficherQuad();
