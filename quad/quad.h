@@ -26,6 +26,7 @@ quadruplet* q;
 // signature des fonctions de quad.c
 void initialiterListeQuad();
 void quad(char *, char *, char *, char *);
+void removeQuad(int);
 void afficherQuad();
 char* temporaire();
 char *allouertemp();
@@ -35,4 +36,5 @@ void remplacer(char* temp1, char* temp2, int index);
 void propCopie();
 int notUsed(char*temp, int index);
 void eliminer();
+void corrigerBranch();
 #endif // QUAD_H

@@ -479,11 +479,4 @@ int main() {
    propCopie();
    eliminer();
 
-   afficherQuad();
-}
-
-int yyerror(char * message) {
-  printf("code:%d: %s\n", lignes, message);
-  return 0;
-
 }

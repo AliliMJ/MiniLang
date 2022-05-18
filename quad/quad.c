@@ -43,7 +43,9 @@ void afficherQuad()
     int i;
     for (i = 0; i < indq; i++)
     {
+      if (q[i].opr != NULL)
         printf("%d-( %s , %s , %s , %s )\n", i, q[i].opr, q[i].op1, q[i].op2, q[i].res);
+      else printf("%d-\n", i);
     }
     printf("\n\n");
 }
@@ -55,6 +57,16 @@ char *BoolToString(int b) {
   else c="FALSE";
   return c;
 }
+
+void removeQuad(int index) {
+  if(index < indq) {
+    q[index].opr = NULL;
+    q[index].op1=NULL;
+    q[index].op2=NULL;
+    q[index].res=NULL;
+  }
+
+} 
 
 void remplacer(char* temp1, char* temp2, int index){
   //tant que temp1 ne se réaffecte de nouveau.
@@ -114,45 +126,62 @@ int used(char*temp, int index) {
 
 void eliminer() {
   int analyse = 0;
-  int size = 0;
-  quadruplet* s = malloc(100*sizeof(quadruplet));
-  while(analyse + 1< indq) {
-    if(strcmp(q[analyse].opr, "=")!=0) {
-      s[size] = q[analyse];
-      
+  //int size = 0;
+  //quadruplet* s = malloc(100*sizeof(quadruplet));
+  while(analyse + 1< indq) {  
+    if(strcmp(q[analyse].opr, "=")== 0 && used(q[analyse].res, analyse + 1)!=0) {
+      removeQuad(analyse);
       //printf("%d-( %s , %s , %s , %s )\n", size, s[size].opr, s[size].op1, s[size].op2, s[size].res);
-      size++;
-    }
       
-    else if(used(q[analyse].res, analyse + 1)==0) {
-      s[size] = q[analyse];
-      //printf("%d-( %s , %s , %s , %s )\n", size, s[size].opr, s[size].op1, s[size].op2, s[size].res);
-      size++; 
     }
     analyse ++;
     
     
   }
-  if(strcmp(q[analyse].opr, "=")!=0) {
-    s[size] = q[analyse];
-    size++;
-    
+  if(strcmp(q[analyse].opr, "=")==0) {
+    removeQuad(analyse);
+    //size++;
   }
   
-    indq = size;
-    free(q);
-    //memcpy(q, s, sizeof(s));
-    q= malloc(100*sizeof(quadruplet));
-    int i;
-    for(i=0;i<size;i++) q[i]=s[i];
-  //  printf("\n\n");
-  // printf("************************* Quadruplets Optimise **************************\n\n");
+    // free(q);
+    // //memcpy(q, s, sizeof(s));
+    // q= malloc(100*sizeof(quadruplet));
+    // int i;
+    // for(i=0;i<size;i++) q[i]=s[i];
 
-  //   int i;
-  //   for (i = 0; i < indq; i++)
-  //   {
-  //       printf("%d-( %s , %s , %s , %s )\n", i, s[i].opr, s[i].op1, s[i].op2, s[i].res);
-  //   }
-  //   printf("\n\n");
+    corrigerBranch();
+   printf("\n\n");
+  //printf("************************* Quadruplets Optimise **************************\n\n");
 
+    // int i;
+    // for (i = 0; i < indq; i++)
+    // {
+    //     printf("%d-( %s , %s , %s , %s )\n", i, s[i].opr, s[i].op1, s[i].op2, s[i].res);
+    // }
+    // printf("\n\n");
+
+    //decaler(s, indq);
+    
+
+
+  
 }
+
+void corrigerBranch() {
+  int branch=0;
+  while(branch < indq) {
+    if (q[branch].opr!=NULL && q[branch].opr[0] == 'B') {
+      int etiq = atoi(q[branch].op1);
+      printf("%d- %d\n", branch ,etiq);
+      
+      while(etiq < indq && q[etiq].opr == NULL) {
+        
+        etiq++;
+        }
+      sprintf(q[branch].op1, "%d", etiq);
+      
+    }
+    branch++;
+  }
+}
+
