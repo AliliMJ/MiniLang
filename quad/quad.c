@@ -133,7 +133,7 @@ void eliminer() {
     
     
   }
-  if(strcmp(quadruplet[analyse].opr, "=")!=0) {
+  if(strcmp(q[analyse].opr, "=")!=0) {
     s[size] = q[analyse];
     size++;
     
@@ -155,8 +155,4 @@ void eliminer() {
   //   }
   //   printf("\n\n");
 
-
-
-
-  
 }

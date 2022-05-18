@@ -478,8 +478,7 @@ int main() {
    afficherQuad();
    propCopie();
    eliminer();
-   
-  
+
    afficherQuad();
 }
 
