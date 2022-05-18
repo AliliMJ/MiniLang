@@ -24,6 +24,8 @@
 
 <body>
 
+<AFF: x, ((5+5)-5)/>
+
 <OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
 
 <AFF: S[S[1]], 32780/>
