@@ -4,6 +4,7 @@
 
 #include "../tabsym/tabsym.h"
 #include "../quad/quad.h"
+#include "../optimisation/optimisation.h"
 
 #define BOOL "BLT"
 #define INT "INT"
@@ -476,14 +477,8 @@ int main() {
    yyparse();
    affiche();
    afficherQuad();
-   propCopie();
-   eliminer();
-   afficherQuad();
-   eliminer();
-   afficherQuad();
-   remplacer1();
-   afficherQuad();
-   
+   optimiser();  
+
   
    //afficherQuad();
 }

@@ -32,12 +32,5 @@ char* temporaire();
 char *allouertemp();
 char *BoolToString(int b); 
 
-void remplacer(char* temp1, char* temp2, int index);
-void propCopie();
-int notUsed(char*temp, int index);
-void eliminer();
-void corrigerBranch();
-int isNumber(char s[]);
-void remplacer1();
 
 #endif // QUAD_H
