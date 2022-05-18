@@ -478,9 +478,10 @@ int main() {
    afficherQuad();
    propCopie();
    eliminer();
+   afficherQuad();
    
   
-   afficherQuad();
+   //afficherQuad();
 }
 
 int yyerror(char * message) {
