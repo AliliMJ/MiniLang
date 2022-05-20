@@ -478,9 +478,7 @@ int main() {
    affiche();
    afficherQuad();
    optimiser();  
-
-  
-   //afficherQuad();
+   afficherQuad();
 }
 
 int yyerror(char * message) {

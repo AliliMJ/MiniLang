@@ -114,6 +114,8 @@
 </ELSE>
 </IF>
 
+<OUTPUT: "Le double de x est $"+ x/> 
+
 </body>
 </docprogram>
 

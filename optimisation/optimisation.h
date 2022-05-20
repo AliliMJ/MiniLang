@@ -1,11 +1,5 @@
-
-
 #ifndef OPT_H
 #define OPT_H
-
-
-
-
 
 void optimiser();
 int remplacer(char* temp1, char* temp2, int index);
