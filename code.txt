@@ -65,7 +65,7 @@
 
 <INPUT: x "Entrez la valeur de x %"/>
 
- <AFF:z, x/>
+<AFF:z, x/>
 
 
 
