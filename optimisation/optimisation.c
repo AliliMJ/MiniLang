@@ -3,57 +3,93 @@
 #include <stdlib.h>
 #include "../quad/quad.h"
 #include "optimisation.h"
+#include <math.h>
 
 extern int indq;
-
+int redirect = 0;
 
 void optimiser() {
   int changes, iter=0;
   
   do {
-    changes =   propArth()+propCopie()+ eliminer();
+    changes =   propArth()+ propCopie()+eliminer();
+
+    
+    //printf("%d, %d, %d\n", propArth(), propCopie(), eliminer());
     iter ++;
   }while(changes > 0);
-  afficherQuad();
+
   printf("%d iterations\n", iter);
+}
+
+int nearBlockLine(int index) {
+  int start=indq;
+  while(index < indq) {
+    if(q[index].opr!=NULL && q[index].opr[0]=='B'&& atoi(q[index].op1) < start)
+      start = atoi(q[index].op1);
+    index++;
+  }
+  return start;
+
 }
 
 int remplacer(char* temp1, char* temp2, int index){
   int change = 0;
-  //tant que temp1 ne se réaffecte de nouveau.
- while(index < indq) {
-   if(q[index].opr!=NULL && strcmp(q[index].res, temp1)==0) return change;
-   else {
-     //printf("%d - (, %s, %s, %s)", index,q[index].op1,q[index].op2, q[index].res) ;
-   if (q[index].opr!=NULL &&strcmp(q[index].op1, "")!=0 && strcmp(q[index].op1, temp1)== 0) {
-     
-     q[index].op1 = temp2; change=1;
-     
+
+  int block = nearBlockLine(index);
+
+  while(index < block) {
+    if(q[index].opr!= NULL && strcmp(q[index].opr, "=")==0 && strcmp(q[index].res, temp1)==0 )
+      return change;
+    if(update(temp1, temp2, index) == 1) {
+      //printf("enters %d\n", index);
+      change = 1;
+      printf("%s par %s dans %d\n", temp1, temp2, index);
+      //printf("update %s with %s line %d\n", temp1, temp2, index);
+      //printf("from %d block %d\n", index,block);
     }
-    if (q[index].opr!=NULL &&strcmp(q[index].op2, "")!=0 && strcmp(q[index].op2, temp1)== 0) {
       
-     q[index].op2 = temp2; change=1;
-    }
-    //printf("-> (, %s, %s, %s)\n",q[index].op1,q[index].op2, q[index].res );
-   }
-    
-    index ++;
- }  
+
+    index++;
+  }
+  
   return change;
 }
+
+int update(char * temp1, char *temp2 , int index) {
+  if (q[index].opr!=NULL && strcmp(q[index].op1, "")!=0 && strcmp(q[index].op1, temp1)== 0) {
+
+     q[index].op1 = temp2;
+     return 1;
+  }
+     
+     
+    
+    if (q[index].opr!=NULL &&strcmp(q[index].op2, "")!=0 && strcmp(q[index].op2, temp1)== 0) {
+      
+     q[index].op2 = temp2;
+     return 1;
+    }
+    return 0;
+    
+   }
+
 
 int propCopie() {
   int analyse = 0;
   int change = 0;
   while(analyse+1 < indq) {
     if (q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")==0) {
-      //printf("%d- %s = %s\n", analyse, q[analyse].res, q[analyse].op1);
+
       if (remplacer(q[analyse].res, q[analyse].op1, analyse+1) == 1) change=1;
-      //printf("-------------\n");
-      }
+      
+
+    }
+    //printf("change %d from %d\n ", change, analyse);
     
     analyse ++;
   }
+  //printf("last %d\n", analyse);
   return change;
   
   
@@ -61,59 +97,53 @@ int propCopie() {
 }
 
 int used(char*temp, int index) {
-  if(index >= indq) return 1;
+
+  int i=0;
+  if(i >= indq) return 1;
   
-  while(index < indq) {
-    if(q[index].opr!=NULL && strcmp(q[index].res, temp)==0) {return 1;}
-    if(q[index].opr!=NULL && strcmp(q[index].op1, temp)==0 || q[index].opr!=NULL && strcmp(q[index].op2, temp)==0){
-      printf("%s is used in %d\n", temp, index);
+  while(i < indq ) {
+
+    if(i==index) {i++;continue;}
+    if(q[i].opr!=NULL && strcmp(q[i].res, temp)==0) {
+      return 1;
+    }
+    if(q[i].opr!=NULL && strcmp(q[i].op1, temp)==0 || q[i].opr!=NULL && strcmp(q[i].op2, temp)==0){
+
       return 0;
     }
       
 
-    index++;
+    i++;
   }
   return 1;
+  
 }
 
 int eliminer() {
   int analyse = 0;
   int change = 0;
-  //int size = 0;
-  //quadruplet* s = malloc(100*sizeof(quadruplet));
+  int count=0;
+
+
   while(analyse + 1< indq) {  
-    if(q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")== 0 && used(q[analyse].res, analyse + 1)!=0) {
+    if(q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")== 0 && used(q[analyse].res, analyse)!=0) {
       removeQuad(analyse); change = 1;
-      //printf("%d-( %s , %s , %s , %s )\n", size, s[size].opr, s[size].op1, s[size].op2, s[size].res);
+      count++;
       
     }
     analyse ++;
-    
+
     
   }
   if(q[analyse].opr!=NULL && strcmp(q[analyse].opr, "=")==0) {
-    removeQuad(analyse); int change = 1;
-    //size++;
+    removeQuad(analyse); int change = 1;count++;
   }
   
-    // free(q);
-    // //memcpy(q, s, sizeof(s));
-    // q= malloc(100*sizeof(quadruplet));
-    // int i;
-    // for(i=0;i<size;i++) q[i]=s[i];
+    
 
     corrigerBranch();
    printf("\n\n");
-  //printf("************************* Quadruplets Optimise **************************\n\n");
-
-    // int i;
-    // for (i = 0; i < indq; i++)
-    // {
-    //     printf("%d-( %s , %s , %s , %s )\n", i, s[i].opr, s[i].op1, s[i].op2, s[i].res);
-    // }
-    // printf("\n\n");
-
-    //decaler(s, indq);
+  //printf("%d eliminations\n", count);
   return change;
 }
 
@@ -122,7 +152,7 @@ void corrigerBranch() {
   while(branch < indq) {
     if (q[branch].opr!=NULL && q[branch].opr[0] == 'B') {
       int etiq = atoi(q[branch].op1);
-      printf("%d- %d\n", branch ,etiq);
+      
       
       while(etiq < indq && q[etiq].opr == NULL) {
         
@@ -175,7 +205,7 @@ int propArth(){
           if ((strcmp(q[ind].opr, "+") == 0) && (isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
       {
         sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) + atof(q[ind].op1));
-        //q[ind].op1 = FltToChar(atof(q[ind].op1) + atof(q[ind].op2));
+
         q[ind].op2 = "";
         q[ind].opr = "=";
         change = 1;

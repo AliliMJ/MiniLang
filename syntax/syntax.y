@@ -477,8 +477,14 @@ int main() {
    yyparse();
    affiche();
    afficherQuad();
-   optimiser();  
+   optimiser();
+   //propCopie();
 
+
+
+  
+
+   afficherQuad();
   
    //afficherQuad();
 }
