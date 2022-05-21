@@ -104,13 +104,14 @@ int used(char*temp, int index) {
   while(i < indq ) {
 
     if(i==index) {i++;continue;}
-    if(q[i].opr!=NULL && strcmp(q[i].res, temp)==0) {
-      return 1;
-    }
     if(q[i].opr!=NULL && strcmp(q[i].op1, temp)==0 || q[i].opr!=NULL && strcmp(q[i].op2, temp)==0){
 
       return 0;
     }
+    if(q[i].opr!=NULL && strcmp(q[i].res, temp)==0 && i > index) {
+      return 1;
+    }
+    
       
 
     i++;
