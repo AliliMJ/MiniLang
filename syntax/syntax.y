@@ -477,16 +477,8 @@ int main() {
    yyparse();
    affiche();
    afficherQuad();
-   optimiser();
-   //propCopie();
-
-
-
-  
-
+   optimiser();  
    afficherQuad();
-  
-   //afficherQuad();
 }
 
 int yyerror(char * message) {

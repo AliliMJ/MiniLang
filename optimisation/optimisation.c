@@ -180,8 +180,6 @@ int isNumber(char *s)
     if (isdigit(s[i]) == 0)
       return(0);
 
-    
-
     i++;
   }
 
@@ -193,25 +191,79 @@ int propArth(){
   int ind=0;
   int change= 0;
   while(ind<indq){
+
     if(q[ind].opr != NULL) {
-      if ((strcmp(q[ind].opr, "+") == 0) && (isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1))
-      {
-        sprintf(q[ind].op1, "%d", atoi(q[ind].op2) + atoi(q[ind].op1));
-        q[ind].op2="";
-        q[ind].opr = "=";
-        change = 1;
+
+      if ((strcmp(q[ind].opr, "+") == 0)){
+        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1)){
+          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) + atoi(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2)){
+          sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) + atof(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
       }
 
-          if ((strcmp(q[ind].opr, "+") == 0) && (isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
+      if ((strcmp(q[ind].opr, "-") == 0))
       {
-        sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) + atof(q[ind].op1));
-
-        q[ind].op2 = "";
-        q[ind].opr = "=";
-        change = 1;
+        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1))
+        {
+          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) - atoi(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
+        {
+          sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) - atof(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
       }
-    }
-    ind++;
-  }
-  return change;
+
+      if ((strcmp(q[ind].opr, "*") == 0))
+      {
+        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1))
+        {
+          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) * atoi(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
+        {
+          sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) * atof(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+      }
+
+      if ((strcmp(q[ind].opr, "/") == 0))
+      {
+        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1))
+        {
+          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) / atoi(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2))
+        {
+          sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) / atof(q[ind].op1));
+          q[ind].op2 = "";
+          q[ind].opr = "=";
+          change = 1;
+        }
+      }
+ }
+ ind++;
+}
+return change;
 }
