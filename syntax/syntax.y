@@ -40,7 +40,6 @@ void setType(char* s) {
   char ch;  
   struct {int type;char* res;}NT;
   struct {char* ref;} REF;
-  struct {char* index; char* branch}F;
   }
 
 
@@ -83,8 +82,8 @@ void setType(char* s) {
 %type <string> BLOCK_FOR
 %type <string> FOR
 %type <string> UNTIL
-%type <F> FOR_DEB
-%type <F> FOR_INIT
+%type <string> FOR_DEB
+%type <string> FOR_INIT
 %type <string> COND_IF_ELSE_A
 %type <string> COND_IF_ELSE
 %type <string> CONDITIONAL
@@ -287,20 +286,14 @@ WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar
 ;
 
 
-FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",$1.index,"1",tempFor);quad("=",tempFor,"",$1.index);quad("BR",$1.branch,"","");q[atoi($1)].op1=$2;
-  printf("for %s\n", saveIdfFor);
-}
+FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",saveIdfFor,"1",tempFor);quad("=",tempFor,"",saveIdfFor);quad("BR",$1,"","");q[atoi($1)].op1=$2;}
 ;
 
 FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {$$=$3;}
 ;
 
-FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);
-$$.index = $1;
-$$.branch = IntToChar(indq);
-if(ExistDeclaration($1)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}
-  }
+FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$=IntToChar(indq);strcpy(saveIdfFor,$1);if(ExistDeclaration($1)==0){
+  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
 
 UNTIL:k_until v_integer {quad("BE","",strdup(saveIdfFor),IntToChar($2));$$=IntToChar(indq);}
