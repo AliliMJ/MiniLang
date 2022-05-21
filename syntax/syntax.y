@@ -26,23 +26,10 @@ int saveFor;
 int saveUntil;
 
 
-typedef struct typeSave
-{
-    char chaine[10];
-} typeSave;
-
-typeSave tableSave[20];
-int indice=-1;
-
-
-
-
-
 void setType(char* s) {
   strcpy(saveType, s);
 }
 %}
-
 
 %union {int integer;
   char* string;
@@ -50,6 +37,7 @@ void setType(char* s) {
   char ch;  
   struct {int type;char* res;}NT;
   struct {char* ref;} REF;
+  struct {char* ch1;char* ch2;}NTT;
   }
 
 
@@ -92,8 +80,8 @@ void setType(char* s) {
 %type <string> BLOCK_FOR
 %type <string> FOR
 %type <string> UNTIL
-%type <string> FOR_DEB
-%type <string> FOR_INIT
+%type <NTT> FOR_DEB
+%type <NTT> FOR_INIT
 %type <string> COND_IF_ELSE_A
 %type <string> COND_IF_ELSE
 %type <string> CONDITIONAL
@@ -296,13 +284,13 @@ WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar
 ;
 
 
-FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",tableSave[indice].chaine,"1",strdup(tempFor));quad("=",strdup(tempFor),"",tableSave[indice].chaine);quad("BR",$1,"","");q[atoi($1)].op1=$2;indice--;}
+FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",$1.ch2,"1",strdup(tempFor));quad("=",strdup(tempFor),"",$1.ch2);quad("BR",$1.ch1,"","");q[atoi($1)].op1=$2;}
 ;
 
-FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {$$=$3;}
+FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {$$.ch1=$3.ch1;$$.ch2=$3.ch2;}
 ;
 
-FOR_INIT: idf eq v_integer{indice++;sprintf(tableSave[indice].chaine,"%s",$1);quad("=",IntToChar($3),"",$1);$$=IntToChar(indq);strcpy(saveIdfFor,$1);if(ExistDeclaration($1)==0){
+FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$.ch1=IntToChar(indq);$$.ch2=$1;strcpy(saveIdfFor,$1);if(ExistDeclaration($1)==0){
   printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
 ;
 
