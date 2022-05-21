@@ -5,6 +5,7 @@
 #include "../tabsym/tabsym.h"
 #include "../quad/quad.h"
 #include "../optimisation/optimisation.h"
+#include "../routines/routine.h"
 
 #define BOOL "BLT"
 #define INT "INT"
