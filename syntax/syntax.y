@@ -6,6 +6,7 @@
 #include "../quad/quad.h"
 #include "../optimisation/optimisation.h"
 #include "../routines/routine.h"
+#include "../generation/generation.h"
 
 #define BOOL "BLT"
 #define INT "INT"
@@ -478,6 +479,7 @@ int main() {
    afficherQuad();
    optimiser();  
    afficherQuad();
+   generateCode();
 }
 
 int yyerror(char * message) {
