@@ -175,11 +175,22 @@ void ExistDeclarationP(char *entity , int ligne){
     }
 }
 
+void ExistDeclarationPin(char *entity, int ligne)
+{
+
+    if (ExistDeclaration(entity) == 0)
+    {
+        printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n", ligne, entity);
+    }
+}
+
 void outOfRange(char *entity , int indice , int ligne){
      int size;
      size=tabSize(entity);
     if(indice>size){
         printf("erreur semantique [%d] : l'indice de la table depasse la taille \"%s\"\n",ligne,entity);
+    }else if(indice<0){
+        printf("erreur semantique [%d] : l'indice est negatif \"%s\"\n", ligne, entity);
     }
 
 }

@@ -12,5 +12,6 @@ int cmpcompOut(char chaine[], char *entite);
 void ExistDeclarationP(char *entity, int ligne);
 void outOfRange(char *entity, int indice, int ligne);
 void constanteDeja(char *entity, int ligne);
+void ExistDeclarationP(char *entity, int ligne);
 
 #endif

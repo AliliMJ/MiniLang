@@ -144,7 +144,7 @@ LIST_VAR:IDF_CONTROLLER
 
 IDF_CONTROLLER: idf {if(ExistDeclaration($1)==0) {
                        if(insererT($1)==-1)
-                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
+                        printf("erreur semantique [%d] : double declaration de ******* \"%s\"\n",lignes,$1);
 
           }
                      else 
@@ -225,7 +225,7 @@ BLOCK_INST:INSTRUCTION BLOCK_INST
           ;
 
 INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4)==0){
-  printf("erreur semantique [%d] : variable non declarer dans input \"%s\"\n",lignes,$4);
+  ExistDeclarationPin($4,lignes);
 }else{
   cmpcomp($5,$4,lignes);
 }}
