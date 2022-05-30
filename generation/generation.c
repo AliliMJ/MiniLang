@@ -40,4 +40,3 @@ void tranlate(quadruplet quad) {
 void aff(char* op, char* res) {
   fprintf(f, "MOV %s %s", res, op);
 }
-

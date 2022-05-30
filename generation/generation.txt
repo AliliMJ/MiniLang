@@ -1,1 +1,1 @@
-MOV i 1
+MOV j 1
