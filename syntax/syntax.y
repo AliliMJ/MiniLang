@@ -229,12 +229,12 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
   cmpcomp($5,$4,lignes);
 }}
 ;
-OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {afficherOut();}
+OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar 
 ;
-OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1($3); printf("hhhhhe\n");}
-          |v_string plus idf {insertIdfOut2($1); insertIdfOut1($3);}
-          |v_string {insertIdfOut2($1); insertIdfOut1("");}
-          |v_string plus OUTPUT_ARG {insertIdfOut2($1); insertIdfOut1("");}
+OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG
+          |v_string plus idf 
+          |v_string 
+          |v_string plus OUTPUT_ARG 
           ;
  
 
@@ -291,13 +291,11 @@ FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",$1.ch2,"1",strdup
 FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {$$.ch1=$3.ch1;$$.ch2=$3.ch2;}
 ;
 
-FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$.ch1=IntToChar(indq);$$.ch2=$1;strcpy(saveIdfFor,$1);if(ExistDeclaration($1)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
+FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$.ch1=IntToChar(indq);$$.ch2=$1;strcpy(saveIdfFor,$1);ExistDeclarationP($1,lignes);}
 ;
 
 UNTIL:k_until v_integer {quad("BE","",strdup(saveIdfFor),IntToChar($2));$$=IntToChar(indq);}
-     |k_until idf {quad("BE","",strdup(saveIdfFor),$2);$$=IntToChar(indq);if(ExistDeclaration($2)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$2);}}
+     |k_until idf {quad("BE","",strdup(saveIdfFor),$2);$$=IntToChar(indq);ExistDeclarationP($2,lignes)}
 ;
 
 BLOCK_FOR: BLOCK_INST_FOR {$$=IntToChar(indq+3);}
@@ -392,7 +390,7 @@ OR:or left_par OR_ARG right_par {$$=$3.res}
 NOT:not left_par EXPRESSION_LOGIQUE right_par {
   if(strcmp($3.res, "FALSE")==0) $$="TRUE";
   else if (strcmp($3.res, "TRUE")==0) $$ ="FALSE";
-  else {$$=temporaire(); quad("NOT", $3.res,"" , $$); printf("test\n");}
+  else {$$=temporaire(); quad("NOT", $3.res,"" , $$);}
   }
    |not left_par IDF right_par {$$=temporaire(); quad("NOT", $3,"" , $$);}
 ;
@@ -403,39 +401,36 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {$$
                         |EXPRESSION_ARITHMETIQUE asterisk EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("*",$1.res,$3.res,$$.res);}
                         |EXPRESSION_ARITHMETIQUE fw_slash EXPRESSION_ARITHMETIQUE {$$.res=temporaire();quad ("/",$1.res,$3.res,$$.res);}
                         |left_par EXPRESSION_ARITHMETIQUE right_par {$$=$2;}
-                        |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("+",$1,$3.res,$$.res);}
-                        |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("-",$1,$3.res,$$.res);}
-                        |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("*",$1,$3.res,$$.res);}
-                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1);$$.res=temporaire();quad ("/",$1,$3.res,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE plus IDF {isNumeric($3);$$.res=temporaire();quad ("+",$1.res,$3,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3);$$.res=temporaire();quad ("-",$1.res,$3,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3);$$.res=temporaire();quad ("*",$1.res,$3,$$.res);}
-                        |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3);$$.res=temporaire();quad ("/",$1.res,$3,$$.res);}
+                        |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("+",$1,$3.res,$$.res);}
+                        |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("-",$1,$3.res,$$.res);}
+                        |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("*",$1,$3.res,$$.res);}
+                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("/",$1,$3.res,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE plus IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("+",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("-",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("*",$1.res,$3,$$.res);}
+                        |EXPRESSION_ARITHMETIQUE fw_slash IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("/",$1.res,$3,$$.res);}
                         |v_integer {testRangInt($1,lignes,saveIdf);$$.res=IntToChar($1);}
                         |v_real {testRangFlt($1,lignes,saveIdf);$$.res=FltToChar($1);}
                         ;
 
-IDF:idf {strcpy(saveIdf,$1);$$=$1;if(ExistDeclaration($1)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}}
+IDF:idf {strcpy(saveIdf,$1);$$=$1;ExistDeclarationP($1,lignes);}
     |IDF_TAB
     ;
-IDF_TAB:idf left_bracket TAB_ARG right_bracket {$$=tabName($1, $3);strcpy(saveIdf,$1);if(ExistDeclaration($1)==0){
-  printf("erreur semantique [%d] : variable non declarer \"%s\"\n",lignes,$1);}};
+IDF_TAB:idf left_bracket TAB_ARG right_bracket {$$=tabName($1, $3);strcpy(saveIdf,$1);ExistDeclarationP($1,lignes);outOfRange($1,atoi($3),lignes);};
 TAB_ARG:IDF {$$=$1}
        |v_integer {$$=IntToChar($1);}
        ;
 
-AFF:left_ar k_aff col IDF comma AFF_ARG {if(csteDejaAff($4)==1){printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);}quad ("=",$6.res,"",$4);}
-| left_ar k_aff col IDF comma IDF fw_slash right_ar {
-  compatible($4, $6);
-  if(csteDejaAff($4)==1)printf("erreur semantique [%d] : constante deja affecter \"%s\"\n",lignes,$4);
+AFF:left_ar k_aff col IDF comma AFF_ARG {constanteDeja($4,lignes);}
+| left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6 , lignes);
+  constanteDeja($4,lignes);
   quad ("=",$6,"",$4);
   }
 ;
-AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf);$$.res=$1.res;}
-       |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL);$$.res=$1.res;}
-       |v_string fw_slash right_ar {idfHasType(saveIdf, STRING);$$.res=transfertString($1);}
-       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR);$$.res=CharToString($1);}
+AFF_ARG:EXPRESSION_ARITHMETIQUE fw_slash right_ar {isNumeric(saveIdf,lignes);$$.res=$1.res;}
+       |EXPRESSION_LOGIQUE fw_slash right_ar {idfHasType(saveIdf, BOOL , lignes);$$.res=$1.res;}
+       |v_string fw_slash right_ar {idfHasType(saveIdf, STRING , lignes);$$.res=transfertString($1);}
+       |v_char fw_slash right_ar {idfHasType(saveIdf, CHAR, lignes);$$.res=CharToString($1);}
        ;
 
 SUP: sup left_par {strcpy(saveOp, "SUP");} COMP_ARG right_par {$$=$4}
@@ -471,7 +466,6 @@ int main() {
    initialiter();
    initialiterListeIdf();
    initialiterListeCnst();
-   initialiterListeIdfOut();
    initialiterListeQuad();
    yyparse();
    affiche();

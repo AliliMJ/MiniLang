@@ -24,6 +24,8 @@
 
 <body>
 
+<INPUT: hh "Entrez la valeur de x @"/>
+
 <AFF: x, ((5+5)-5)/>
 
 <OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
@@ -33,6 +35,7 @@
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>
   <AFF: d, 32780/>
+  <AFF: mmms, 32780/>
 
   <FOR j=1 UNTIL 10>
    
@@ -58,8 +61,8 @@
 <AFF:x,((5+5)*10)/>
 <AFF:x,(15.5+15.6+10)/>
 
-<AFF: S[0], x/>
-<AFF: S[S[1]], x/>
+<AFF: S[30], x/>
+<AFF: S[1], x/>
 <AFF:  hh, AND(y1, y2)/>
 <AFF:  hh, OR(x, y)/>
 

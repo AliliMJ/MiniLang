@@ -41,8 +41,6 @@ typedef struct listeIdfOut
   char entity[30];
 } listeIdfOut;
 
-listeIdfOut *TOut1, *TOut2;
-int nbIdfOut1, nbIdfOut2;
 char *allouerstr(int size);
 void strtohigher(char *s);
 int hash_func(char *M);
@@ -75,22 +73,11 @@ int cmpcomp(char chaine[], char *entite , int nb);
 int verifierReelNonSigne(char* token, int size);
 char* sansParentheses(char* s);
 int verifierReelSigne(char* token, int size);
-void compatible(char* left, char* right);
-void idfHasType(char* entite, char*valueType);
-void isNumeric(char* entite);
-void newOut();
-void initialiterListeIdfOut();
-void insertIdfOut1(char *entity);
-void insertIdfOut2(char *entity);
-int cmpcompOut(char chaine[], char *entite);
-void afficherOut();
 char* IntToChar(int x);
-void testRangFlt(float val, int lignes, char *saveIdf);
-void testRangInt(int val , int lignes , char* saveIdf);
 char *FltToChar(float x);
 char *CharToString(char c);
 char *transfertString(char *s);
 char* tabName(char* name, char*arg);
-
+int tabSize(char *entity);
 
 #endif 

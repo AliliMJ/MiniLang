@@ -380,57 +380,7 @@ int csteDejaAff(char *entity)
 
 // ******************************************************************
 
-int cmpcomp(char chaine[], char *entite , int nb)
-{
-    ptr p = RechercherPtr(entite);
-    if (p!=NULL) {
 
-    
-    int i;
-
-    for (i = 0; i < strlen(chaine); i++)
-    {
-        if (chaine[i] == '$')
-        {
-            if (strcmp(p->entity_type, "INT") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '%')
-        {
-            if (strcmp(p->entity_type, "FLT") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '#')
-        {
-            if (strcmp(p->entity_type, "STR") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '&')
-        {
-            if (strcmp(p->entity_type, "CHR") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '@')
-        {
-            if (strcmp(p->entity_type, "BOL") == 0)
-            {
-                return 0;
-            }
-        }
-    }
-    }
-    printf("erreur semantique [%d] : incompatibelete de type dans input \"%s\"\n",nb,entite);
-    
-    return -1;
- }
  
 
 
@@ -475,135 +425,8 @@ int verifierReelSigne(char *token, int size)
     return -1;
 }
 
-void compatible(char *left, char *right)
-{
-
-    ptr l = RechercherPtr(left);
-    ptr r = RechercherPtr(right);
-    if (l == NULL || r == NULL)
-    {
-        printf("Variable non declare\n");
-    }
-    else if (strcmp(l->entity_type, r->entity_type) != 0)
-    {
-        printf("Incompatible variable assignment (%s) %s := (%s) %s .\n", l->entity_type, l->entity_name, r->entity_type, r->entity_name);
-    }
-}
-
-void idfHasType(char *entite, char *valueType)
-{
-    ptr p = RechercherPtr(entite);
-    if (p == NULL)
-        printf("Variable %s non declare\n", entite);
-    else if (strcmp(p->entity_type, valueType) != 0)
-    {
-        printf("Incompatible variable assignment (%s) %s := (%s) .\n", p->entity_type, p->entity_name, valueType);
-    }
-}
-
-void isNumeric(char *entite)
-{
-    ptr p = RechercherPtr(entite);
-    if (p == NULL)
-        printf("Variable %s non declare\n", entite);
-    else if (strcmp(p->entity_type, "INT") != 0 && strcmp(p->entity_type, "FLT") != 0)
-    {
-        printf("Cannot assign expression to variable (%s) %s.\n", p->entity_type, p->entity_name);
-    }
-}
-
-// output start
-
-void newOut()
-{
-    if (TOut1)
-    {
-        free(TOut1);
-    }
-    TOut1 = malloc(10 * sizeof(listeIdfOut));
-
-    if (TOut2)
-    {
-        free(TOut2);
-    }
-    TOut2 = malloc(10 * sizeof(listeIdfOut));
-}
-
-void initialiterListeIdfOut() // fonction pour allouer et initialiser le tableau de hachage
-{
-    newOut();
-    int i;
-    for (i = 0; i < 10; i++)
-    {
-        strcpy(TOut1[i].entity, "");
-        strcpy(TOut2[i].entity, "");
-    }
-    nbIdfOut1 = 0;
-    nbIdfOut2 = 0;
-}
-
-void insertIdfOut1(char *entity)
-{
-    strcpy(TOut1[nbIdfOut1].entity, entity);
-    nbIdfOut1++;
-}
-
-void insertIdfOut2(char *entity)
-{
-    strcpy(TOut2[nbIdfOut2].entity, entity);
-    nbIdfOut2++;
-}
 
 
-int cmpcompOut(char chaine[], char *entite)
-{
-    ptr p = RechercherPtr(entite);
-    if(p!=NULL) {
-
-    
-    int i;
-
-    for (i = 0; i < strlen(chaine); i++)
-    {
-        if (chaine[i] == '$')
-        {
-            if (strcmp(p->entity_type, "INT") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '%')
-        {
-            if (strcmp(p->entity_type, "FLT") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '#')
-        {
-            if (strcmp(p->entity_type, "STR") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '&')
-        {
-            if (strcmp(p->entity_type, "CHR") == 0)
-            {
-                return 0;
-            }
-        }
-        else if (chaine[i] == '@')
-        {
-            if (strcmp(p->entity_type, "BOL") == 0)
-            {
-                return 0;
-            }
-        }
-    }
-    }
-    return -1;
-}
 
 /*void verifierOut()
 {
@@ -618,39 +441,23 @@ int cmpcompOut(char chaine[], char *entite)
     }
 }*/
 
-void afficherOut()
-{
-    int i;
+// void afficherOut()
+// {
+//     int i;
 
-    printf("\n\n");
+//     printf("\n\n");
 
-    for (i = 0; i < nbIdfOut1; i++)
-    {
-        printf("%d --> idf: %s\n", i, TOut1[i].entity);
-    }
+//     for (i = 0; i < nbIdfOut1; i++)
+//     {
+//         printf("%d --> idf: %s\n", i, TOut1[i].entity);
+//     }
 
-    for (i = 0; i < nbIdfOut2; i++)
-    {
-        printf("%d --> chaine: %s\n", i, TOut2[i].entity);
-    }
-    printf("\n\n");
-}
-
-// output end
-
-void testRangInt(int val , int lignes , char* saveIdf){
-    if((val > 32767) || (val < -32767)){
-        printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n", lignes, saveIdf);
-    }
-}
-
-void testRangFlt(float val, int lignes, char *saveIdf)
-{
-    if ((val > 32767) || (val < -32767))
-    {
-        printf("erreur semantique [%d] : valeur de entier depasser la limite [-32767,32767] %s \n", lignes, saveIdf);
-    }
-}
+//     for (i = 0; i < nbIdfOut2; i++)
+//     {
+//         printf("%d --> chaine: %s\n", i, TOut2[i].entity);
+//     }
+//     printf("\n\n");
+// }
 
 char* IntToChar(int x){
     char* c;
@@ -684,9 +491,6 @@ char * transfertString(char *s){
         s[i]=s[i+1];
     }
     s[l-2]='\0';
-
-    printf("\n\nla chaine apres transpfrmation :%s\n\n",s);
-
     
     return s;
 }
@@ -700,4 +504,7 @@ char* tabName(char* name, char* arg) {
   return c;
 }
 
-
+int tabSize(char *entity){
+    ptr p = RechercherPtr(entity);
+    return p->tablenght;
+}
