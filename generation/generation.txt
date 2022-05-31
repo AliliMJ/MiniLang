@@ -1,10 +1,1 @@
-MOV i 1
-Etiq7 :MOV j 1
-Etiq9 :MOV k 1
-Etiq11 :MOV AX T3
-MOV k AX
-MOV AX T4
-MOV j AX
-MOV AX T5
-MOV i AX
-Etiq47 :Etiq50 :
+MOV j 1

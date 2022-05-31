@@ -21,6 +21,8 @@ char saveOp[6];
 char tempFor[25];
 char saveIdfFor[25];
 extern int indq;
+extern int nb1;
+extern int nb2;
 int debDoWhile;
 int debIf;
 int thenIf;
@@ -156,14 +158,14 @@ IDF_CONTROLLER: idf {if(ExistDeclaration($1)==0) {
 LIST_CONST: IDF_CONTROLLER_CSTE
     | IDF_CONTROLLER_CSTE bar LIST_CONST ;
 
-IDF_CONTROLLER_CSTE:idf{{if(ExistDeclaration($1)==0) {
+IDF_CONTROLLER_CSTE:idf{if(ExistDeclaration($1)==0) {
                        if(insererCnst($1)==-1)
                         printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
 
           }
                      else 
                        printf("erreur semantique [%d] : double declaration de \"%s\"\n",lignes,$1);
-                     };};
+                     };
 
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);
     quad("=", $4, "", $2);
@@ -230,12 +232,12 @@ INPUT:left_ar k_input col idf v_string fw_slash right_ar {if(ExistDeclaration($4
   cmpcomp($5,$4,lignes);
 }}
 ;
-OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar 
+OUTPUT:left_ar k_output col OUTPUT_ARG fw_slash right_ar {testoutput(lignes);initialiser();}
 ;
-OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG
-          |v_string plus idf 
-          |v_string 
-          |v_string plus OUTPUT_ARG 
+OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG {insererT1($3);outputChaine($1);}
+          |v_string plus idf {insererT1($3);outputChaine($1);}
+          |v_string {outputChaine($1);}
+          |v_string plus OUTPUT_ARG {outputChaine($1);}
           ;
  
 
@@ -405,7 +407,7 @@ EXPRESSION_ARITHMETIQUE:EXPRESSION_ARITHMETIQUE plus EXPRESSION_ARITHMETIQUE {$$
                         |IDF plus EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("+",$1,$3.res,$$.res);}
                         |IDF dash EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("-",$1,$3.res,$$.res);}
                         |IDF asterisk EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("*",$1,$3.res,$$.res);}
-                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("/",$1,$3.res,$$.res);}
+                        |IDF fw_slash EXPRESSION_ARITHMETIQUE {isNumeric($1,lignes);$$.res=temporaire();quad ("/",$1,$3.res,$$.res);divisionZero($3.res,lignes);}
                         |EXPRESSION_ARITHMETIQUE plus IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("+",$1.res,$3,$$.res);}
                         |EXPRESSION_ARITHMETIQUE dash IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("-",$1.res,$3,$$.res);}
                         |EXPRESSION_ARITHMETIQUE asterisk IDF {isNumeric($3,lignes);$$.res=temporaire();quad ("*",$1.res,$3,$$.res);}
@@ -465,6 +467,7 @@ int yywrap();
 
 int main() {
    initialiter();
+   initialiser();
    initialiterListeIdf();
    initialiterListeCnst();
    initialiterListeQuad();
@@ -473,7 +476,7 @@ int main() {
    afficherQuad();
    optimiser();  
    afficherQuad();
-   generateCode();
+   //generateCode();
 }
 
 int yyerror(char * message) {

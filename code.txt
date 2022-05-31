@@ -27,8 +27,8 @@
 <INPUT: hhcd "Entrez la valeur de x @"/>
 
 <AFF: x, ((5+5)-5)/>
-
-<OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
+<AFF: x, x/0/>
+<OUTPUT: "Le double de x est $"+ x + "hhh @" +x2 /> 
 
 <AFF: S[S[1]], 32780/>
 
