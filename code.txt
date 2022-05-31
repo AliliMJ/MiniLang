@@ -24,11 +24,11 @@
 
 <body>
 
-<INPUT: hh "Entrez la valeur de x @"/>
+<INPUT: hhcd "Entrez la valeur de x @"/>
 
 <AFF: x, ((5+5)-5)/>
-
-<OUTPUT: "Le double de x est $"+ x1 + "hhh"/> 
+<AFF: x, x/0/>
+<OUTPUT: "Le double de x est $"+ x + "hhh @" +x2 /> 
 
 <AFF: S[S[1]], 32780/>
 
@@ -61,7 +61,7 @@
 <AFF:x,((5+5)*10)/>
 <AFF:x,(15.5+15.6+10)/>
 
-<AFF: S[30], x/>
+<AFF: S[5], x/>
 <AFF: S[1], x/>
 <AFF:  hh, AND(y1, y2)/>
 <AFF:  hh, OR(x, y)/>
