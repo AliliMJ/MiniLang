@@ -71,9 +71,9 @@ void affiche() // fonction pour afficher le contenu de table
     ptr p1;
 
     printf("\n\n************************* Table des symboles **************************\n");
-    printf("\t _______________________________________________________________________\n");
-    printf("\t|   Nom Entite    |   Code Entite   |   Type  |  constante | Taille Tab |\n");
-    printf("\t|_________________|_________________|_________|____________|____________|\n");
+    printf("\t __________________________________________________________________________________\n");
+    printf("\t|   Nom Entite    |   Code Entite   |   Type  |        constant       | Taille Tab |\n");
+    printf("\t|_________________|_________________|_________|_______________________|____________|\n");
 
     for (i = 0; i < taille; i++)
     {
@@ -82,12 +82,12 @@ void affiche() // fonction pour afficher le contenu de table
             p1 = ts[i].svt2;
             while (p1 != NULL)
             {
-                printf("\t| %15s | %15s | %7s |  %8s  | %10d |\n", p1->entity_name, p1->entity_code, p1->entity_type, p1->constante, p1->tablenght);
+                printf("\t| %15s | %15s | %7s |  %19s  | %10d |\n", p1->entity_name, p1->entity_code, p1->entity_type, p1->constante, p1->tablenght);
                 p1 = p1->svt1;
             }
         }
     }
-    printf("\t|_________________|_________________|_________|____________|____________|\n");
+    printf("\t|_________________|_________________|_________|_______________________|____________|\n");
 }
 
 ptr allouerptr() // cette fonction pour allouer un espace memoire pour un element de la liste chaine
@@ -507,4 +507,9 @@ char* tabName(char* name, char* arg) {
 int tabSize(char *entity){
     ptr p = RechercherPtr(entity);
     return p->tablenght;
+}
+
+void insererCsteVal(char *entity , char *val){
+    ptr p = RechercherPtr(entity);
+    strcpy(p->constante,val);
 }

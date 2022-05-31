@@ -1,1 +1,65 @@
-MOV j 1
+DATA segment stack
+i dw
+j dw
+k dw
+k dw
+j dw
+i dw
+x dw
+y dw
+s1 dw 22
+s2 dw 25
+t3 dw
+t4 dw
+t5 dw
+t6 dw
+kimo dw
+x dw
+t7 dw
+t8 dw
+t9 dw
+t10 dw
+DATA ends
+				MOV s1 22
+				MOV s2 25
+				MOV i 1
+ETIQ8:
+				MOV AX 25
+				
+				MOV j 1
+ETIQ10:
+				MOV AX 19
+				
+				MOV k 1
+ETIQ12:
+				MOV AX 16
+				
+				ADD
+				MOV AX T3
+				MOV k AX
+				JMP ETIQ12
+				ADD
+				MOV AX T4
+				MOV j AX
+				JMP ETIQ10
+				ADD
+				MOV AX T5
+				MOV i AX
+				JMP ETIQ8
+				ADD
+				INST
+				INST
+				INST
+				JZ 42
+				INST
+				JZ 41
+				INST
+				JZ 41
+				INST
+				INST
+				JZ 53
+				INST
+				JZ 51
+				JMP ETIQ51
+ETIQ51:
+				JMP ETIQ53
