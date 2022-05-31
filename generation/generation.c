@@ -52,10 +52,12 @@ void generateCode() {
   printf(" %d ", br[0]);
   int lastBranchIndex=0;
   for(i=0;i< indq;i++) {
+
     if(i==br[lastBranchIndex]) {
-      fprintf(f, "Etiq%d :", i);
+      fprintf(f, "ETIQ%d:\n", i);
       lastBranchIndex++;
     }
+    
     tranlate(q[i]);
   }
 
@@ -63,9 +65,14 @@ void generateCode() {
 
 }
 
+void formatInst(int indent) {
+  int i;
+  for(i=0;i<indent;i++) fprintf(f, "\t");
+}
 void tranlate(quadruplet quad) {
   if(quad.opr == NULL) return;
- 
+  
+  formatInst(4);
   switch(quad.opr[0]) {
     case '=':
       aff(quad.op1, quad.res);
@@ -81,38 +88,55 @@ void tranlate(quadruplet quad) {
       minus(quad);
       break;
     case('/'):
-      div(quad);
+      divide(quad);
       break;
     case 'B':
       jmp(quad);
       break;
     default:
-
+      fprintf(f, "INST");
     
   }
+  fprintf(f, "\n");
 
 } 
 
 void aff(char* op, char* res) {
   if (isdigit(op[0])==0) {
     fprintf(f, "MOV AX %s\n", op);
-    fprintf(f, "MOV %s AX\n", res);
+    formatInst(4);
+    fprintf(f, "MOV %s AX", res);
   }
   else
-    fprintf(f, "MOV %s %s\n", res, op);
+    fprintf(f, "MOV %s %s", res, op);
 }
 void jmp(quadruplet quad) {
+  char *typeB = quad.opr, *branch=quad.op1;
+  if(strcmp(typeB, "BR")==0) {
+    fprintf(f, "JMP ETIQ%s", branch);
+  }else if (strcmp(typeB, "BZ")==0) {
+    fprintf(f, "JZ %s", quad.op1);
+  }else if (strcmp(typeB, "BNZ")==0){
+    fprintf(f, "JNZ %s", quad.op1);
+  }
+  else if(strcmp(typeB, "BE")==0) {
+    fprintf(f, "MOV AX %s\n", quad.op1); formatInst(4);
+    
+  }
+  else {
+    fprintf(f, "B");
+  }
   
 }
 void minus(quadruplet quad) {
-  
+  fprintf(f, "MINUS");
 }
 void add(quadruplet quad) {
-  
+  fprintf(f, "ADD");
 }
-void div(quadruplet quad) {
-  
+void divide(quadruplet quad) {
+  fprintf(f, "DIV");
 }
 void mult(quadruplet quad) {
-  
+  fprintf(f, "MULT");
 }

@@ -3,12 +3,13 @@
 #include "../quad/quad.h"
 
 void generateCode();
+void formatInst(int indent);
 void tranlate(quadruplet quad);
 void aff(char* op, char* res); 
 void jmp(quadruplet quad);
 void minus(quadruplet quad);
 void add(quadruplet quad);
-void div(quadruplet quad);
+void divide(quadruplet quad);
 void mult(quadruplet quad);
 
 
