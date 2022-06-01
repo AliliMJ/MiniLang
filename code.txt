@@ -9,7 +9,8 @@
 
 <SUB CONSTANTE>
   <y1 | y2 | y3 AS BOL/>;
-  <w = 22/>;
+  <s1 = 22/>;
+  <s2 = 25/>;
   <t = "Hello world"/>;
   <u = 'x'/>;
   <x1 | x2 | x3 AS STR/>;
@@ -27,7 +28,6 @@
 <INPUT: hhcd "Entrez la valeur de x @"/>
 
 <AFF: x, ((5+5)-5)/>
-<AFF: x, x/0/>
 <OUTPUT: "Le double de x est $"+ x + "hhh @" +x2 /> 
 
 <AFF: S[S[1]], 32780/>
@@ -72,7 +72,7 @@
 
 
 
-<IF:INF(t1,t2)>
+<IF:INF(s1,s2)>
 <THEN>
 <AFF: x, (1+1)/>
 

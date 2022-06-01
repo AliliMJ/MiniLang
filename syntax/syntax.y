@@ -168,7 +168,7 @@ IDF_CONTROLLER_CSTE:idf{if(ExistDeclaration($1)==0) {
                      };
 
 IDF_DEC_INIT:left_ar idf eq VALUE fw_slash right_ar {cnsteInit($2,"oui");InsererType($2,saveType);
-    quad("=", $4, "", $2);
+    quad("=", $4, "", $2);insererCsteVal($2,$4);
 
 }
              ;

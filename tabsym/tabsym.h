@@ -79,5 +79,6 @@ char *CharToString(char c);
 char *transfertString(char *s);
 char* tabName(char* name, char*arg);
 int tabSize(char *entity);
+void insererCsteVal(char *entity, char *val);
 
 #endif 

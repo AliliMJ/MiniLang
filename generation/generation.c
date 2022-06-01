@@ -2,19 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "generation.h"
+#include "../tabsym/tabsym.h"
 #include <math.h>
 int * br, nbrBranches;
 
 extern int indq;
 FILE *f;
 
-// void dataSegment() {
 
-// }
 
-// void codeSegment() {
-
-// }
 void branches() {
   int b[indq], i, j=0, n;
   for(i=0;i<indq;i++) {
@@ -34,19 +30,63 @@ void branches() {
     }
   }
 
- 
-
 }
-void generateCode() {
 
-  f = fopen("./generation/generation.txt", "w");
-  if(f == NULL)
-  {
-      printf("Error!");   
-      exit(1);             
+void dataSegment() {
+
+  fprintf(f,"DATA segment stack\n");
+
+  int i;
+
+  for(i=0;i<indq;i++){
+    if (q[i].opr != NULL)
+    {
+      
+      if (RechercherPtr(q[i].op1) != NULL)
+      {
+        formatInst(4);
+        ptr p = RechercherPtr(q[i].op1);
+        if(p->tablenght!=-1){
+          fprintf(f,"%s dw %d dup (?)\n",p->entity_name,p->tablenght);
+        }else if(strcmp(p->constante,"non")==0){
+          fprintf(f, "%s dw\n", p->entity_name);
+        }
+        else if ((strcmp(p->constante, "non") != 0) && (strcmp(p->constante, "null") != 0) && (strcmp(p->constante, "oui") != 0)){
+          fprintf(f, "%s dw %s\n", p->entity_name,p->constante);
+        }
+      }
+
+      if (RechercherPtr(q[i].op2) != NULL)
+      {
+        formatInst(4);
+        ptr p = RechercherPtr(q[i].op2);
+        if (p->tablenght != -1)
+        {
+          fprintf(f, "%s dw %d dup (?)\n", p->entity_name, p->tablenght);
+        }
+        else if(strcmp(p->constante, "non")==0)
+        {
+          fprintf(f, "%s dw\n", p->entity_name);
+        }
+        else if ((strcmp(p->constante, "non") != 0) && (strcmp(p->constante, "null") != 0) && (strcmp(p->constante, "oui") != 0))
+        {
+          fprintf(f, "%s dw %s\n", p->entity_name, p->constante);
+        }
+      }
+
+    }
+
+    
+    
   }
 
-  printf("text added !\n");
+  fprintf(f, "DATA ends\n");
+}
+
+void codeSegment() {
+  fprintf(f, "CODE segment\nMAIN:\n");formatInst(4);
+  fprintf(f, "ASSUME CS:CODE DS:DATA\n");
+
   branches();
   int i;
   printf(" %d ", br[0]);
@@ -60,7 +100,22 @@ void generateCode() {
     
     tranlate(q[i]);
   }
+  fprintf(f, "MAIN ENDS\n");formatInst(4);
+  fprintf(f, "END MAIN\n");
+}
 
+void generateCode() {
+
+  f = fopen("./generation/generation.txt", "w");
+  if(f == NULL)
+  {
+      printf("Error!");   
+      exit(1);             
+  }
+
+  printf("text added !\n");
+  dataSegment();
+  codeSegment();
   fclose(f);
 
 }
