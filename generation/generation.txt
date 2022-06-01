@@ -1,1 +1,60 @@
-MOV j 1
+				MOV AX x
+				DIV 0
+				MOV T3 AX
+				MOV i 1
+ETIQ8:
+				CMP 5 i
+				JE 25
+				MOV j 1
+ETIQ10:
+				CMP 10 j
+				JE 19
+				MOV k 1
+ETIQ12:
+				CMP 15 k
+				JE 16
+				MOV AX k
+				ADD AX 1
+				MOV T4 AX
+				MOV AX T4
+				MOV k AX
+				JMP ETIQ12
+				MOV AX j
+				ADD AX 1
+				MOV T5 AX
+				MOV AX T5
+				MOV j AX
+				JMP ETIQ10
+				MOV AX i
+				ADD AX 1
+				MOV T6 AX
+				MOV AX T6
+				MOV i AX
+				JMP ETIQ8
+				MOV AX 31.10
+				ADD AX 10
+				MOV T10 AX
+				AND y1 y2
+				MOV T11 AX
+				OR x y
+				MOV T12 AX
+				CALL INF t1 t2
+				MOV T13
+				JZ 42
+				CALL SUPE t3 t4
+				MOV T15
+				JZ 41
+				CALL SUPE t5 t6
+				MOV T17
+				JZ 41
+				CALL INFE kimo x
+				MOV T20
+				CALL SUPE t7 t8
+				MOV T21
+				JZ 53
+				CALL SUPE t9 t10
+				MOV T23
+				JZ 51
+				JMP ETIQ51
+ETIQ51:
+				JMP ETIQ53

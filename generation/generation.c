@@ -94,12 +94,65 @@ void tranlate(quadruplet quad) {
       jmp(quad);
       break;
     default:
-      fprintf(f, "INST");
+      logical(quad);
     
   }
   fprintf(f, "\n");
 
 } 
+
+void logical(quadruplet quad) {
+  if(strcmp(quad.opr, "AND")==0) { land(quad);
+
+  }else if(strcmp(quad.opr, "OR")==0) { lor(quad);
+
+  }else if(strcmp(quad.opr, "SUP")==0) { lsup(quad);
+
+  }else if(strcmp(quad.opr, "SUPE")==0) { lsupe(quad);
+
+  }else if(strcmp(quad.opr, "INF")==0) { linf(quad);
+
+  }else if (strcmp(quad.opr, "INFE")==0) {linfe(quad);
+
+  }else if (strcmp(quad.opr, "EGA")==0) { lega(quad);
+
+  }else if (strcmp(quad.opr, "DIF")==0) { ldif(quad);
+
+  }
+}
+void lsup(quadruplet quad) {
+  fprintf(f, "CALL SUP %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void lsupe(quadruplet quad) {
+  fprintf(f, "CALL SUPE %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void linf(quadruplet quad) {
+  fprintf(f, "CALL INF %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void linfe(quadruplet quad) {
+  fprintf(f, "CALL INFE %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void lega(quadruplet quad) {
+  fprintf(f, "CALL EGA %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void ldif(quadruplet quad) {
+  fprintf(f, "CALL DIF %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s", quad.res);
+}
+void land(quadruplet quad) {
+  fprintf(f, "AND %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
+
+}
+void lor(quadruplet quad) {
+  fprintf(f, "OR %s %s\n", quad.op1, quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
+}
 
 void aff(char* op, char* res) {
   if (isdigit(op[0])==0) {
@@ -120,7 +173,14 @@ void jmp(quadruplet quad) {
     fprintf(f, "JNZ %s", quad.op1);
   }
   else if(strcmp(typeB, "BE")==0) {
-    fprintf(f, "MOV AX %s\n", quad.op1); formatInst(4);
+    //fprintf(f, "MOV AX %s\n", quad.op2); formatInst(4);
+    fprintf(f, "CMP %s %s\n", quad.res, quad.op2);formatInst(4);
+    fprintf(f, "JE %s", quad.op1);
+    
+  }else if(strcmp(typeB, "BNE")==0) {
+    //fprintf(f, "MOV AX %s\n", quad.op2); formatInst(4);
+    fprintf(f, "CMP %s %s\n", quad.res, quad.op2);formatInst(4);
+    fprintf(f, "JNE %s", quad.op1);
     
   }
   else {
@@ -129,14 +189,23 @@ void jmp(quadruplet quad) {
   
 }
 void minus(quadruplet quad) {
-  fprintf(f, "MINUS");
+  fprintf(f, "MOV AX %s\n", quad.op1);formatInst(4);
+  fprintf(f, "SUB %s\n", quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
 }
 void add(quadruplet quad) {
-  fprintf(f, "ADD");
+  fprintf(f, "MOV AX %s\n", quad.op1);formatInst(4);
+  fprintf(f, "ADD AX %s\n", quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
+  
 }
 void divide(quadruplet quad) {
-  fprintf(f, "DIV");
+  fprintf(f, "MOV AX %s\n", quad.op1);formatInst(4);
+  fprintf(f, "DIV %s\n", quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
 }
 void mult(quadruplet quad) {
-  fprintf(f, "MULT");
+  fprintf(f, "MOV AX %s\n", quad.op1);formatInst(4);
+  fprintf(f, "IMULT %s\n", quad.op2);formatInst(4);
+  fprintf(f, "MOV %s AX", quad.res);
 }

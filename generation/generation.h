@@ -11,6 +11,16 @@ void minus(quadruplet quad);
 void add(quadruplet quad);
 void divide(quadruplet quad);
 void mult(quadruplet quad);
+void land(quadruplet quad);
+void lor(quadruplet quad);
+void logical(quadruplet quad);
+void lsup(quadruplet quad);
+void lsupe(quadruplet quad);
+void linf(quadruplet quad);
+void linfe(quadruplet quad);
+void lega(quadruplet quad);
+void ldif(quadruplet quad);
+
 
 
 
