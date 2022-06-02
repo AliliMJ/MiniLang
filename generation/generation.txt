@@ -38,47 +38,47 @@ ETIQ13:
 				JE 17
 				MOV AX k
 				ADD AX 1
-				MOV _T3 AX
-				MOV AX _T3
+				MOV T3 AX
+				MOV AX T3
 				MOV k AX
 				JMP ETIQ13
 				MOV AX j
 				ADD AX 1
-				MOV _T4 AX
-				MOV AX _T4
+				MOV T4 AX
+				MOV AX T4
 				MOV j AX
 				JMP ETIQ11
 				MOV AX i
 				ADD AX 1
-				MOV _T5 AX
-				MOV AX _T5
+				MOV T5 AX
+				MOV AX T5
 				MOV i AX
 				JMP ETIQ9
 				MOV AX 31.10
 				ADD AX 10
-				MOV _T9 AX
+				MOV T9 AX
 				MOV AX x
 				MOV S[1] AX
 				AND y1 y2
-				MOV _T10 AX
+				MOV T10 AX
 				OR x y
-				MOV _T11 AX
+				MOV T11 AX
 				CALL INF s1 s2
-				MOV _T12
+				MOV T12
 				JZ 43
 				CALL SUPE t3 t4
-				MOV _T14
+				MOV T14
 				JZ 42
 				CALL SUPE t5 t6
-				MOV _T16
+				MOV T16
 				JZ 42
 				CALL INFE kimo x
-				MOV _T19
+				MOV T19
 				CALL SUPE t7 t8
-				MOV _T20
+				MOV T20
 				JZ 54
 				CALL SUPE t9 t10
-				MOV _T22
+				MOV T22
 				JZ 52
 				JMP ETIQ52
 ETIQ52:
