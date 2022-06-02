@@ -8,7 +8,7 @@ sinon lancer `./commandes.bat`. n'oubliez pas de remplacer l'espace par le point
 
 ### **Les resultats et sorties**
 
-Vous trouvriez dans le fichier out.txt le code intermédiaire brute, et l'optimisé en dessous. Le code objet est générer dans le répertoire ****generation****.
+Vous trouvrez dans le fichier out.txt le code intermédiaire brute, et l'optimisé en dessous. Le code objet est générer dans le répertoire ****generation****.
 
 ### **Membres**
 
