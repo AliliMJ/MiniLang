@@ -3,10 +3,6 @@ DATA segment stack
 				i dw
 				j dw
 				k dw
-				k dw
-				j dw
-				i dw
-				x dw
 												x dw
 				y dw
 				s1 dw 22
@@ -16,7 +12,6 @@ DATA segment stack
 				t5 dw
 				t6 dw
 				kimo dw
-				x dw
 				t7 dw
 				t8 dw
 				t9 dw

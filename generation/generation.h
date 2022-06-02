@@ -2,6 +2,13 @@
 #define GEN_H
 #include "../quad/quad.h"
 
+typedef struct listeIdfGen
+{
+    char chaine[20];
+} listeIdfGen;
+
+listeIdfGen TG[40];
+
 void generateCode();
 void formatInst(int indent);
 void tranlate(quadruplet quad);
@@ -21,7 +28,7 @@ void linfe(quadruplet quad);
 void lega(quadruplet quad);
 void ldif(quadruplet quad);
 
-
-
+int rechercherTG(char *entity);
+void insererTG(char *entity);
 
 #endif 
