@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "generation.h"
 #include "../tabsym/tabsym.h"
 #include <math.h>
@@ -9,7 +10,26 @@ int * br, nbrBranches;
 extern int indq;
 FILE *f;
 
+int nb=0;
 
+int rechercherTG(char *entity){
+  int i;
+
+  for (i = 0; i < nb; i++)
+  {
+    if(strcmp(TG[i].chaine,entity)==0) return 1;
+  }
+
+return 0;
+}
+
+void insererTG(char *entity)
+{
+  if(rechercherTG(entity)==0){
+   strcpy(TG[nb].chaine,entity);
+   nb++;
+  }
+}
 
 void branches() {
   int b[indq], i, j=0, n;
@@ -41,47 +61,64 @@ void dataSegment() {
   for(i=0;i<indq;i++){
     if (q[i].opr != NULL)
     {
-      
       if (RechercherPtr(q[i].op1) != NULL)
       {
-        formatInst(4);
         ptr p = RechercherPtr(q[i].op1);
-        if(p->tablenght!=-1){
-          fprintf(f,"%s dw %d dup (?)\n",p->entity_name,p->tablenght);
+        if(rechercherTG(p->entity_name)==0){
+          formatInst(4);
+          if (p->tablenght != -1)
+          {
+
+            fprintf(f, "%s dw %d dup (?)\n", p->entity_name, p->tablenght);
+            insererTG(p->entity_name);
+          
         }else if(strcmp(p->constante,"non")==0){
           fprintf(f, "%s dw\n", p->entity_name);
+          insererTG(p->entity_name);
         }
         else if ((strcmp(p->constante, "non") != 0) && (strcmp(p->constante, "null") != 0) && (strcmp(p->constante, "oui") != 0)){
           fprintf(f, "%s dw %s\n", p->entity_name,p->constante);
+          insererTG(p->entity_name);
         }
+      }
       }
 
       if (RechercherPtr(q[i].op2) != NULL)
       {
-        formatInst(4);
+        
         ptr p = RechercherPtr(q[i].op2);
-        if (p->tablenght != -1)
-        {
-          fprintf(f, "%s dw %d dup (?)\n", p->entity_name, p->tablenght);
+        if(rechercherTG(p->entity_name)==0){
+          formatInst(4);
+          if (p->tablenght != -1)
+          {
+            fprintf(f, "%s dw %d dup (?)\n", p->entity_name, p->tablenght);
+            insererTG(p->entity_name);
         }
         else if(strcmp(p->constante, "non")==0)
         {
           fprintf(f, "%s dw\n", p->entity_name);
+          insererTG(p->entity_name);
         }
         else if ((strcmp(p->constante, "non") != 0) && (strcmp(p->constante, "null") != 0) && (strcmp(p->constante, "oui") != 0))
         {
           fprintf(f, "%s dw %s\n", p->entity_name, p->constante);
+          insererTG(p->entity_name);
         }
       }
-
+      }
     }
 
     
     
   }
-
-  fprintf(f, "DATA ends\n");
+printf("\n\n");
+for(i=0;i<nb;i++){
+  printf("  %s  ",TG[i].chaine);
 }
+printf("\n\n");
+fprintf(f, "DATA ends\n");
+}
+
 
 void codeSegment() {
   fprintf(f, "CODE segment\nMAIN:\n");formatInst(4);
