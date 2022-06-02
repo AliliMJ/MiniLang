@@ -3,8 +3,8 @@ DATA segment stack
 				i dw
 				j dw
 				k dw
-												x dw
-				y dw
+				x dw
+												y dw
 				s1 dw 22
 				s2 dw 25
 				t3 dw
