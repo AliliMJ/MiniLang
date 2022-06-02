@@ -4,22 +4,44 @@
 #include "../quad/quad.h"
 #include "optimisation.h"
 #include <math.h>
-
+FILE *f;
 extern int indq;
-int redirect = 0;
+
+void writeQuad(FILE *f)
+{
+  if (f==NULL) {
+    printf("Could not write to file\n");
+    exit(1);
+  }
+
+  fprintf(f, "\n\n");
+  fprintf(f, "************************* Quadruplets **************************\n\n");
+
+    int i;
+    for (i = 0; i < indq; i++)
+    {
+      if (q[i].opr != NULL)
+        fprintf(f,"%d-( %s , %s , %s , %s )\n", i, q[i].opr, q[i].op1, q[i].op2, q[i].res);
+      else fprintf(f,"%d-\n", i);
+    }
+    fprintf(f,"\n\n");
+}
+
+
+//int redirect = 0;
 
 void optimiser() {
-  int changes, iter=0;
-  
+  f = fopen("./out.txt", "w");
+  writeQuad(f);
+  int changes;
   do {
     changes =   propArth()+ propCopie()+eliminer();
 
-    
-    //printf("%d, %d, %d\n", propArth(), propCopie(), eliminer());
-    iter ++;
-  }while(changes > 0);
 
-  printf("%d iterations\n", iter);
+  }while(changes > 0);
+  writeQuad(f);
+  fclose(f);
+
 }
 
 int nearBlockLine(int index) {
@@ -42,11 +64,10 @@ int remplacer(char* temp1, char* temp2, int index){
     if(q[index].opr!= NULL && strcmp(q[index].opr, "=")==0 && strcmp(q[index].res, temp1)==0 )
       return change;
     if(update(temp1, temp2, index) == 1) {
-      //printf("enters %d\n", index);
+
       change = 1;
-      printf("%s par %s dans %d\n", temp1, temp2, index);
-      //printf("update %s with %s line %d\n", temp1, temp2, index);
-      //printf("from %d block %d\n", index,block);
+
+   
     }
       
 
@@ -85,11 +106,11 @@ int propCopie() {
       
 
     }
-    //printf("change %d from %d\n ", change, analyse);
+
     
     analyse ++;
   }
-  //printf("last %d\n", analyse);
+
   return change;
   
   
@@ -143,8 +164,8 @@ int eliminer() {
     
 
     corrigerBranch();
-   printf("\n\n");
-  //printf("%d eliminations\n", count);
+ 
+
   return change;
 }
 
