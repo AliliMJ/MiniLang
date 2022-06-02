@@ -4,7 +4,7 @@
 
 Si vous êtes sous mac os lancer la commande `./unix.sh` pour compiler
 
-sinon lancer `./commandes.bat`.
+sinon lancer `./commandes.bat`. n'oubliez pas de remplacer l'espace par le point d'extension.
 
 ### **Les resultats et sorties**
 
