@@ -111,11 +111,11 @@ void dataSegment() {
     
     
   }
-printf("\n\n");
-for(i=0;i<nb;i++){
-  printf("  %s  ",TG[i].chaine);
-}
-printf("\n\n");
+//printf("\n\n");
+// for(i=0;i<nb;i++){
+//   printf("  %s  ",TG[i].chaine);
+// }
+//printf("\n\n");
 fprintf(f, "DATA ends\n");
 }
 
@@ -126,7 +126,6 @@ void codeSegment() {
 
   branches();
   int i;
-  printf(" %d ", br[0]);
   int lastBranchIndex=0;
   for(i=0;i< indq;i++) {
 

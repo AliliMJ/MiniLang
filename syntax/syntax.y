@@ -473,9 +473,7 @@ int main() {
    initialiterListeQuad();
    yyparse();
    affiche();
-   afficherQuad();
    optimiser();  
-   afficherQuad();
    generateCode();
 }
 
