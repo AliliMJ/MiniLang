@@ -30,7 +30,8 @@
 <AFF: x, ((5+5)-5)/>
 <OUTPUT: "Le double de x est $"+ x + "hhh @" +x2 /> 
 
-<AFF: S[S[1]], 32780/>
+<AFF: S[1], 32780/>
+<AFF: x, S[1]/>
 
 <FOR i=1 UNTIL 5>
   <INPUT: x "Entrez la valeur de x $"/>

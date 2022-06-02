@@ -1,3 +1,4 @@
+TITLE gen
 DATA segment stack
 				i dw
 				j dw
@@ -5,6 +6,7 @@ DATA segment stack
 				k dw
 				j dw
 				i dw
+				x dw
 												x dw
 				y dw
 				s1 dw 22
@@ -25,62 +27,66 @@ MAIN:
 				ASSUME CS:CODE DS:DATA
 				MOV s1 22
 				MOV s2 25
+				MOV AX S[1]
+				MOV x AX
 				MOV i 1
-ETIQ8:
+ETIQ9:
 				CMP 5 i
-				JE 25
+				JE 26
 				MOV j 1
-ETIQ10:
+ETIQ11:
 				CMP 10 j
-				JE 19
+				JE 20
 				MOV k 1
-ETIQ12:
+ETIQ13:
 				CMP 15 k
-				JE 16
+				JE 17
 				MOV AX k
 				ADD AX 1
-				MOV T3 AX
-				MOV AX T3
+				MOV _T3 AX
+				MOV AX _T3
 				MOV k AX
-				JMP ETIQ12
+				JMP ETIQ13
 				MOV AX j
 				ADD AX 1
-				MOV T4 AX
-				MOV AX T4
+				MOV _T4 AX
+				MOV AX _T4
 				MOV j AX
-				JMP ETIQ10
+				JMP ETIQ11
 				MOV AX i
 				ADD AX 1
-				MOV T5 AX
-				MOV AX T5
+				MOV _T5 AX
+				MOV AX _T5
 				MOV i AX
-				JMP ETIQ8
+				JMP ETIQ9
 				MOV AX 31.10
 				ADD AX 10
-				MOV T9 AX
+				MOV _T9 AX
+				MOV AX x
+				MOV S[1] AX
 				AND y1 y2
-				MOV T10 AX
+				MOV _T10 AX
 				OR x y
-				MOV T11 AX
+				MOV _T11 AX
 				CALL INF s1 s2
-				MOV T12
-				JZ 42
+				MOV _T12
+				JZ 43
 				CALL SUPE t3 t4
-				MOV T14
-				JZ 41
+				MOV _T14
+				JZ 42
 				CALL SUPE t5 t6
-				MOV T16
-				JZ 41
+				MOV _T16
+				JZ 42
 				CALL INFE kimo x
-				MOV T19
+				MOV _T19
 				CALL SUPE t7 t8
-				MOV T20
-				JZ 53
+				MOV _T20
+				JZ 54
 				CALL SUPE t9 t10
-				MOV T22
-				JZ 51
-				JMP ETIQ51
-ETIQ51:
-				JMP ETIQ53
+				MOV _T22
+				JZ 52
+				JMP ETIQ52
+ETIQ52:
+				JMP ETIQ54
 MAIN ENDS
 				END MAIN

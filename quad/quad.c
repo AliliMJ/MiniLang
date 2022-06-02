@@ -32,7 +32,7 @@ void quad(char *o, char *o1, char *o2, char *r)
 char* temporaire() {
   char* temp;
   temp = allouer();
-  sprintf(temp,"T%d",nTemp);nTemp++;
+  sprintf(temp,"_T%d",nTemp);nTemp++;
   return temp;
 }
 void afficherQuad()

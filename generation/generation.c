@@ -113,7 +113,8 @@ void generateCode() {
       exit(1);             
   }
 
-  printf("text added !\n");
+  printf("Code generated!\n");
+  fprintf(f, "TITLE gen\n");
   dataSegment();
   codeSegment();
   fclose(f);
