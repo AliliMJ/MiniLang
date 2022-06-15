@@ -187,7 +187,7 @@ void corrigerBranch() {
   }
 }
 
-int isNumber(char *s)
+int isNumber(char *s) // pour distinguer le temporelle et les numeros
 {
   int i=0;
 
@@ -196,34 +196,34 @@ int isNumber(char *s)
 
     if (s[i] == '.')
     {
-      return (2);
+      return (2); // float
     }
 
-    if (isdigit(s[i]) == 0)
+    if (isdigit(s[i]) == 0) // c'est pas un numero il ya un caractere different de chiffres
       return(0);
 
     i++;
   }
 
-  return(1);
+  return(1); // c'est un numero entier succes
   
 }
 
-int propArth(){
+int propArth(){ // enlever les operation et le remplacer par des affectations direct
   int ind=0;
   int change= 0;
   while(ind<indq){
 
     if(q[ind].opr != NULL) {
 
-      if ((strcmp(q[ind].opr, "+") == 0)){
-        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1)){
-          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) + atoi(q[ind].op1));
+      if ((strcmp(q[ind].opr, "+") == 0)){ // l'addition
+        if ((isNumber(q[ind].op1) == 1) && (isNumber(q[ind].op2) == 1)){ // verifier que les deux operandes sont des chiffres et entier
+          sprintf(q[ind].op1, "%d", atoi(q[ind].op2) + atoi(q[ind].op1)); // remplacer dans qui suite l'addition par affectation
           q[ind].op2 = "";
           q[ind].opr = "=";
           change = 1;
         }
-        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2)){
+        if ((isNumber(q[ind].op1) == 2) && (isNumber(q[ind].op2) == 2)){ // si c'est un float
           sprintf(q[ind].op1, "%.2f", atof(q[ind].op2) + atof(q[ind].op1));
           q[ind].op2 = "";
           q[ind].opr = "=";

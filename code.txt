@@ -75,22 +75,19 @@
 
 <IF:INF(s1,s2)>
 <THEN>
-<AFF: x, (1+1)/>
-
-       <IF:SUPE(t3,t4)>
-       <THEN>
-       <AFF: x, (2+2)/>
-
+      <AFF: x, (1+1)/>
+      <IF:SUPE(t3,t4)>
+      <THEN>
+            <AFF: x, (2+2)/>
             <IF:SUPE(t5,t6)>
             <THEN>
-            <AFF: x, (3+3)/>
+                  <AFF: x, (3+3)/>
             </THEN>
             </IF>
        <AFF: x, (4+4)/>
-</THEN>
-</IF>
-
-<AFF: hh, INFE(kimo, x)/>
+     </THEN>
+     </IF>
+     <AFF: hh, INFE(kimo, x)/>
 </THEN>
 </IF>
 
@@ -99,23 +96,20 @@
 
 <IF:SUPE(t7,t8)>
 <THEN>
-<AFF: x, (1+1)/>
-
+      <AFF: x, (1+1)/>
       <IF:SUPE(t9,t10)>
       <THEN>
-      <AFF: x, (2+2)/>
+            <AFF: x, (2+2)/>
       </THEN>
-      <ELSE>
-      <AFF: x, (2+2)/>
-      </ELSE>
+             <ELSE>
+             <AFF: x, (2+2)/>
+             </ELSE>
       </IF>
-
-      <AFF: x, (14+14)/>
-            
+      <AFF: x, (14+14)/>           
 </THEN>
-<ELSE>
-<AFF: x, (4+4)/>
-</ELSE>
+       <ELSE>
+      <AFF: x, (4+4)/>
+      </ELSE>
 </IF>
 
 <OUTPUT: "Le double de x est $"+ x/> 

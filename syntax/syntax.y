@@ -241,13 +241,15 @@ OUTPUT_ARG:v_string plus idf plus OUTPUT_ARG {insererT1($3);outputChaine($1);}
           ;
  
 
-CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);}
-           |COND_IF_ELSE CLOSE_IF {q[atoi($1)].op1=IntToChar(indq);}
+CONDITIONAL:COND_IF CLOSE_IF {q[atoi($1)-1].op1=IntToChar(indq);} //mettre l'adresse de la fin dans le quad pour sauter en cas de false
+           |COND_IF_ELSE CLOSE_IF {q[atoi($1)].op1=IntToChar(indq);} //mettre l'adresse de la fin dans le quad pour sauter le ELSE en cas l'execution de IF
            ;
 
-COND_IF_ELSE: COND_IF COND_IF_ELSE_A BLOCK_INST_ELSE {$$=$2;{q[atoi($1)-1].op1=IntToChar(atoi($2)+1);}}
+//transporter l'index de (BR , , , ) dans COND_IF_ELSE et mettre dans la quad de (BZ , , , ) l'adresse pour aller vers ELSE 
+COND_IF_ELSE: COND_IF COND_IF_ELSE_A BLOCK_INST_ELSE {$$=$2;q[atoi($1)-1].op1=IntToChar(atoi($2)+1);}
 ;
 
+//creer le quad (BR , , , ) pour sauter le ELSE en cas l'execution de IF sans adresse et transporter l'index de quad pour le mettre a jour ulterieurement
 COND_IF_ELSE_A:  left_ar k_else right_ar {$$=IntToChar(indq);quad("BR","","","");}
 ;
 
@@ -257,10 +259,11 @@ BLOCK_INST_ELSE:INSTRUCTION BLOCK_INST_ELSE
 
 CLOSE_ELSE:left_ar fw_slash k_else right_ar 
 ;
-
+//transporter l'index precedent de IF_COND_A de COND_IF (2)
 COND_IF:left_ar k_if col IF_COND_A right_ar left_ar k_then right_ar BLOCK_INST_THEN {$$=$4;}
 ;
-
+//creer le quad (BZ , , , ) et sauvgarder l'index de quadreplet
+//transporter l'index de quadreplet dans le non terminal IF_COND_A (1)
 IF_COND_A : EXPRESSION_LOGIQUE {quad("BZ","",$1.res,"");$$=IntToChar(indq);}
 ;
 
@@ -287,20 +290,25 @@ CLOSE_DO: WHILE left_ar fw_slash k_do right_ar
 WHILE: left_ar k_while col EXPRESSION_LOGIQUE fw_slash right_ar 
 ;
 
-
+//incrementer le compteur a la fin de la boucle avec 1 telque l'indice se trouve dans $1.ch2
+//generer quad de BR pour revenir au debut pour tester i avec la valeur maximale $1.ch1 est l'adresse de debut (BE, , , );
+//q[atoi($1)].op1=$2 pour mettre l'adresse de la fin pour sauter la boucle i=max
 FOR:  FOR_DEB BLOCK_FOR {strcpy(tempFor,temporaire());quad("+",$1.ch2,"1",strdup(tempFor));quad("=",strdup(tempFor),"",$1.ch2);quad("BR",$1.ch1,"","");q[atoi($1)].op1=$2;}
 ;
-
+// $$.ch1 pour transporter la valeur de l'indice de quadreplet
+// $$.ch2 pour transporter l'idf
 FOR_DEB: left_ar k_for FOR_INIT  UNTIL right_ar {$$.ch1=$3.ch1;$$.ch2=$3.ch2;}
 ;
-
+//initialiter le compteur par la valeur donnee 
+// $$.ch1 pour transporter la valeur de l'indice de quadreplet
+// $$.ch2 pour transporter l'idf
 FOR_INIT: idf eq v_integer{quad("=",IntToChar($3),"",$1);$$.ch1=IntToChar(indq);$$.ch2=$1;strcpy(saveIdfFor,$1);ExistDeclarationP($1,lignes);}
 ;
-
+//generer le quadreplet de BE sans adresse , sauvgarder l'indice de quadreplet dans UNTIL
 UNTIL:k_until v_integer {quad("BE","",strdup(saveIdfFor),IntToChar($2));$$=IntToChar(indq);}
      |k_until idf {quad("BE","",strdup(saveIdfFor),$2);$$=IntToChar(indq);ExistDeclarationP($2,lignes)}
 ;
-
+//sauvgarder l'adresse de la fin de chaque boucle (+3 pour les 3 quads de traitement incrementation et affectation)
 BLOCK_FOR: BLOCK_INST_FOR {$$=IntToChar(indq+3);}
 ;
 
@@ -424,7 +432,7 @@ TAB_ARG:IDF {$$=$1}
        |v_integer {$$=IntToChar($1);}
        ;
 
-AFF:left_ar k_aff col IDF comma AFF_ARG {constanteDeja($4,lignes);}
+AFF:left_ar k_aff col IDF comma AFF_ARG {constanteDeja($4,lignes);quad ("=",$4,"",$6.res);}
 | left_ar k_aff col IDF comma IDF fw_slash right_ar {compatible($4, $6 , lignes);
   constanteDeja($4,lignes);
   quad ("=",$6,"",$4);

@@ -3,6 +3,7 @@ DATA segment stack
 				i dw
 				j dw
 				k dw
+				w dw
 				x dw
 												y dw
 				s1 dw 22
@@ -25,35 +26,37 @@ MAIN:
 				MOV AX S[1]
 				MOV x AX
 				MOV i 1
-ETIQ9:
-				CMP 5 i
-				JE 26
-				MOV j 1
 ETIQ11:
+				CMP 5 i
+				JE 32
+				MOV j 1
+ETIQ15:
 				CMP 10 j
-				JE 20
+				JE 27
 				MOV k 1
-ETIQ13:
+ETIQ17:
 				CMP 15 k
-				JE 17
+				JE 23
 				MOV AX k
 				ADD AX 1
 				MOV T3 AX
 				MOV AX T3
 				MOV k AX
-				JMP ETIQ13
+				JMP ETIQ17
 				MOV AX j
 				ADD AX 1
 				MOV T4 AX
 				MOV AX T4
 				MOV j AX
-				JMP ETIQ11
+				JMP ETIQ15
 				MOV AX i
 				ADD AX 1
 				MOV T5 AX
 				MOV AX T5
 				MOV i AX
-				JMP ETIQ9
+				JMP ETIQ11
+				MOV AX w
+				MOV 15 AX
 				MOV AX 31.10
 				ADD AX 10
 				MOV T9 AX
@@ -65,23 +68,23 @@ ETIQ13:
 				MOV T11 AX
 				CALL INF s1 s2
 				MOV T12
-				JZ 43
+				JZ 63
 				CALL SUPE t3 t4
 				MOV T14
-				JZ 42
+				JZ 60
 				CALL SUPE t5 t6
 				MOV T16
-				JZ 42
+				JZ 60
 				CALL INFE kimo x
 				MOV T19
 				CALL SUPE t7 t8
 				MOV T20
-				JZ 54
+				JZ 79
 				CALL SUPE t9 t10
 				MOV T22
-				JZ 52
-				JMP ETIQ52
-ETIQ52:
-				JMP ETIQ54
+				JZ 76
+				JMP ETIQ76
+ETIQ76:
+				JMP ETIQ79
 MAIN ENDS
 				END MAIN
